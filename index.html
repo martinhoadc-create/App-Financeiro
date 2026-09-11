@@ -1,0 +1,1040 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<meta name="theme-color" content="#1a2a6c">
+<title>Finanças</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<style>
+:root{--bg:#f1f5f9;--card:#fff;--text:#0f172a;--muted:#64748b;--primary:#0ea5e9;--border:#e2e8f0;--shadow:0 4px 24px rgba(0,0,0,.06);--radius:16px;--nav:#fff;--danger:#dc2626;--success:#059669;--warning:#f59e0b;--input:#f8fafc;--header-start:#1a2a6c;--header-end:#00d4ff;--card-receita:#0ea5e9;--card-despesa:#f59e0b;--card-saldo-pos:#10b981;--card-saldo-neg:#ef4444;--card-saldo-zero:#64748b;--card-servico:#3b82f6;--card-venda:#10b981;--card-media:#8b5cf6;--card-qtd:#ec4899;--card-porcentagem:#8b5cf6;--modal-border:#cbd5e1;--modal-border-focus:#0ea5e9;--modal-input-bg:#ffffff}
+[data-theme=dark]{--bg:#0f172a;--card:#1e293b;--text:#e2e8f0;--muted:#94a3b8;--border:#334155;--shadow:0 4px 24px rgba(0,0,0,.3);--nav:#1e293b;--input:#1e293b;--header-start:#0c1445;--header-end:#0099cc;--card-receita:#0284c7;--card-despesa:#d97706;--card-saldo-pos:#059669;--card-saldo-neg:#dc2626;--card-saldo-zero:#475569;--card-servico:#2563eb;--card-venda:#059669;--card-media:#7c3aed;--card-qtd:#db2777;--card-porcentagem:#7c3aed;--modal-border:#475569;--modal-border-focus:#38bdf8;--modal-input-bg:#1e293b}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:var(--bg);color:var(--text);padding-bottom:80px;min-height:100vh;transition:background .3s,color .3s;font-size:18px;line-height:1.5}
+.header{background:linear-gradient(135deg,var(--header-start),var(--header-end));padding:12px 16px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:50;min-height:90px;box-shadow:0 4px 20px rgba(26,42,108,.3)}
+.header-left{display:flex;align-items:center;gap:14px}
+.profile-pic{width:64px;height:64px;border-radius:50%;overflow:hidden;background:rgba(255,255,255,.2);display:flex;align-items:center;justify-content:center;cursor:pointer;border:3px solid rgba(255,255,255,.5);flex-shrink:0}
+.profile-pic img{width:100%;height:100%;object-fit:cover}
+.profile-pic .fallback{color:#fff;font-size:32px;font-weight:700}
+.user-info .name{font-weight:700;font-size:20px;color:#fff;text-shadow:0 1px 4px rgba(0,0,0,.15)}
+.user-info .date{font-size:16px;color:rgba(255,255,255,.85);font-weight:500}
+.header-right{display:flex;gap:8px}
+.header-right button{width:40px;height:40px;border:none;border-radius:50%;cursor:pointer;font-size:18px;transition:all .2s;box-shadow:0 4px 12px rgba(0,0,0,.12);display:flex;align-items:center;justify-content:center}
+.header-right button:active{transform:scale(.92)}
+#langBtn{background:#e0f2fe;color:#0284c7}
+#themeBtn{background:#fef3c7;color:#d97706}
+[data-theme=dark] #langBtn{background:#1e3a5f;color:#7dd3fc}
+[data-theme=dark] #themeBtn{background:#4c1d95;color:#fbbf24}
+#langBtn::after{content:attr(data-label);font-size:12px;font-weight:700;margin-left:2px}
+.github-status-header{width:40px;height:40px;border-radius:50%;display:none;align-items:center;justify-content:center;background:rgba(0,0,0,.4);border:2px solid rgba(255,255,255,.3);font-size:20px;transition:all .3s}
+.github-status-header.sync{color:#4ade80;border-color:#4ade80;background:rgba(74,222,128,.2)}
+.github-status-header.error{color:#f87171;border-color:#f87171;background:rgba(248,113,113,.2)}
+.github-status-header.loading{color:#fbbf24;border-color:#fbbf24;background:rgba(251,191,36,.2)}
+.github-status-header.default{color:#60a5fa;border-color:#60a5fa;background:rgba(96,165,250,.2)}
+@media(max-width:480px){.header{padding:10px 12px;min-height:76px}.profile-pic{width:52px;height:52px}.profile-pic .fallback{font-size:24px}.user-info .name{font-size:17px}.user-info .date{font-size:14px}.header-right button{width:34px;height:34px;font-size:16px}.github-status-header{width:34px;height:34px;font-size:18px}#langBtn::after{font-size:10px}}
+.page{display:none;padding:12px}.page.active{display:block}
+.bottom-nav{position:fixed;bottom:0;left:0;right:0;background:var(--nav);border-top:1px solid var(--border);display:flex;justify-content:space-around;align-items:center;padding:8px 0 env(safe-area-inset-bottom,8px);z-index:100;box-shadow:0 -4px 20px rgba(0,0,0,.06)}
+.bottom-nav button{background:0;border:0;color:var(--muted);font-size:13px;display:flex;flex-direction:column;align-items:center;gap:2px;cursor:pointer;padding:4px;flex:1;font-weight:600}
+.bottom-nav button i{font-size:22px}
+.bottom-nav button span{font-size:13px}
+.bottom-nav button.active{color:var(--primary)}
+.bottom-nav .btn-add{background:var(--primary);color:#fff!important;width:50px;height:50px;border-radius:50%;display:flex;align-items:center;justify-content:center;margin-top:-16px;box-shadow:0 4px 16px rgba(14,165,233,.35);flex:0 0 50px;font-size:0}
+.bottom-nav .btn-add i{font-size:26px}
+.bottom-nav .btn-add:active{transform:scale(.92)}
+@media(max-width:480px){.bottom-nav .btn-add{width:44px;height:44px;flex:0 0 44px;margin-top:-12px}.bottom-nav .btn-add i{font-size:22px}}
+.card{background:var(--card);border-radius:var(--radius);padding:14px;margin-bottom:12px;border:1px solid var(--border);box-shadow:var(--shadow);overflow:hidden}
+.card-destaque{border-radius:var(--radius);padding:10px 12px;color:#fff;border-left:5px solid rgba(255,255,255,.3);box-shadow:var(--shadow);transition:all .3s;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;min-height:70px;overflow:hidden;width:100%}
+.card-destaque .painel-desc{color:rgba(255,255,255,.95);font-size:15px;display:flex;align-items:center;gap:4px;font-weight:500;justify-content:center;width:100%;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.card-destaque .painel-number-wrap{display:flex;flex-direction:column;align-items:center;width:100%;margin-top:2px;max-width:100%;overflow:hidden}
+.card-destaque .painel-number-wrap .moeda{font-size:13px;font-weight:600;opacity:.8;display:block;letter-spacing:.5px;width:100%;text-align:center}
+.card-destaque .painel-number-wrap .painel-number{color:#fff;font-size:17px;font-weight:800;text-shadow:0 1px 2px rgba(0,0,0,.1);word-wrap:break-word;overflow-wrap:break-word;hyphens:auto;line-height:1.2;width:100%;text-align:center;max-width:100%;overflow:hidden}
+.painel-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:12px}
+.painel-grid-6{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:12px}
+.section-title{font-size:20px;font-weight:700;margin-bottom:10px;display:flex;align-items:center;gap:6px;color:var(--text)}
+.section-title i{color:var(--primary)}
+.grafico-container{width:100%;height:180px;position:relative}
+.grafico-resumo-container{width:100%;position:relative}
+.status-badge{padding:3px 12px;border-radius:20px;font-size:13px;font-weight:700;text-transform:uppercase;color:#fff!important;display:inline-block;flex-shrink:0;white-space:nowrap}
+.status-badge.pago{background:#059669!important}
+.status-badge.pendente{background:#dc2626!important}
+.tipo-badge{padding:3px 12px;border-radius:20px;font-size:13px;font-weight:700;text-transform:uppercase;color:#fff;display:inline-block;flex-shrink:0;white-space:nowrap}
+.tipo-badge.servico{background:#3b82f6}
+.tipo-badge.venda{background:#10b981}
+.tipo-badge.despesa{background:#f59e0b}
+.filtro-status{display:flex;gap:6px;margin-bottom:12px;flex-wrap:wrap}
+.filtro-btn{padding:5px 14px;border-radius:20px;border:1px solid var(--border);background:0;color:var(--muted);cursor:pointer;font-size:14px;font-weight:500;transition:all .2s}
+.filtro-btn.active{background:var(--primary);color:#fff;border-color:var(--primary)}
+.card-movimento{background:var(--card);border-radius:var(--radius);padding:10px 12px;margin-bottom:8px;border-left:4px solid var(--primary);border:1px solid var(--border);box-shadow:var(--shadow)}
+.entry-desc{font-size:17px;font-weight:600;margin-bottom:2px}
+.entry-value{font-size:19px;font-weight:800}
+.entry-date{font-size:16px;color:var(--muted);font-weight:600}
+.entry-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:2px}
+.entry-header-left{display:flex;align-items:center;gap:8px}
+.entry-header-right{display:flex;align-items:center;gap:6px}
+.entry-meta{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.btn-actions{background:0;border:0;color:var(--muted);font-size:20px;cursor:pointer;padding:2px 6px;border-radius:6px;transition:background .2s}
+.btn-actions:hover{background:var(--border)}
+.actions-dropdown{display:none;position:absolute;right:0;top:calc(100%+4px);background:var(--card);border:1px solid var(--border);border-radius:12px;box-shadow:0 8px 32px rgba(0,0,0,.15);min-width:150px;z-index:60;overflow:hidden}
+.actions-dropdown.open{display:block;animation:slideDown .2s}
+@keyframes slideDown{from{opacity:0;transform:translateY(-8px)}to{opacity:1;transform:translateY(0)}}
+.action-item{display:flex;align-items:center;gap:8px;padding:10px 14px;background:0;border:0;color:var(--text);font-size:15px;cursor:pointer;width:100%;text-align:left;transition:background .15s}
+.action-item:hover{background:var(--input)}
+.action-item.excluir{color:var(--danger)}
+.action-item.excluir:hover{background:#fee2e2}
+.action-item.status{color:var(--warning)}
+.action-item.status:hover{background:#fef3c7}
+.modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:200;align-items:flex-end;justify-content:center;padding:0}
+.modal-overlay.active{display:flex}
+.modal-content{background:var(--card);border-radius:var(--radius);width:100%;max-width:460px;max-height:80vh;padding:20px 16px 24px;overflow-y:auto;border:1px solid var(--border);box-shadow:0 -8px 40px rgba(0,0,0,.15);animation:slideUp .3s;margin-bottom:16px}
+@keyframes slideUp{from{transform:translateY(100%);opacity:0}to{transform:translateY(0);opacity:1}}
+.modal-content h3{font-size:20px;margin-bottom:14px;display:flex;align-items:center;gap:8px;color:var(--text)}
+.modal-content h3 .btn-close-modal{background:transparent;border:none;font-size:28px;color:var(--muted);cursor:pointer;padding:0 6px;margin-left:auto;transition:color .2s}
+.modal-content h3 .btn-close-modal:hover{color:var(--text)}
+.form-group{margin-bottom:14px}
+.form-group label{display:block;font-size:14px;font-weight:700;margin-bottom:4px;color:var(--muted);letter-spacing:.3px}
+.form-group input,.form-group select{width:100%;padding:10px 14px;border:2px solid var(--modal-border);border-radius:10px;font-size:17px;background:var(--modal-input-bg);color:var(--text);transition:border-color .2s,box-shadow .2s;outline:none;font-weight:500}
+.form-group input:focus,.form-group select:focus{border-color:var(--modal-border-focus);box-shadow:0 0 0 3px rgba(14,165,233,.15)}
+.form-group input::placeholder{color:var(--muted);opacity:.6;font-weight:400}
+.form-group input[readonly]{cursor:pointer;background:var(--input);border-style:dashed}
+.modal-actions{display:flex;gap:8px;margin-top:18px;flex-wrap:wrap}
+.modal-actions button{flex:1;padding:12px;border:0;border-radius:10px;font-size:17px;font-weight:700;cursor:pointer;min-width:80px;transition:all .2s}
+.modal-actions button:active{transform:scale(.95)}
+.btn-primary{background:var(--primary);color:#fff;border:2px solid var(--primary)}
+.btn-primary:hover{background:#0284c7;border-color:#0284c7}
+.btn-secondary{background:var(--border);color:var(--text);border:2px solid var(--border)}
+.btn-secondary:hover{background:var(--muted);color:#fff}
+.btn-danger{background:var(--danger);color:#fff;border:2px solid var(--danger)}
+.btn-danger:hover{background:#b91c1c;border-color:#b91c1c}
+.btn-success{background:var(--success);color:#fff;border:2px solid var(--success)}
+.btn-success:hover{background:#047857;border-color:#047857}
+.btn-warning{background:var(--warning);color:#fff;border:2px solid var(--warning)}
+.btn-warning:hover{background:#d97706;border-color:#d97706}
+.btn-github{background:#24292e;color:#fff;border:2px solid #24292e}
+.btn-github:hover{background:#1b1f23;border-color:#1b1f23}
+.calc-btn{padding:14px;border:2px solid var(--border);border-radius:10px;font-size:22px;cursor:pointer;background:var(--input);color:var(--text);transition:all .2s;min-height:50px;font-weight:600}
+.calc-btn:hover{background:var(--border)}
+.calc-btn:active{transform:scale(.95)}
+.calc-btn.op{background:var(--primary);color:#fff;border-color:var(--primary)}
+.calc-btn.op:hover{background:#0284c7;border-color:#0284c7}
+.calc-btn.clear{background:var(--danger);color:#fff;border-color:var(--danger)}
+.calc-btn.clear:hover{background:#b91c1c;border-color:#b91c1c}
+.calc-btn.back{background:var(--warning);color:#fff;border-color:var(--warning)}
+.calc-btn.back:hover{background:#d97706;border-color:#d97706}
+.calc-btn.confirm{background:var(--success);color:#fff;grid-column:span 2;border-color:var(--success)}
+.calc-btn.confirm:hover{background:#047857;border-color:#047857}
+.calc-btn.equals{background:#f97316;color:#fff;border-color:#f97316}
+.calc-btn.equals:hover{background:#ea580c;border-color:#ea580c}
+#calcDisplay{font-size:38px;font-weight:700;text-align:right;padding:14px 16px;border:2px solid var(--primary);border-radius:12px;background:var(--input);margin-bottom:12px;min-height:60px;font-family:monospace;color:var(--text);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.toast{position:fixed;bottom:90px;left:50%;transform:translateX(-50%);background:#1a1a2e;color:#fff;padding:14px 24px;border-radius:12px;font-size:18px;font-weight:700;z-index:300;box-shadow:0 8px 40px rgba(0,0,0,.5);max-width:90%;text-align:center;border-left:6px solid #0ea5e9}
+.toast.success{border-left-color:#22c55e;background:#0a1a0f}
+.toast.error{border-left-color:#ef4444;background:#1a0a0a}
+.date-picker-overlay{display:none;position:fixed;inset:0;z-index:400;background:rgba(0,0,0,.4)}
+.date-picker-overlay.open{display:block}
+.date-picker-popup{display:none;position:fixed;bottom:0;left:0;right:0;z-index:401;background:var(--card);border-radius:var(--radius);padding:16px;box-shadow:0 -8px 40px rgba(0,0,0,.2);max-width:460px;margin:0 auto 16px;border:1px solid var(--border);animation:slideUp .3s}
+.date-picker-popup.open{display:block}
+.dp-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
+.dp-header .dp-month-year{font-size:19px;font-weight:700}
+.dp-header .dp-nav{background:0;border:0;font-size:20px;color:var(--text);cursor:pointer;padding:2px 10px;border-radius:6px}
+.dp-header .dp-nav:hover{background:var(--border)}
+.dp-weekdays{display:grid;grid-template-columns:repeat(7,1fr);text-align:center;margin-bottom:6px;font-weight:600;font-size:14px;color:var(--muted)}
+.dp-weekdays .sunday{color:#dc2626}
+.dp-days{display:grid;grid-template-columns:repeat(7,1fr);gap:2px;margin-bottom:12px}
+.dp-day{padding:8px 0;border:0;background:0;border-radius:50%;cursor:pointer;font-size:16px;color:var(--text);aspect-ratio:1;display:flex;align-items:center;justify-content:center;font-weight:500}
+.dp-day:hover{background:var(--border)}
+.dp-day.selected{background:var(--primary);color:#fff!important}
+.dp-day.sunday{color:#dc2626!important;font-weight:700!important}
+.dp-footer{display:flex;gap:6px}
+.dp-footer button{flex:1;padding:8px;border:0;border-radius:10px;font-size:15px;font-weight:600;cursor:pointer}
+.dp-btn-clear{background:#f59e0b;color:#fff}
+.dp-btn-clear:hover{background:#d97706}
+.dp-btn-cancel{background:var(--border);color:var(--text)}
+.dp-btn-cancel:hover{background:var(--muted);color:#fff}
+.dp-btn-confirm{background:var(--primary);color:#fff}
+.dp-btn-confirm:hover{background:#0284c7}
+.btn-pdf{background:#dc2626;color:#fff;padding:6px 14px;border-radius:10px;border:0;font-weight:600;cursor:pointer;display:flex;align-items:center;gap:4px;font-size:15px}
+.btn-pdf:hover{background:#b91c1c}
+.btn-github-backup{background:#24292e;color:#fff;padding:6px 10px;border:0;border-radius:10px;font-weight:600;cursor:pointer;display:inline-flex;align-items:center;gap:4px;font-size:16px;min-width:36px;height:36px;justify-content:center;border:2px solid #24292e;transition:all .2s}
+.btn-github-backup:hover{background:#1b1f23}
+.btn-github-backup:disabled{opacity:.5;cursor:not-allowed}
+.btn-github-backup.github-save{background:#28a745;border-color:#28a745}
+.btn-github-backup.github-save:hover{background:#1e7e34;border-color:#1e7e34}
+.btn-github-backup.github-restore{background:#0366d6;border-color:#0366d6}
+.btn-github-backup.github-restore:hover{background:#0250a3;border-color:#0250a3}
+.btn-github-backup.github-unlink{background:#dc2626;border-color:#dc2626}
+.btn-github-backup.github-unlink:hover{background:#b91c1c;border-color:#b91c1c}
+.btn-github-backup.github-config{background:#24292e;border-color:#24292e}
+.backup-status-bar{display:flex;align-items:center;gap:8px;flex-wrap:wrap;padding:4px 0}
+.github-status{display:inline-flex;align-items:center;gap:4px;font-size:13px;color:var(--muted);padding:2px 10px;border-radius:20px;background:var(--input);border:1px solid var(--border);transition:all .3s}
+.github-status.sync{color:#059669;border-color:#059669;background:rgba(5,150,105,.1)}
+.github-status.error{color:#dc2626;border-color:#dc2626;background:rgba(220,38,38,.1)}
+.github-status.default{color:#0ea5e9;border-color:#0ea5e9;background:rgba(14,165,233,.1)}
+.paginacao{display:flex;justify-content:center;align-items:center;gap:8px;margin:10px 0;flex-wrap:wrap}
+.paginacao button{padding:4px 12px;border:0;border-radius:6px;background:var(--primary);color:#fff;cursor:pointer;font-weight:600;font-size:14px}
+.paginacao button:disabled{opacity:.4;cursor:not-allowed}
+.paginacao .info{font-size:15px;font-weight:600;color:var(--muted)}
+.lista-container{min-height:180px}
+.filtro-mes-ano{display:flex;align-items:center;justify-content:center;gap:8px;margin-bottom:12px;flex-wrap:nowrap}
+.filtro-mes-ano button{background:var(--card);border:1px solid var(--border);color:var(--text);padding:8px 14px;border-radius:10px;cursor:pointer;font-size:16px;transition:all .2s;display:flex;align-items:center;gap:4px;font-weight:600;white-space:nowrap;flex-shrink:0}
+.filtro-mes-ano button:hover{background:var(--border)}
+.filtro-mes-ano .mes-ano-label{font-size:20px;font-weight:700;color:var(--text);min-width:110px;text-align:center;white-space:nowrap;flex-shrink:0}
+.relatorio-card{display:flex;flex-direction:column;padding:10px;border-radius:var(--radius);border-left:4px solid;background:var(--card);border:1px solid var(--border);box-shadow:var(--shadow);min-height:70px;align-items:center;text-align:center;overflow:hidden;width:100%}
+.relatorio-card .relatorio-label{font-size:16px;color:var(--muted);font-weight:500;width:100%;text-align:center;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.relatorio-card .relatorio-valor-wrap{display:flex;flex-direction:column;align-items:center;width:100%;margin-top:2px;max-width:100%;overflow:hidden}
+.relatorio-card .relatorio-valor-wrap .moeda{font-size:14px;font-weight:600;opacity:.7;display:block;letter-spacing:.5px;width:100%;text-align:center}
+.relatorio-card .relatorio-valor-wrap .valor{font-size:20px;font-weight:800;word-wrap:break-word;overflow-wrap:break-word;hyphens:auto;line-height:1.2;width:100%;text-align:center;max-width:100%;overflow:hidden}
+.relatorio-card .relatorio-valor-wrap .valor.receita{color:#0ea5e9}
+.relatorio-card .relatorio-valor-wrap .valor.despesa{color:#f59e0b}
+.relatorio-card .relatorio-valor-wrap .valor.saldo-positivo{color:#10b981}
+.relatorio-card .relatorio-valor-wrap .valor.saldo-negativo{color:#ef4444}
+.resumo-por-tipo{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:6px}
+.resumo-tipo-item{padding:10px;border-radius:10px;text-align:center;border:2px solid var(--border);background:var(--bg);display:flex;flex-direction:column;align-items:center;overflow:hidden;width:100%}
+.resumo-tipo-item .tipo-label{font-size:13px;color:var(--muted);font-weight:600;width:100%;text-align:center;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.resumo-tipo-item .tipo-value-wrap{display:flex;flex-direction:column;align-items:center;width:100%;margin-top:2px;max-width:100%;overflow:hidden}
+.resumo-tipo-item .tipo-value-wrap .moeda{font-size:12px;font-weight:600;opacity:.7;display:block;letter-spacing:.5px;width:100%;text-align:center}
+.resumo-tipo-item .tipo-value-wrap .tipo-value{font-size:18px;font-weight:800;word-wrap:break-word;overflow-wrap:break-word;hyphens:auto;line-height:1.2;width:100%;text-align:center;max-width:100%;overflow:hidden}
+.resumo-tipo-item.servico .tipo-value-wrap .tipo-value{color:#3b82f6}
+.resumo-tipo-item.venda .tipo-value-wrap .tipo-value{color:#10b981}
+.resumo-tipo-item.despesa .tipo-value-wrap .tipo-value{color:#f59e0b}
+.tipo-card{border-radius:var(--radius);padding:10px 12px;border-left:5px solid;background:var(--card);border:1px solid var(--border);box-shadow:var(--shadow);display:flex;flex-direction:column;align-items:center;text-align:center;overflow:hidden;width:100%}
+.tipo-card .tipo-label{font-size:15px;color:var(--muted);font-weight:500;width:100%;text-align:center;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.tipo-card .tipo-valor-wrap{display:flex;flex-direction:column;align-items:center;width:100%;margin-top:2px;max-width:100%;overflow:hidden}
+.tipo-card .tipo-valor-wrap .moeda{font-size:13px;font-weight:600;opacity:.7;display:block;letter-spacing:.5px;width:100%;text-align:center}
+.tipo-card .tipo-valor-wrap .tipo-valor{font-size:19px;font-weight:800;word-wrap:break-word;overflow-wrap:break-word;hyphens:auto;line-height:1.2;width:100%;text-align:center;max-width:100%;overflow:hidden}
+.tipo-card.servico{border-left-color:#3b82f6}
+.tipo-card.venda{border-left-color:#10b981}
+.tipo-card.despesa{border-left-color:#f59e0b}
+.tipo-card.servico .tipo-valor-wrap .tipo-valor{color:#3b82f6}
+.tipo-card.venda .tipo-valor-wrap .tipo-valor{color:#10b981}
+.tipo-card.despesa .tipo-valor-wrap .tipo-valor{color:#f59e0b}
+.lancamento-item{display:flex;align-items:center;justify-content:space-between;padding:6px 10px;background:var(--input);border-radius:10px;border:1px solid var(--border);gap:6px;flex-wrap:nowrap;min-height:44px}
+.lancamento-desc{font-weight:500;font-size:15px;flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.tipo-badge,.status-badge{flex-shrink:0;white-space:nowrap;font-size:12px;padding:2px 10px}
+.confirm-icon{text-align:center;font-size:44px;margin:4px 0 8px}
+.confirm-message{font-size:17px;line-height:1.5;margin:8px 0;text-align:center;white-space:pre-line}
+.profile-pic-modal{width:72px;height:72px;border-radius:50%;overflow:hidden;margin:0 auto 12px;border:3px solid var(--border);display:flex;align-items:center;justify-content:center;background:var(--input)}
+.profile-pic-modal img{width:100%;height:100%;object-fit:cover}
+.profile-pic-modal i{font-size:40px;color:var(--muted)}
+.upload-btn{display:inline-block;padding:6px 16px;border-radius:10px;background:var(--primary);color:#fff;cursor:pointer;font-weight:600;font-size:15px;border:0;text-align:center}
+.upload-btn:active{transform:scale(.95)}
+.modal-limpeza-opcoes{display:flex;flex-direction:column;gap:4px;margin:4px 0 12px}
+.modal-limpeza-opcoes label{display:flex;align-items:center;gap:10px;padding:8px 12px;border-radius:10px;cursor:pointer;font-weight:500;font-size:17px;border:2px solid transparent;transition:border-color .2s,background .2s}
+.modal-limpeza-opcoes label:hover{background:var(--input);border-color:var(--border)}
+.modal-limpeza-opcoes label:has(input:checked){border-color:var(--primary);background:var(--input)}
+.modal-limpeza-opcoes input[type=radio]{width:18px;height:18px;accent-color:var(--primary);cursor:pointer;flex-shrink:0;margin:0}
+.modal-limpeza-opcoes input[type=radio]:checked+span{font-weight:700;color:var(--primary)}
+.modal-limpeza-acoes{margin-top:12px;display:flex;flex-direction:column;gap:10px}
+.modal-limpeza-acoes button{width:100%;padding:12px;border:0;border-radius:12px;font-weight:700;font-size:17px;cursor:pointer;transition:all .2s;color:#fff;display:flex;align-items:center;justify-content:center;gap:6px;border:2px solid transparent}
+.modal-limpeza-acoes button:active{transform:scale(.95)}
+.btn-limpeza-executar{background:#dc2626;border-color:#dc2626}
+.btn-limpeza-executar:hover{background:#b91c1c;border-color:#b91c1c}
+.btn-limpeza-cancelar{background:#64748b;border-color:#64748b}
+.btn-limpeza-cancelar:hover{background:#475569;border-color:#475569}
+.btn-secondary-cancelar{background:#64748b;color:#fff;border:2px solid #64748b}
+.btn-secondary-cancelar:hover{background:#475569;border-color:#475569}
+.modal-limpeza-ver-mais{background:transparent!important;border:none!important;padding:8px 12px!important;margin:0!important;font-weight:500;font-size:17px;color:var(--text);cursor:pointer;display:flex;align-items:center;gap:8px;width:100%;text-align:left;border-radius:0!important;box-shadow:none!important}
+.modal-limpeza-ver-mais:hover{background:var(--input)!important}
+.modal-limpeza-ver-mais:active{transform:none!important}
+.modal-limpeza-ver-mais i{font-size:16px;color:var(--muted);width:18px;text-align:center}
+.card-lista-completa{padding:0!important;overflow-x:auto;border-radius:var(--radius);border:1px solid var(--border);box-shadow:var(--shadow)}
+.card-lista-completa table{width:100%;border-collapse:collapse;font-size:15px;min-width:600px}
+.card-lista-completa th,.card-lista-completa td{padding:8px 12px;border-bottom:1px solid var(--border);text-align:left;vertical-align:middle;white-space:nowrap}
+.card-lista-completa td:nth-child(2){white-space:normal;word-break:break-word}
+.card-lista-completa th{background:var(--input);font-weight:700;border-bottom:2px solid var(--border)}
+.card-lista-completa tr:last-child td{border-bottom:none}
+.card-lista-ultimos{padding:0!important;overflow-x:auto;border-radius:var(--radius);border:1px solid var(--border);box-shadow:var(--shadow)}
+.ultimos-lancamentos{display:flex;flex-direction:column;gap:4px;padding:8px;min-width:max-content}
+.ultimos-lancamentos .lancamento-item{margin:0}
+@media(max-width:480px){.painel-grid{grid-template-columns:repeat(3,1fr);gap:6px}.painel-grid-6{grid-template-columns:repeat(3,1fr);gap:6px}.card-destaque .painel-desc{font-size:13px}.card-destaque .painel-number-wrap .painel-number{font-size:15px}.card-destaque .painel-number-wrap .moeda{font-size:12px}.card-destaque{min-height:60px;padding:8px 6px}.modal-content{padding:16px 12px 20px;max-height:75vh}.filtro-mes-ano .mes-ano-label{min-width:90px;font-size:18px}.filtro-mes-ano button{font-size:14px;padding:6px 10px}.resumo-por-tipo{grid-template-columns:1fr 1fr 1fr}.resumo-tipo-item{padding:8px}.resumo-tipo-item .tipo-value-wrap .tipo-value{font-size:16px}.resumo-tipo-item .tipo-value-wrap .moeda{font-size:11px}.relatorio-card .relatorio-valor-wrap .valor{font-size:18px}.relatorio-card .relatorio-valor-wrap .moeda{font-size:13px}.tipo-card .tipo-valor-wrap .tipo-valor{font-size:17px}.tipo-card .tipo-valor-wrap .moeda{font-size:12px}.relatorio-card{min-height:60px;padding:8px 6px}.tipo-card{padding:8px 6px}.form-group input,.form-group select{padding:8px 12px;font-size:16px}}
+</style>
+</head>
+<body>
+<header class="header">
+<div class="header-left">
+<div class="profile-pic" onclick="App.openPerfil()" aria-label="Perfil">
+<img id="userImg" src="" style="display:none">
+<div id="userFallback" class="fallback">👤</div>
+</div>
+<div class="user-info">
+<span class="name" id="userName"></span>
+<span class="date" id="headerDate"></span>
+</div>
+</div>
+<div class="header-right">
+<span id="githubStatusHeader" class="github-status-header" style="display:none"><i class="fas fa-cloud"></i></span>
+<button id="langBtn" onclick="I18n.toggle()" data-label="PT" aria-label="Idioma"><i class="fas fa-globe"></i></button>
+<button id="themeBtn" onclick="Theme.toggle()" aria-label="Tema"><i class="fas fa-moon"></i></button>
+</div>
+</header>
+
+<div id="page-painel" class="page active"></div>
+<div id="page-lista" class="page"></div>
+<div id="page-resumo" class="page"></div>
+<div id="page-relatorio" class="page"></div>
+
+<nav class="bottom-nav">
+<button class="active" onclick="App.showPage('painel',this)"><i class="fas fa-home"></i><span data-key="tabPainel">Painel</span></button>
+<button onclick="App.showPage('lista',this)"><i class="fas fa-list"></i><span data-key="tabLancamentos">Lançamentos</span></button>
+<button class="btn-add" onclick="App.openModal()" aria-label="Adicionar"><i class="fas fa-plus"></i></button>
+<button onclick="App.showPage('resumo',this)"><i class="fas fa-file-alt"></i><span data-key="tabResumo">Resumo</span></button>
+<button onclick="App.showPage('relatorio',this)"><i class="fas fa-chart-bar"></i><span data-key="tabRelatorio">Relatório</span></button>
+</nav>
+
+<div id="modal" class="modal-overlay" onclick="if(event.target===this)App.closeModals()">
+<div class="modal-content">
+<h3><i class="fas fa-edit"></i> <span data-key="editTitle">Editar</span></h3>
+<input type="hidden" id="editId">
+<div class="form-group"><label><i class="fas fa-calendar"></i> <span data-key="labelData">Data</span></label><input type="text" id="data" readonly data-iso="" placeholder="Selecione a data"></div>
+<div class="form-group"><label><i class="fas fa-tag"></i> <span data-key="labelTipo">Tipo</span></label><select id="tipo"><option value="Serviço" data-key="tipoServico">Serviço</option><option value="Venda" data-key="tipoVenda">Venda</option><option value="Despesa" data-key="tipoDespesa">Despesa</option></select></div>
+<div class="form-group"><label><i class="fas fa-align-left"></i> <span data-key="labelDesc">Descrição</span></label><input type="text" id="desc" maxlength="60" placeholder="Digite a descrição" data-key="placeholderDesc"></div>
+<div class="form-group"><label><i class="fas fa-dollar-sign"></i> <span data-key="labelValor">Valor</span></label><input type="text" id="valor" readonly style="cursor:pointer" placeholder="0,00" data-num="0"></div>
+<div class="form-group"><label><i class="fas fa-check-circle"></i> <span data-key="status">Situação</span></label><select id="pago"><option value="Pago" data-key="statusPago">Pago</option><option value="Pendente" data-key="statusPendente">Pendente</option></select></div>
+<div class="modal-actions"><button class="btn-secondary-cancelar" onclick="App.closeModals()" data-key="btnCancelar">Cancelar</button><button class="btn-primary" onclick="App.saveEntry()" data-key="btnSalvar">Salvar</button></div>
+</div>
+</div>
+
+<div id="modalConfirma" class="modal-overlay" onclick="if(event.target===this)App.closeModals()">
+<div class="modal-content">
+<h3><i class="fas fa-exclamation-circle"></i> <span data-key="confirmTitle">Confirmação</span></h3>
+<div id="confirmIcon" class="confirm-icon">⚠️</div>
+<p id="msgConfirma" class="confirm-message"></p>
+<input type="hidden" id="confirmTipo"><input type="hidden" id="confirmId">
+<div class="modal-actions"><button class="btn-secondary-cancelar" onclick="App.cancelarConfirmacao()" data-key="btnNao">Não</button><button id="confirmBtnSim" class="btn-danger" onclick="App.executeConfirm()" data-key="btnSim">Sim</button></div>
+</div>
+</div>
+
+<div id="modalCalc" class="modal-overlay" onclick="if(event.target===this)Calculator.close()">
+<div class="modal-content" style="max-width:360px">
+<h3><i class="fas fa-calculator"></i><span data-key="calculadora">Calculadora</span><button class="btn-close-modal" onclick="Calculator.close()" aria-label="Fechar">&times;</button></h3>
+<div id="calcDisplay">0</div>
+<div style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px">
+<button class="calc-btn" onclick="Calculator.input('7')">7</button><button class="calc-btn" onclick="Calculator.input('8')">8</button><button class="calc-btn" onclick="Calculator.input('9')">9</button><button class="calc-btn op" onclick="Calculator.input('+')">+</button>
+<button class="calc-btn" onclick="Calculator.input('4')">4</button><button class="calc-btn" onclick="Calculator.input('5')">5</button><button class="calc-btn" onclick="Calculator.input('6')">6</button><button class="calc-btn op" onclick="Calculator.input('-')">−</button>
+<button class="calc-btn" onclick="Calculator.input('1')">1</button><button class="calc-btn" onclick="Calculator.input('2')">2</button><button class="calc-btn" onclick="Calculator.input('3')">3</button><button class="calc-btn op" onclick="Calculator.input('*')">×</button>
+<button class="calc-btn clear" onclick="Calculator.clear()">C</button><button class="calc-btn" onclick="Calculator.input('0')">0</button><button class="calc-btn" onclick="Calculator.input('.')">.</button><button class="calc-btn op" onclick="Calculator.input('/')">÷</button>
+<button class="calc-btn back" onclick="Calculator.backspace()">⌫</button>
+<button class="calc-btn confirm" onclick="Calculator.confirm()">OK</button>
+<button class="calc-btn equals" onclick="Calculator.calculate()">=</button>
+</div>
+</div>
+</div>
+
+<div id="modalLimpeza" class="modal-overlay" onclick="if(event.target===this)App.closeModals()">
+<div class="modal-content">
+<h3><i class="fas fa-broom"></i> <span data-key="limpezaTitulo">Limpeza</span></h3>
+<p style="color:var(--muted);font-size:15px;margin-bottom:4px" data-key="limpezaSubtitulo">Selecione o que limpar:</p>
+<div class="modal-limpeza-opcoes" id="limpezaOpcoes"></div>
+<div class="modal-limpeza-acoes">
+<button class="btn-limpeza-executar" onclick="App.executarLimpeza()"><i class="fas fa-play"></i> <span data-key="executarLimpeza">Executar</span></button>
+<button class="btn-limpeza-cancelar" onclick="App.closeModals()"><i class="fas fa-times"></i> <span data-key="btnCancelar">Cancelar</span></button>
+</div>
+</div>
+</div>
+
+<div id="modalPerfil" class="modal-overlay" onclick="if(event.target===this)App.closeModals()">
+<div class="modal-content">
+<h3><i class="fas fa-user-circle"></i> <span data-key="perfilTitulo">Perfil</span></h3>
+<div class="profile-pic-modal"><img id="modalPerfilImg" src="" style="display:none"><i id="modalPerfilFallback" class="fas fa-user"></i></div>
+<div style="text-align:center;margin-bottom:12px"><button class="upload-btn" onclick="document.getElementById('fotoInput').click()"><i class="fas fa-camera"></i> <span data-key="trocarFoto">Foto</span></button><input type="file" id="fotoInput" accept="image/*" style="display:none"></div>
+<div class="form-group"><label><i class="fas fa-user"></i> <span data-key="nomeLabel">Nome</span></label><input type="text" id="novoNomePerfil" placeholder="Digite seu nome" data-key="placeholderNome"></div>
+<div class="modal-actions"><button class="btn-secondary-cancelar" onclick="App.closeModals()" data-key="btnCancelar">Cancelar</button><button class="btn-primary" onclick="App.salvarNomePerfil()" data-key="btnSalvar">Salvar</button></div>
+</div>
+</div>
+
+<div id="modalGitHub" class="modal-overlay" onclick="if(event.target===this)App.closeModals()">
+<div class="modal-content">
+<h3><i class="fab fa-github"></i> <span data-key="githubTitulo">Becape GitHub</span></h3>
+<p style="color:var(--muted);margin-bottom:12px;font-size:15px" data-key="githubDesc">Configure seu token para becape na nuvem.</p>
+<div class="form-group"><label><i class="fas fa-key"></i> <span data-key="tokenLabel">Token</span></label><input type="password" id="githubToken" placeholder="github_pat_xxx" style="font-family:monospace"></div>
+<div class="form-group"><label><i class="fas fa-database"></i> <span data-key="destinoLabel">Destino</span></label><select id="githubDestino"><option value="repo" data-key="destinoRepo">Repositório</option><option value="gist" data-key="destinoGist">Gist</option></select></div>
+<div class="form-group" id="repoNameGroup"><label><i class="fas fa-folder"></i> <span data-key="repoNameLabel">Repositório</span></label><input type="text" id="githubRepoName" placeholder="usuario/repo"></div>
+<div class="form-group" id="gistNameGroup" style="display:none"><label><i class="fas fa-file-code"></i> <span data-key="gistNameLabel">Nome do Gist</span></label><input type="text" id="githubGistName" placeholder="backup.json" value="backup.json"></div>
+<div class="modal-actions">
+<button class="btn-secondary-cancelar" onclick="App.closeModals()" data-key="btnCancelar">Cancelar</button>
+<button class="btn-github" onclick="GitHubBackup.salvarToken()"><i class="fab fa-github"></i> <span data-key="salvarToken">Salvar</span></button>
+<button class="btn-github github-unlink" onclick="GitHubBackup.desvincular()" style="background:#dc2626;border-color:#dc2626"><i class="fas fa-unlink"></i> <span data-key="desvincular">Desvincular</span></button>
+</div>
+</div>
+</div>
+
+<div class="date-picker-overlay" id="datePickerOverlay"></div>
+<div class="date-picker-popup" id="datePickerPopup">
+<div class="dp-header"><button class="dp-nav" data-dir="-1"><i class="fas fa-chevron-left"></i></button><span class="dp-month-year">Janeiro 2025</span><button class="dp-nav" data-dir="1"><i class="fas fa-chevron-right"></i></button></div>
+<div class="dp-weekdays"><span class="sunday">Dom</span><span>Seg</span><span>Ter</span><span>Qua</span><span>Qui</span><span>Sex</span><span>Sáb</span></div>
+<div class="dp-days"></div>
+<div class="dp-footer"><button class="dp-btn-clear" data-key="calendarClear">Limpar</button><button class="dp-btn-cancel" data-key="calendarCancel">Cancelar</button><button class="dp-btn-confirm" data-key="calendarConfirm">Confirmar</button></div>
+</div>
+
+<script>
+const Utils = {
+  id: () => Date.now().toString(36) + Math.random().toString(36).slice(2,6),
+  today: () => { const d = new Date(); return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`; },
+  escape: s => { if(!s) return ''; const m = {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}; return String(s).replace(/[&<>"']/g, c => m[c]); },
+  parseMoney: v => { if(!v) return 0; let s = String(v).replace(/[^0-9,.-]/g,''); if(I18n.lang === 'pt'){ s = s.replace(/\./g,'').replace(',','.'); } else { s = s.replace(/,/g,''); } const n = parseFloat(s); return isNaN(n) ? 0 : n; },
+  filterByMonth: (items, m, y) => items.filter(i => { if(!i.data) return false; const p = i.data.split('-'); return parseInt(p[0]) === y && parseInt(p[1])-1 === m; }),
+  safeEval: e => { const s = e.replace(/\s/g,''); if(!/^[\d+\-*/.()]+$/.test(s)) throw Error('Expressão inválida'); return Function(`"use strict";return(${s})`)(); },
+  normalizeTipo: t => { if(!t) return ''; const map = {'servico':'Serviço','serviço':'Serviço','venda':'Venda','despesa':'Despesa'}; const key = t.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,''); return map[key] || t; }
+};
+
+const I18n = {
+  lang: 'pt',
+  _t: {
+    pt: {
+      tabPainel:'Painel', tabLancamentos:'Lançamentos', tabRelatorio:'Relatório', tabResumo:'Resumo',
+      editTitle:'Editar', btnSalvar:'Salvar', btnCancelar:'Cancelar', btnSim:'Sim', btnNao:'Não',
+      labelData:'Data', labelTipo:'Tipo', tipoServico:'Serviço', tipoVenda:'Venda', tipoDespesa:'Despesa',
+      labelDesc:'Descrição', placeholderDesc:'Digite a descrição', labelValor:'Valor', status:'Situação',
+      statusPago:'Pago', statusPendente:'Pendente', confirmTitle:'Confirmação',
+      limpezaTitulo:'Limpeza', limpezaSubtitulo:'Selecione o que limpar:',
+      limparPerfil:'Limpar Perfil', limparTudo:'Limpar Tudo', limpezaTodos:'Todos',
+      executarLimpeza:'Executar', perfilTitulo:'Perfil', trocarFoto:'Foto', nomeLabel:'Nome',
+      placeholderNome:'Digite seu nome', calendarClear:'Limpar', calendarCancel:'Cancelar',
+      calendarConfirm:'Confirmar', emptyList:'Nenhum lançamento.',
+      distribuicao:'Distribuição por Situação',
+      ultimosLancamentos:'Últimos Lançamentos', receitasPagas:'Receitas Pagas',
+      receitasPendentes:'Receitas Pendentes', despesasPagas:'Despesas Pagas',
+      despesasPendentes:'Despesas Pendentes', baixarPDF:'PDF', ferramentas:'Ferramentas',
+      resumoGeral:'Resumo', semLancamentos:'Sem lançamentos', movimentacao:'Movimentação', media:'Média',
+      quantidade:'Quantidade', resumo:'Resumo', receitas:'Receitas', despesas:'Despesas',
+      saldo:'Saldo', btnEditar:'Editar', btnExcluir:'Excluir', btnStatus:'Situação',
+      acoes:'Ações', calculadora:'Calculadora', mesAnterior:'Anterior', mesSeguinte:'Próximo',
+      anoAnterior:'Anterior', anoSeguinte:'Próximo',
+      filtroStatusTodos:'Todos', filtroStatusPago:'Pago', filtroStatusPendente:'Pendente',
+      githubTitulo:'Becape GitHub', githubDesc:'Configure seu token para becape na nuvem.',
+      tokenLabel:'Token', destinoLabel:'Destino', destinoRepo:'Repositório', destinoGist:'Gist',
+      repoNameLabel:'Repositório', gistNameLabel:'Nome do Gist', salvarToken:'Salvar',
+      desvincular:'Desvincular', salvarNuvem:'Salvar', restaurarNuvem:'Restaurar',
+      githubConfigurado:'Configurado', githubNaoConfigurado:'Não configurado',
+      githubConectado:'Conectado', githubErro:'Erro',
+      entrySaved:'Salvo!', selectDate:'Selecione a data!', enterDescription:'Digite a descrição!',
+      enterValidAmount:'Digite um valor!', tokenSaved:'Token salvo!',
+      connectedAs:'Conectado como {username}!', tokenInvalid:'Token inválido! Erro: {status}',
+      connectionError:'Erro: {error}', repoFound:'Repositório encontrado!',
+      repoNotFound:'Repositório não encontrado!', savingCloud:'Salvando...',
+      backupSavedCloud:'Becape salvo!', tokenNoWritePermission:'Token sem permissão!',
+      genericError:'Erro: {error}', restoringCloud:'Restaurando...', noBackupCloud:'Nenhum becape!',
+      backupRestored:'Becape restaurado!', configureToken:'Configure o token!',
+      tokenInvalidFormat:'Token inválido!', entryNotFound:'Lançamento não encontrado.',
+      deletedPermanently:'Excluído!', statusChanged:'Status alterado!',
+      cleanupDone:'Limpeza concluída!', nameSaved:'Nome salvo!', nameRemoved:'Nome removido.',
+      photoUpdated:'Foto atualizada!', photoTooLarge:'Foto muito grande!',
+      pdfDownloaded:'PDF baixado!', invalidAmount:'Valor inválido!',
+      pendingAlert:'🔔 {count} pendente(s)!',
+      confirmDeletePermanent:'Excluir permanentemente "{desc}"?',
+      confirmStatus:'Alterar "{desc}" para {status}?',
+      confirmStatusDateUpdate:'A data será atualizada para hoje.',
+      confirmDeleteAllEntries:'Apagar todos os lançamentos?',
+      confirmDeleteAllData:'Apagar TODOS os dados?',
+      confirmDeleteUserPhoto:'Apagar nome e foto?',
+      confirmRestoreBackup:'Restaurar becape?',
+      confirmUnlink:'Desvincular GitHub?',
+      unlinked:'Desvinculado!', backupAutomatico:'Becape automático ativado',
+      resumoTipo:'Resumo por Tipo', backupCorrupted:'Arquivo de becape corrompido ou vazio.',
+      networkError:'Erro de rede. Verifique sua conexão.',
+      githubHttpError:'Erro {status} ao comunicar com o GitHub.',
+      verMaisAnos:'Ver mais anos', verMenosAnos:'Ver menos anos',
+      listagemCompleta:'Listagem Completa', porcentagem:'Porcentagem',
+      perfil:'Meu Perfil', carregando:'Carregando...',
+      backupVazio:'Backup vazio, nenhum dado a restaurar.'
+    },
+    en: {
+      tabPainel:'Dashboard', tabLancamentos:'Entries', tabRelatorio:'Report', tabResumo:'Summary',
+      editTitle:'Edit', btnSalvar:'Save', btnCancelar:'Cancel', btnSim:'Yes', btnNao:'No',
+      labelData:'Date', labelTipo:'Type', tipoServico:'Service', tipoVenda:'Sale', tipoDespesa:'Expense',
+      labelDesc:'Description', placeholderDesc:'Enter description', labelValor:'Amount',
+      status:'Status', statusPago:'Paid', statusPendente:'Pending', confirmTitle:'Confirmation',
+      limpezaTitulo:'Cleanup', limpezaSubtitulo:'Select what to clean:',
+      limparPerfil:'Clear Profile', limparTudo:'Delete All', limpezaTodos:'All',
+      executarLimpeza:'Run', perfilTitulo:'Profile', trocarFoto:'Photo', nomeLabel:'Name',
+      placeholderNome:'Enter name', calendarClear:'Clear', calendarCancel:'Cancel',
+      calendarConfirm:'Confirm', emptyList:'No entries.',
+      distribuicao:'Distribution by Status',
+      ultimosLancamentos:'Latest Entries', receitasPagas:'Paid Income',
+      receitasPendentes:'Pending Income', despesasPagas:'Paid Expenses',
+      despesasPendentes:'Pending Expenses', baixarPDF:'PDF', ferramentas:'Tools',
+      resumoGeral:'Summary', semLancamentos:'No entries', movimentacao:'Movement', media:'Average',
+      quantidade:'Quantity', resumo:'Summary', receitas:'Income', despesas:'Expenses',
+      saldo:'Balance', btnEditar:'Edit', btnExcluir:'Delete', btnStatus:'Status',
+      acoes:'Actions', calculadora:'Calculator', mesAnterior:'Prev', mesSeguinte:'Next',
+      anoAnterior:'Prev', anoSeguinte:'Next',
+      filtroStatusTodos:'All', filtroStatusPago:'Paid', filtroStatusPendente:'Pending',
+      githubTitulo:'GitHub Backup', githubDesc:'Configure your token for cloud backup.',
+      tokenLabel:'Token', destinoLabel:'Destination', destinoRepo:'Repository', destinoGist:'Gist',
+      repoNameLabel:'Repository', gistNameLabel:'Gist Name', salvarToken:'Save',
+      desvincular:'Unlink', salvarNuvem:'Save', restaurarNuvem:'Restore',
+      githubConfigurado:'Configured', githubNaoConfigurado:'Not configured',
+      githubConectado:'Connected', githubErro:'Error',
+      entrySaved:'Saved!', selectDate:'Select a date!', enterDescription:'Enter a description!',
+      enterValidAmount:'Enter a valid amount!', tokenSaved:'Token saved!',
+      connectedAs:'Connected as {username}!', tokenInvalid:'Invalid token! Error: {status}',
+      connectionError:'Error: {error}', repoFound:'Repository found!',
+      repoNotFound:'Repository not found!', savingCloud:'Saving...',
+      backupSavedCloud:'Backup saved!', tokenNoWritePermission:'Token without permission!',
+      genericError:'Error: {error}', restoringCloud:'Restoring...', noBackupCloud:'No backup!',
+      backupRestored:'Backup restored!', configureToken:'Configure your token!',
+      tokenInvalidFormat:'Invalid token!', entryNotFound:'Entry not found.',
+      deletedPermanently:'Deleted!', statusChanged:'Status changed!',
+      cleanupDone:'Cleanup done!', nameSaved:'Name saved!', nameRemoved:'Name removed.',
+      photoUpdated:'Photo updated!', photoTooLarge:'Photo too large!',
+      pdfDownloaded:'PDF downloaded!', invalidAmount:'Invalid amount!',
+      pendingAlert:'🔔 {count} pending!',
+      confirmDeletePermanent:'Permanently delete "{desc}"?',
+      confirmStatus:'Change "{desc}" to {status}?',
+      confirmStatusDateUpdate:'The date will be updated to today.',
+      confirmDeleteAllEntries:'Delete all entries?',
+      confirmDeleteAllData:'Delete ALL data?',
+      confirmDeleteUserPhoto:'Delete name and photo?',
+      confirmRestoreBackup:'Restore backup?',
+      confirmUnlink:'Unlink GitHub?',
+      unlinked:'Unlinked!', backupAutomatico:'Auto backup enabled',
+      resumoTipo:'Summary by Type', backupCorrupted:'Backup file is corrupted or empty.',
+      networkError:'Network error. Please check your connection.',
+      githubHttpError:'Error {status} communicating with GitHub.',
+      verMaisAnos:'Show more years', verMenosAnos:'Show fewer years',
+      listagemCompleta:'Complete Listing', porcentagem:'Percentage',
+      perfil:'My Profile', carregando:'Loading...',
+      backupVazio:'Backup is empty, no data to restore.'
+    }
+  },
+  init(){ this.lang = localStorage.getItem('lang') || 'pt'; this.updateUI(); },
+  t(k,p){ let s = this._t[this.lang][k] || k; if(p) for(let [a,b] of Object.entries(p)) s = s.replace(`{${a}}`, b); return s; },
+  toggle(){ this.lang = (this.lang === 'pt' ? 'en' : 'pt'); localStorage.setItem('lang', this.lang); this.updateUI(); App.refreshAll(); GitHubBackup.atualizarStatusUI(); },
+  updateUI(){
+    document.querySelectorAll('[data-key]').forEach(e => {
+      const k = e.dataset.key, s = this.t(k);
+      if(e.tagName === 'INPUT' || e.tagName === 'SELECT'){ if(e.placeholder !== undefined) e.placeholder = s; }
+      else e.textContent = s;
+    });
+    const n = localStorage.getItem('nome') || this.t('perfil');
+    document.getElementById('userName').textContent = n;
+    document.getElementById('langBtn').dataset.label = this.lang === 'pt' ? 'PT' : 'EN';
+    document.getElementById('headerDate').textContent = this._formatHeaderDate();
+    this._updateDateInputs();
+    App.atualizarFotoPerfil();
+    GitHubBackup.atualizarStatusUI();
+    if(document.getElementById('datePickerPopup').classList.contains('open')) DatePickerGlobal.render();
+    this._atualizarDestino();
+    this._atualizarPlaceholderValor();
+  },
+  _atualizarDestino(){ const d = document.getElementById('githubDestino').value; document.getElementById('repoNameGroup').style.display = d==='repo'?'block':'none'; document.getElementById('gistNameGroup').style.display = d==='gist'?'block':'none'; },
+  _updateDateInputs(){ document.querySelectorAll('#data').forEach(e => { if(e && e.dataset.iso) e.value = this._formatLocalDate(e.dataset.iso); }); },
+  _formatLocalDate(i){ if(!i) return ''; const p = i.split('-'); return this.lang === 'pt' ? `${p[2]}/${p[1]}/${p[0]}` : `${p[1]}/${p[2]}/${p[0]}`; },
+  _formatHeaderDate(){ const n = new Date; return this.lang === 'pt' ? n.toLocaleDateString('pt-BR',{weekday:'long',day:'numeric',month:'long',year:'numeric'}) : n.toLocaleDateString('en-US',{weekday:'long',day:'numeric',month:'long',year:'numeric'}); },
+  _atualizarPlaceholderValor(){ const el = document.getElementById('valor'); if(el){ const zero = this.formatNumber(0); el.placeholder = zero; } },
+  formatNumber(v){ const n = typeof v === 'string' ? parseFloat(v) : v; if(isNaN(n)) return this.lang === 'pt' ? '0,00' : '0.00'; const locale = this.lang === 'pt' ? 'pt-BR' : 'en-US'; return new Intl.NumberFormat(locale, {minimumFractionDigits:2,maximumFractionDigits:2}).format(n); },
+  formatDateShort(d){ if(!d) return ''; try{ const dt = new Date(d+'T00:00:00'); return this.lang === 'pt' ? dt.toLocaleDateString('pt-BR',{day:'2-digit',month:'2-digit',year:'2-digit'}) : dt.toLocaleDateString('en-US',{month:'2-digit',day:'2-digit',year:'2-digit'}); } catch{ return d; } },
+  getMonthName(m){ const n = this.lang === 'pt' ? ['Janeiro','Fevereiro','Março','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'] : ['January','February','March','April','May','June','July','August','September','October','November','December']; return n[m] || ''; },
+  formatMoney(v){ const n = typeof v === 'string' ? parseFloat(v) : v; if(isNaN(n)) return this.lang === 'pt' ? 'R$ 0,00' : '$0.00'; const locale = this.lang === 'pt' ? 'pt-BR' : 'en-US'; return new Intl.NumberFormat(locale, {style:'currency', currency:this.lang==='pt'?'BRL':'USD', minimumFractionDigits:2,maximumFractionDigits:2}).format(n).replace(/\s/g,' '); },
+  translateTipo(t){ const m = {'Serviço':this.t('tipoServico'),'Venda':this.t('tipoVenda'),'Despesa':this.t('tipoDespesa')}; return m[t] || t; }
+};
+
+const Storage = {
+  _key: 'financas', _cache: null, _cacheTime: 0,
+  init(){ if(!localStorage.getItem(this._key)) localStorage.setItem(this._key, JSON.stringify([])); window.addEventListener('storage', e => { if(e.key === this._key){ this._cache = null; App.entries = null; App.refreshAll(); } }); },
+  getAll(){ const n = Date.now(); if(this._cache && (n - this._cacheTime) < 1000) return Promise.resolve(this._cache); try { const d = JSON.parse(localStorage.getItem(this._key)) || []; this._cache = d; this._cacheTime = n; return Promise.resolve(d); } catch { return Promise.resolve([]); } },
+  async saveEntry(e){ try { const d = await this.getAll(); const i = d.findIndex(x => x.id === e.id); i >= 0 ? d[i] = e : d.push(e); localStorage.setItem(this._key, JSON.stringify(d)); this._cache = null; setTimeout(() => GitHubBackup.fazerBackupAutomatico(), 500); return true; } catch(err){ App.showToast('Erro ao salvar: '+err.message, false); return false; } },
+  async saveAll(e){ try { localStorage.setItem(this._key, JSON.stringify(e)); this._cache = null; setTimeout(() => GitHubBackup.fazerBackupAutomatico(), 500); return true; } catch(err){ App.showToast('Erro ao salvar: '+err.message, false); return false; } },
+  async deleteEntry(i){ try { let d = await this.getAll(); d = d.filter(x => x.id !== i); localStorage.setItem(this._key, JSON.stringify(d)); this._cache = null; await GitHubBackup.fazerBackupAutomatico(); return true; } catch(err){ App.showToast('Erro ao excluir: '+err.message, false); return false; } },
+  async toggleStatus(i){ try { const d = await this.getAll(); const idx = d.findIndex(x => x.id === i); if(idx < 0) return false; d[idx].pago = d[idx].pago === 'Pago' ? 'Pendente' : 'Pago'; if(d[idx].pago === 'Pago') d[idx].data = Utils.today(); localStorage.setItem(this._key, JSON.stringify(d)); this._cache = null; setTimeout(() => GitHubBackup.fazerBackupAutomatico(), 500); return true; } catch(err){ App.showToast('Erro ao alterar status: '+err.message, false); return false; } },
+  async clear(){ try { localStorage.setItem(this._key, JSON.stringify([])); this._cache = null; await GitHubBackup.fazerBackupAutomatico(); return true; } catch(err){ App.showToast('Erro ao limpar: '+err.message, false); return false; } },
+  async getEntry(i){ const d = await this.getAll(); return d.find(x => x.id === i) || null; },
+  async getBackupObject(){ const e = await this.getAll(); return { nome: localStorage.getItem('nome')||'', foto: localStorage.getItem('foto')||'', financas: e, dataBackup: new Date().toISOString(), idioma: I18n.lang, versao: '2.0' }; }
+};
+
+const Theme = {
+  current: 'light',
+  init(){ this.current = localStorage.getItem('theme') || 'light'; this.apply(this.current); },
+  toggle(){ this.current = this.current === 'light' ? 'dark' : 'light'; localStorage.setItem('theme', this.current); this.apply(this.current); App.refreshAll(); },
+  apply(t){ document.documentElement.dataset.theme = t; const b = document.getElementById('themeBtn'); if(b) b.innerHTML = t === 'dark' ? '<i class="fas fa-sun"></i>' : '<i class="fas fa-moon"></i>'; if(typeof Chart !== 'undefined'){ Chart.defaults.color = t === 'dark' ? '#e2e8f0' : '#1e293b'; Chart.defaults.borderColor = t === 'dark' ? '#334155' : '#e2e8f0'; } }
+};
+
+const Calculator = {
+  expr: '', display: null, _resultShown: false,
+  init(){ this.display = document.getElementById('calcDisplay'); document.addEventListener('keydown', e => { if(!document.getElementById('modalCalc').classList.contains('active')) return; const k = e.key; if((k >= '0' && k <= '9') || ['+','-','*','/','.'].includes(k)){ this.input(k); e.preventDefault(); } else if(k === 'Enter'){ this.calculate(); e.preventDefault(); } else if(k === 'Escape'){ this.close(); e.preventDefault(); } else if(k === 'Backspace'){ this.backspace(); e.preventDefault(); } }); },
+  input(k){ if(!/^[\d+\-*/.()]$/.test(k)) return; if(this._resultShown){ if(/[0-9.]/.test(k)) this.expr = ''; this._resultShown = false; } if(k === '.'){ const parts = this.expr.split(/[\+\-\*\/]/); const last = parts[parts.length-1]; if(last.includes('.')) return; } if(this.expr === '0' && (k >= '0' && k <= '9' || k === '.')){ this.expr = k; } else { const last = this.expr.slice(-1); if(['+','-','*','/'].includes(last) && ['+','-','*','/'].includes(k)){ this.expr = this.expr.slice(0,-1) + k; } else { this.expr += k; } } if(this.display) this.display.textContent = this.expr || '0'; },
+  clear(){ this.expr = ''; this._resultShown = false; if(this.display) this.display.textContent = '0'; },
+  backspace(){ this._resultShown = false; this.expr = this.expr.slice(0,-1); if(this.display) this.display.textContent = this.expr || '0'; },
+  close(){ this.clear(); document.getElementById('modalCalc').classList.remove('active'); },
+  calculate(){ try { const raw = this.expr.trim(); if(!raw){ App.showToast('Digite um valor', false); return; } let num; try { num = Utils.safeEval(raw); } catch(e){ num = parseFloat(raw); } if(isNaN(num) || !isFinite(num)){ App.showToast(I18n.t('invalidAmount'), false); return; } this.expr = String(num); this._resultShown = true; if(this.display) this.display.textContent = I18n.formatNumber(num); App.showToast(I18n.formatMoney(num), true); } catch(e){ App.showToast(I18n.t('invalidAmount'), false); } },
+  confirm(){ try { const raw = this.expr.trim(); if(!raw){ App.showToast('Digite um valor', false); return; } let num; try { num = Utils.safeEval(raw); } catch(e){ num = parseFloat(raw); } if(isNaN(num) || !isFinite(num)){ App.showToast(I18n.t('invalidAmount'), false); return; } const valorField = document.getElementById('valor'); valorField.value = I18n.formatNumber(num); valorField.dataset.num = String(num); App.showToast(I18n.formatMoney(num), true); this.clear(); this.close(); } catch(e){ App.showToast(I18n.t('invalidAmount'), false); } }
+};
+
+const DatePickerGlobal = {
+  _inputId: null, _state: { currentDate: new Date, tempDate: null },
+  init(){
+    document.getElementById('datePickerOverlay').addEventListener('click', () => this.close());
+    document.querySelector('.dp-btn-cancel').addEventListener('click', () => this.close());
+    document.querySelector('.dp-btn-clear').addEventListener('click', () => { this._updateInput(''); this.close(); });
+    document.querySelector('.dp-btn-confirm').addEventListener('click', () => { this._updateInput(this._state.tempDate ? this._formatISO(this._state.tempDate) : ''); this.close(); });
+    document.querySelectorAll('.dp-nav').forEach(b => { b.addEventListener('click', function(){ const d = parseInt(this.dataset.dir, 10); const cd = DatePickerGlobal._state.currentDate; DatePickerGlobal._state.currentDate = new Date(cd.getFullYear(), cd.getMonth() + d, 1); DatePickerGlobal.render(); }); });
+    document.addEventListener('click', e => { const t = e.target; if(t && t.id === 'data' && t.readOnly){ e.preventDefault(); e.stopPropagation(); this.open('data'); } });
+  },
+  open(i){ this._inputId = i; const e = document.getElementById(i); if(!e) return; const c = e.dataset.iso || ''; if(c){ const p = c.split('-'); const d = new Date(p[0], p[1]-1, p[2]); if(!isNaN(d)){ this._state.tempDate = d; this._state.currentDate = new Date(d.getFullYear(), d.getMonth(), 1); } } document.getElementById('datePickerOverlay').classList.add('open'); document.getElementById('datePickerPopup').classList.add('open'); this.render(); },
+  close(){ document.getElementById('datePickerOverlay').classList.remove('open'); document.getElementById('datePickerPopup').classList.remove('open'); this._inputId = null; },
+  render(){ const y = this._state.currentDate.getFullYear(), m = this._state.currentDate.getMonth(); document.querySelector('.dp-month-year').textContent = I18n.getMonthName(m) + ' ' + y; const fd = new Date(y,m,1).getDay(), dim = new Date(y,m+1,0).getDate(), dpm = new Date(y,m,0).getDate(), today = this._formatISO(new Date); const weekdays = I18n.lang === 'pt' ? ['Dom','Seg','Ter','Qua','Qui','Sex','Sáb'] : ['Sun','Mon','Tue','Wed','Thu','Fri','Sat']; document.querySelector('.dp-weekdays').innerHTML = weekdays.map((w,i) => i===0 ? `<span class="sunday">${w}</span>` : `<span>${w}</span>`).join(''); let html = ''; for(let i = fd-1; i >= 0; i--){ const day = dpm - i; const d = new Date(y, m-1, day); html += `<button class="dp-day other-month" data-iso="${this._formatISO(d)}">${day}</button>`; } for(let d = 1; d <= dim; d++){ const dob = new Date(y,m,d); const iso = this._formatISO(dob); const isToday = iso === today; const isSel = this._state.tempDate && this._formatISO(this._state.tempDate) === iso; const isSun = dob.getDay() === 0; let cls = 'dp-day'; if(isToday) cls += ' today'; if(isSel) cls += ' selected'; if(isSun) cls += ' sunday'; html += `<button class="${cls}" data-iso="${iso}">${d}</button>`; } const total = fd + dim; const rem = (7 - (total % 7)) % 7; for(let d = 1; d <= rem; d++){ const dob = new Date(y, m+1, d); html += `<button class="dp-day other-month" data-iso="${this._formatISO(dob)}">${d}</button>`; } document.querySelector('.dp-days').innerHTML = html; document.querySelectorAll('.dp-day').forEach(b => { b.addEventListener('click', function(){ const iso = this.dataset.iso; if(iso){ const p = iso.split('-'); DatePickerGlobal._state.tempDate = new Date(p[0], p[1]-1, p[2]); DatePickerGlobal.render(); } }); }); },
+  _formatISO(d){ return d.getFullYear() + '-' + String(d.getMonth()+1).padStart(2,'0') + '-' + String(d.getDate()).padStart(2,'0'); },
+  _updateInput(iso){ const e = document.getElementById(this._inputId); if(!e) return; e.dataset.iso = iso; e.value = iso ? I18n._formatLocalDate(iso) : ''; e.dispatchEvent(new Event('change')); }
+};
+
+const GitHubBackup = {
+  token: null, _loading: false, _destino: 'repo', _repoName: '', _gistName: '', _autoInterval: null, _status: null,
+  _gistId: 'Finanças Backup',
+  init(){
+    this.token = localStorage.getItem('github_token') || null;
+    this._destino = localStorage.getItem('github_destino') || 'repo';
+    this._repoName = localStorage.getItem('github_repo') || '';
+    this._gistName = localStorage.getItem('github_gist') || 'backup.json';
+    document.getElementById('githubDestino').value = this._destino;
+    document.getElementById('githubRepoName').value = this._repoName;
+    document.getElementById('githubGistName').value = this._gistName;
+    document.getElementById('githubDestino').addEventListener('change', () => { localStorage.setItem('github_destino', document.getElementById('githubDestino').value); I18n._atualizarDestino(); });
+    document.getElementById('githubRepoName').addEventListener('change', () => { localStorage.setItem('github_repo', document.getElementById('githubRepoName').value.trim()); });
+    document.getElementById('githubGistName').addEventListener('change', () => { localStorage.setItem('github_gist', document.getElementById('githubGistName').value.trim() || 'backup.json'); });
+    this.atualizarStatusUI();
+    if(this.token){ setTimeout(() => this.testarConexao(), 1000); this._autoInterval = setInterval(() => { if(this.token) this.fazerBackupAutomatico(); }, 3600000); App.showToast(I18n.t('backupAutomatico'), true); }
+    if(this.token && !localStorage.getItem('github_alert_shown')){ App.showToast('⚠️ Token GitHub salvo localmente. Mantenha-o seguro!', false); localStorage.setItem('github_alert_shown', '1'); }
+  },
+  getHeaders(){ return { Authorization: 'Bearer '+this.token, Accept: 'application/vnd.github.v3+json', 'Content-Type': 'application/json' }; },
+  salvarToken(){ const t = document.getElementById('githubToken').value.trim(), d = document.getElementById('githubDestino').value, r = document.getElementById('githubRepoName').value.trim().replace(/\s/g,''), g = document.getElementById('githubGistName').value.trim() || 'backup.json'; if(!t){ App.showToast(I18n.t('configureToken'), false); return; } if(!/^(gh[pousr]_|github_pat_)/.test(t)){ App.showToast(I18n.t('tokenInvalidFormat'), false); return; } if(d === 'repo' && !r){ App.showToast('Informe o repositório', false); return; } localStorage.setItem('github_token', t); localStorage.setItem('github_destino', d); localStorage.setItem('github_repo', r); localStorage.setItem('github_gist', g); this.token = t; this._destino = d; this._repoName = r; this._gistName = g; App.closeModals(); App.showToast(I18n.t('tokenSaved'), true); this.atualizarStatusUI(); this.testarConexao(); if(!this._autoInterval){ this._autoInterval = setInterval(() => { if(this.token) this.fazerBackupAutomatico(); }, 3600000); App.showToast(I18n.t('backupAutomatico'), true); } },
+  desvincular(){ App.prepareConfirm('unlink',''); },
+  async testarConexao(){ try { const r = await fetch('https://api.github.com/user', { headers: this.getHeaders() }); if(r.status === 429){ App.showToast('Limite de requisições excedido. Aguarde.', false); this._status = 'error'; this.atualizarStatusUI(); return; } if(r.ok){ const d = await r.json(); App.showToast(I18n.t('connectedAs',{username:d.login}), true); this._status = 'sync'; } else { App.showToast(I18n.t('tokenInvalid',{status:r.status}), false); this._status = 'error'; localStorage.removeItem('github_token'); this.token = null; } } catch(e){ App.showToast(I18n.t('connectionError',{error:e.message}), false); this._status = 'error'; } this.atualizarStatusUI(); },
+  async salvarBackup(data){ if(!this.token){ App.showToast(I18n.t('configureToken'), false); return false; } if(this._loading) return false; this._loading = true; this._status = 'loading'; this.atualizarStatusUI(); try { App.showToast(I18n.t('savingCloud'), true); if(this._destino === 'repo'){ if(!this._repoName){ this._loading = false; this._status = 'error'; this.atualizarStatusUI(); return false; } const existing = await this._obterArquivo().catch(()=>null); const content = btoa(unescape(encodeURIComponent(JSON.stringify(data,null,2)))); const body = { message: 'Becape '+new Date().toLocaleString(), content, branch: 'main' }; if(existing) body.sha = existing.sha; const r = await fetch(`https://api.github.com/repos/${this._repoName}/contents/backup.json`, { method: 'PUT', headers: this.getHeaders(), body: JSON.stringify(body) }); if(r.status === 429){ App.showToast('Limite de requisições excedido. Aguarde.', false); this._loading = false; this._status = 'error'; this.atualizarStatusUI(); return false; } if(!r.ok){ if(r.status === 403) App.showToast(I18n.t('tokenNoWritePermission'), false); else App.showToast(I18n.t('githubHttpError',{status:r.status}), false); this._loading = false; this._status = 'error'; this.atualizarStatusUI(); return false; } App.showToast(I18n.t('backupSavedCloud'), true); } else { await this._salvarGist(data); App.showToast(I18n.t('backupSavedCloud'), true); } this._loading = false; this._status = 'sync'; this.atualizarStatusUI(); return true; } catch(e){ console.error(e); if(e.message === 'corrupted') App.showToast(I18n.t('backupCorrupted'), false); else if(e.message.includes('Failed to fetch') || e.message.includes('Network')) App.showToast(I18n.t('networkError'), false); else App.showToast(I18n.t('genericError',{error:e.message}), false); this._loading = false; this._status = 'error'; this.atualizarStatusUI(); return false; } },
+  async restaurarBackup(){ if(!this.token){ App.showToast(I18n.t('configureToken'), false); return null; } if(this._loading) return null; this._loading = true; this._status = 'loading'; this.atualizarStatusUI(); try { App.showToast(I18n.t('restoringCloud'), true); let result = this._destino === 'repo' ? await this._obterArquivo() : await this._obterGist(); if(!result){ App.showToast(I18n.t('noBackupCloud'), false); this._loading = false; this._status = 'error'; this.atualizarStatusUI(); return null; } if(!result.content.financas || result.content.financas.length === 0){ App.showToast(I18n.t('backupVazio'), false); this._loading = false; this._status = 'error'; this.atualizarStatusUI(); return null; } App.showToast(I18n.t('backupRestored'), true); this._loading = false; this._status = 'sync'; this.atualizarStatusUI(); return result.content; } catch(e){ console.error(e); if(e.message === 'corrupted') App.showToast(I18n.t('backupCorrupted'), false); else if(e.message.includes('Failed to fetch') || e.message.includes('Network')) App.showToast(I18n.t('networkError'), false); else App.showToast(I18n.t('genericError',{error:e.message}), false); this._loading = false; this._status = 'error'; this.atualizarStatusUI(); return null; } },
+  async _obterArquivo(){ const r = await fetch(`https://api.github.com/repos/${this._repoName}/contents/backup.json`, { headers: this.getHeaders() }); if(r.status === 404) return null; if(r.status === 429) throw Error('Rate limit exceeded'); if(!r.ok) throw Error('HTTP '+r.status); const d = await r.json(); try { const decoded = decodeURIComponent(escape(atob(d.content))); return { sha: d.sha, content: JSON.parse(decoded) }; } catch { throw Error('corrupted'); } },
+  async _salvarGist(data){ const content = btoa(unescape(encodeURIComponent(JSON.stringify(data,null,2)))); const r = await fetch('https://api.github.com/gists', { headers: this.getHeaders() }); if(r.status === 429) throw Error('Rate limit exceeded'); if(!r.ok) throw Error('HTTP '+r.status); const gists = await r.json(); const existing = gists.find(g => g.description === this._gistId); const files = {}; files[this._gistName] = { content }; if(existing){ const u = await fetch(`https://api.github.com/gists/${existing.id}`, { method: 'PATCH', headers: this.getHeaders(), body: JSON.stringify({ description: this._gistId, files }) }); if(u.status === 429) throw Error('Rate limit exceeded'); if(!u.ok) throw Error('HTTP '+u.status); } else { const c = await fetch('https://api.github.com/gists', { method: 'POST', headers: this.getHeaders(), body: JSON.stringify({ description: this._gistId, public: false, files }) }); if(c.status === 429) throw Error('Rate limit exceeded'); if(!c.ok) throw Error('HTTP '+c.status); } },
+  async _obterGist(){
+    try {
+      const r = await fetch('https://api.github.com/gists', { headers: this.getHeaders() });
+      if(r.status === 429) throw Error('Rate limit exceeded');
+      if(!r.ok) return null;
+      const gists = await r.json();
+      const found = gists.find(g => g.description === this._gistId);
+      if(!found) return null;
+      const file = found.files[this._gistName];
+      if(!file) return null;
+      const c = await fetch(file.raw_url).then(res => res.text());
+      try { return { id: found.id, content: JSON.parse(c) }; }
+      catch { throw Error('corrupted'); }
+    } catch(e){
+      if(e.message.includes('Rate limit')) throw e;
+      return null;
+    }
+  },
+  async fazerBackupAutomatico(){ if(!this.token || !navigator.onLine) return false; try { return await this.salvarBackup(await Storage.getBackupObject()); } catch { return false; } },
+  atualizarStatusUI(){ const e = document.getElementById('githubStatus'); if(e){ const i = e.querySelector('i'), tx = e.querySelector('span'); if(this._loading){ i.className = 'fas fa-spinner fa-pulse'; i.style.color = '#f59e0b'; tx.textContent = I18n.t('carregando'); e.className = 'github-status'; } else if(this.token){ if(this._status === 'sync'){ i.className = 'fas fa-check-circle'; i.style.color = '#059669'; tx.textContent = I18n.t('githubConectado'); e.className = 'github-status sync'; } else if(this._status === 'error'){ i.className = 'fas fa-exclamation-circle'; i.style.color = '#dc2626'; tx.textContent = I18n.t('githubErro'); e.className = 'github-status error'; } else { i.className = 'fas fa-cloud-upload-alt'; i.style.color = '#0ea5e9'; tx.textContent = I18n.t('githubConfigurado'); e.className = 'github-status default'; } } else { i.className = 'fas fa-cloud'; i.style.color = '#64748b'; tx.textContent = I18n.t('githubNaoConfigurado'); e.className = 'github-status'; } } this._atualizarHeaderStatus(); },
+  _atualizarHeaderStatus(){ const e = document.getElementById('githubStatusHeader'); if(!e) return; if(!this.token){ e.style.display = 'none'; return; } e.style.display = 'flex'; let icon = 'fa-cloud', cls = 'default', title = ''; if(this._loading){ icon = 'fa-spinner fa-pulse'; cls = 'loading'; title = I18n.t('carregando'); } else if(this._status === 'sync'){ icon = 'fa-check-circle'; cls = 'sync'; title = I18n.t('githubConectado'); } else if(this._status === 'error'){ icon = 'fa-exclamation-circle'; cls = 'error'; title = I18n.t('githubErro'); } else { icon = 'fa-cloud-upload-alt'; cls = 'default'; title = I18n.t('githubConfigurado'); } e.className = 'github-status-header '+cls; e.innerHTML = `<i class="fas ${icon}" title="${title}"></i>`; }
+};
+
+const App = {
+  currentPage: 'painel', entries: [], chartInstances: {}, filtroStatus: 'todos',
+  listaPagina: 1, ITENS_POR_PAGINA: 50, _jaAlertou: false, _modalOrigem: null, _limpezaExpandido: false,
+
+  showToast(msg, ok = true){ document.querySelectorAll('.toast').forEach(e => e.remove()); const t = document.createElement('div'); t.className = 'toast'+(ok?' success':' error'); t.textContent = (ok?'✅ ':'❌ ')+msg; document.body.appendChild(t); setTimeout(() => { if(t.parentNode) t.remove(); }, 3000); },
+
+  showPage(id, btn){
+    Object.values(this.chartInstances).forEach(c => { try { c && c.destroy(); } catch{} });
+    this.chartInstances = {};
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+    document.querySelectorAll('.bottom-nav button').forEach(b => b.classList.remove('active'));
+    document.getElementById('page-'+id).classList.add('active');
+    if(btn) btn.classList.add('active');
+    this.currentPage = id;
+    const n = new Date;
+    if(id === 'painel'){ this.painelMes = n.getMonth(); this.painelAno = n.getFullYear(); this.renderDashboard(); }
+    else if(id === 'lista'){ this.filtroStatus = 'todos'; this.listaMes = n.getMonth(); this.listaAno = n.getFullYear(); this.listaPagina = 1; this.renderList(); }
+    else if(id === 'relatorio'){ this.relatorioAno = n.getFullYear(); this.renderReport(); }
+    else if(id === 'resumo'){ this.filtroMes = n.getMonth(); this.filtroAno = n.getFullYear(); this.renderResumo(); }
+    window.scrollTo({top:0,behavior:'smooth'});
+  },
+
+  closeModals(){ document.querySelectorAll('.modal-overlay.active').forEach(m => m.classList.remove('active')); this._modalOrigem = null; this._limpezaExpandido = false; },
+  cancelarConfirmacao(){ document.getElementById('modalConfirma').classList.remove('active'); if(this._modalOrigem){ const modal = document.getElementById(this._modalOrigem); if(modal) modal.classList.add('active'); } this._modalOrigem = null; },
+  toggleMenu(btn, e){ e.stopPropagation(); const d = btn.parentElement.querySelector('.actions-dropdown'); if(!d) return; const isOpen = d.classList.contains('open'); document.querySelectorAll('.actions-dropdown.open').forEach(x => { if(x !== d) x.classList.remove('open'); }); if(isOpen) d.classList.remove('open'); else { d.classList.add('open'); const r = d.getBoundingClientRect(); d.style.top = r.bottom > window.innerHeight ? 'auto' : 'calc(100%+4px)'; } },
+  closeMenu(el){ const d = el.closest('.actions-dropdown'); if(d) d.classList.remove('open'); },
+
+  abrirLimpeza(){ this._limpezaExpandido = false; this._atualizarOpcoesLimpeza(); document.getElementById('modalLimpeza').classList.add('active'); },
+  toggleAnosLimpeza(){ this._limpezaExpandido = !this._limpezaExpandido; this._atualizarOpcoesLimpeza(); },
+  _atualizarOpcoesLimpeza(){ const container = document.getElementById('limpezaOpcoes'); const anos = this._getAnosComLancamentos(); const anosSemPrimeiro = anos.slice(1); let html = `<label><input type="radio" name="limpezaPeriodo" value="todos" checked><span>${I18n.t('limpezaTodos')}</span></label>`; if(anos.length > 1){ const anoAtual = anos[0]; const seta = this._limpezaExpandido ? '∧' : '∨'; html += `<button class="modal-limpeza-ver-mais" onclick="App.toggleAnosLimpeza()" style="margin-bottom:2px"><span style="display:inline-block;width:18px;text-align:center;">${seta}</span> ${anoAtual}</button>`; } if(this._limpezaExpandido && anosSemPrimeiro.length > 0){ anosSemPrimeiro.forEach(a => { html += `<label><input type="radio" name="limpezaPeriodo" value="${a}"><span>${a}</span></label>`; }); } html += `<label><input type="radio" name="limpezaPeriodo" value="perfil"><span>${I18n.t('limparPerfil')}</span></label><label><input type="radio" name="limpezaPeriodo" value="todosDados"><span>${I18n.t('limparTudo')}</span></label>`; container.innerHTML = html; },
+  _getAnosComLancamentos(){ const anos = new Set; this.entries.forEach(item => { if(item.data){ const ano = parseInt(item.data.split('-')[0]); if(!isNaN(ano)) anos.add(ano); } }); return Array.from(anos).sort((a,b) => b - a); },
+
+  openModal(id){
+    document.getElementById('editId').value = id || '';
+    const di = document.getElementById('data');
+    const valorField = document.getElementById('valor');
+    if(id){
+      Storage.getEntry(id).then(item => {
+        if(item){
+          di.dataset.iso = item.data;
+          di.value = I18n._formatLocalDate(item.data);
+          document.getElementById('tipo').value = Utils.normalizeTipo(item.tipo) || 'Serviço';
+          document.getElementById('desc').value = item.desc || '';
+          const num = parseFloat(item.valor) || 0;
+          valorField.value = I18n.formatNumber(num);
+          valorField.dataset.num = String(num);
+          document.getElementById('pago').value = item.pago || 'Pago';
+        }
+      });
+    } else {
+      const t = Utils.today();
+      di.dataset.iso = t;
+      di.value = I18n._formatLocalDate(t);
+      document.getElementById('desc').value = '';
+      valorField.value = '';
+      valorField.dataset.num = '0';
+      document.getElementById('tipo').value = 'Serviço';
+      document.getElementById('pago').value = 'Pago';
+    }
+    document.getElementById('modal').classList.add('active');
+    valorField.onclick = function(){ const num = parseFloat(this.dataset.num) || 0; Calculator.expr = String(num); Calculator.display.textContent = String(num); document.getElementById('modalCalc').classList.add('active'); };
+  },
+  saveEntry(){
+    const iso = document.getElementById('data').dataset.iso;
+    if(!iso){ this.showToast(I18n.t('selectDate'), false); return; }
+    const desc = document.getElementById('desc').value.trim();
+    if(!desc){ this.showToast(I18n.t('enterDescription'), false); return; }
+    const valorField = document.getElementById('valor');
+    const valor = Utils.parseMoney(valorField.value);
+    if(valor < 0){ this.showToast('Valor não pode ser negativo', false); return; }
+    if(valor <= 0){ this.showToast(I18n.t('enterValidAmount'), false); return; }
+    const tipo = document.getElementById('tipo').value, pago = document.getElementById('pago').value;
+    const entry = { id: document.getElementById('editId').value || Utils.id(), data: iso, desc, valor: valor.toFixed(2), tipo, pago };
+    Storage.saveEntry(entry).then(() => { this.showToast(I18n.t('entrySaved'), true); this.closeModals(); this.refreshAll(); });
+  },
+
+  prepareConfirm(tipo, id){
+    const activeModal = document.querySelector('.modal-overlay.active');
+    const sourceId = activeModal ? activeModal.id : null;
+    this.closeModals();
+    const map = { excluir:'🗑️', toggleStatus:'🔄', limparTudo:'🔥', limparPerfil:'👤', limparLancamentos:'📊', restaurarBackup:'💾', unlink:'🔗' };
+    let msg = '', btnClass = 'btn-danger', icon = map[tipo] || '⚠️';
+    const render = (m,b) => { this._renderConfirm(tipo,id,icon,m,b,sourceId); };
+    if(tipo === 'unlink'){ msg = I18n.t('confirmUnlink'); }
+    else if(tipo === 'excluir'){ Storage.getEntry(id).then(e => { if(!e){ this.showToast(I18n.t('entryNotFound'), false); return; } render(I18n.t('confirmDeletePermanent',{desc:e.desc}), 'btn-danger'); }); return; }
+    else if(tipo === 'toggleStatus'){ Storage.getEntry(id).then(e => { if(!e){ this.showToast(I18n.t('entryNotFound'), false); return; } const novo = e.pago === 'Pago' ? 'Pendente' : 'Pago'; const st = I18n.t(novo === 'Pago' ? 'statusPago' : 'statusPendente'); msg = I18n.t('confirmStatus',{desc:e.desc,status:st}); if(novo === 'Pago' && e.data < Utils.today()){ msg += '\n'+I18n.t('confirmStatusDateUpdate'); } render(msg, 'btn-warning'); }); return; }
+    else if(tipo === 'limparLancamentos'){ msg = I18n.t('confirmDeleteAllEntries'); }
+    else if(tipo === 'limparLancamentosAno'){ msg = I18n.lang === 'pt' ? `Apagar todos os lançamentos de ${id}?` : `Delete all entries from ${id}?`; }
+    else if(tipo === 'limparTudo'){ msg = I18n.t('confirmDeleteAllData'); }
+    else if(tipo === 'limparPerfil'){ msg = I18n.t('confirmDeleteUserPhoto'); btnClass = 'btn-warning'; }
+    else if(tipo === 'restaurarBackup'){ msg = I18n.t('confirmRestoreBackup'); btnClass = 'btn-primary'; }
+    render(msg, btnClass);
+  },
+  _renderConfirm(tipo,id,icon,msg,btnClass,sourceModalId){
+    document.getElementById('confirmIcon').textContent = icon;
+    document.getElementById('msgConfirma').textContent = msg;
+    document.getElementById('confirmBtnSim').className = btnClass;
+    document.getElementById('confirmBtnSim').textContent = I18n.t('btnSim');
+    document.getElementById('confirmTipo').value = tipo;
+    document.getElementById('confirmId').value = id || '';
+    this._modalOrigem = sourceModalId || null;
+    document.getElementById('modalConfirma').classList.add('active');
+  },
+  executeConfirm(){
+    const tipo = document.getElementById('confirmTipo').value, id = document.getElementById('confirmId').value;
+    this.closeModals();
+    if(tipo === 'unlink'){ localStorage.removeItem('github_token'); GitHubBackup.token = null; if(GitHubBackup._autoInterval) clearInterval(GitHubBackup._autoInterval); GitHubBackup._autoInterval = null; GitHubBackup.atualizarStatusUI(); I18n.updateUI(); this.showToast(I18n.t('unlinked'), true); return; }
+    if(tipo === 'excluir'){ Storage.deleteEntry(id).then(() => { this.showToast(I18n.t('deletedPermanently'), true); this.refreshAll(); }); }
+    else if(tipo === 'toggleStatus'){ Storage.toggleStatus(id).then(() => { this.showToast(I18n.t('statusChanged'), true); this.refreshAll(); }); }
+    else if(tipo === 'limparLancamentos'){ Storage.clear().then(() => { this.showToast(I18n.t('cleanupDone'), true); Storage.getAll().then(entries => { this.entries = entries; this.refreshAll(); }); }); }
+    else if(tipo === 'limparLancamentosAno'){ const ano = parseInt(id, 10); const restantes = this.entries.filter(e => parseInt(e.data.split('-')[0], 10) !== ano); Storage.saveAll(restantes).then(() => { this.showToast(I18n.t('cleanupDone'), true); this.refreshAll(); }); }
+    else if(tipo === 'limparPerfil'){ localStorage.removeItem('nome'); localStorage.removeItem('foto'); this.atualizarFotoPerfil(); document.getElementById('userName').textContent = I18n.t('perfil'); this.showToast(I18n.t('cleanupDone'), true); this.refreshAll(); }
+    else if(tipo === 'limparTudo'){ const theme = localStorage.getItem('theme'), lang = localStorage.getItem('lang'); localStorage.clear(); if(theme) localStorage.setItem('theme', theme); if(lang) localStorage.setItem('lang', lang); Storage.clear().then(() => { this.showToast(I18n.t('cleanupDone'), true); setTimeout(() => location.reload(), 500); }); }
+    else if(tipo === 'restaurarBackup' && window._backupTemp){ const b = window._backupTemp; if(b.nome) localStorage.setItem('nome', b.nome); if(b.foto) localStorage.setItem('foto', b.foto); const e = b.financas.map(x => ({ id: x.id||Utils.id(), data: x.data, desc: x.desc, valor: x.valor, tipo: x.tipo, pago: x.pago })); Storage.saveAll(e).then(() => { this.showToast(I18n.t('backupRestored'), true); this.refreshAll(); }); }
+  },
+  executarLimpeza(){ const sel = document.querySelector('input[name="limpezaPeriodo"]:checked'); if(!sel){ this.showToast('Selecione uma opção', false); return; } const v = sel.value; if(v === 'perfil') this.prepareConfirm('limparPerfil',''); else if(v === 'todosDados') this.prepareConfirm('limparTudo',''); else if(v === 'todos') this.prepareConfirm('limparLancamentos',''); else if(!isNaN(v)) this.prepareConfirm('limparLancamentosAno', v); else this.showToast('Opção inválida', false); },
+
+  refreshAll(){
+    Storage.getAll().then(e => {
+      this.entries = e;
+      this._jaAlertou = false;
+      this._renderCurrentPage();
+      const n = localStorage.getItem('nome') || I18n.t('perfil');
+      document.getElementById('userName').textContent = n;
+      document.getElementById('headerDate').textContent = I18n._formatHeaderDate();
+      this.atualizarFotoPerfil();
+      I18n.updateUI();
+      this._alertarPendencias();
+    });
+  },
+  _renderCurrentPage(){
+    switch(this.currentPage){
+      case 'painel':    this.renderDashboard(); break;
+      case 'lista':     this.renderList();      break;
+      case 'resumo':    this.renderResumo();    break;
+      case 'relatorio': this.renderReport();    break;
+    }
+  },
+  _alertarPendencias(){ const t = this.entries.filter(i => i.pago === 'Pendente').length; if(t > 0 && !this._jaAlertou){ this.showToast(I18n.t('pendingAlert',{count:t}), false); this._jaAlertou = true; } },
+
+  openPerfil(){ document.getElementById('novoNomePerfil').value = localStorage.getItem('nome') || ''; document.getElementById('modalPerfil').classList.add('active'); this.atualizarFotoPerfilModal(); },
+  salvarNomePerfil(){ const n = document.getElementById('novoNomePerfil').value.trim(); if(n){ localStorage.setItem('nome', n); document.getElementById('userName').textContent = n; this.showToast(I18n.t('nameSaved'), true); } else { localStorage.removeItem('nome'); document.getElementById('userName').textContent = I18n.t('perfil'); this.showToast(I18n.t('nameRemoved'), false); } document.getElementById('novoNomePerfil').value = localStorage.getItem('nome') || ''; this.closeModals(); this.atualizarFotoPerfil(); },
+  atualizarFotoPerfil(){ const f = localStorage.getItem('foto'), img = document.getElementById('userImg'), fb = document.getElementById('userFallback'); if(f){ img.src = f; img.style.display = 'block'; fb.style.display = 'none'; } else { img.style.display = 'none'; fb.style.display = 'flex'; } },
+  atualizarFotoPerfilModal(){ const f = localStorage.getItem('foto'), img = document.getElementById('modalPerfilImg'), fb = document.getElementById('modalPerfilFallback'); if(f){ img.src = f; img.style.display = 'block'; fb.style.display = 'none'; } else { img.style.display = 'none'; fb.style.display = 'block'; } },
+
+  abrirConfigGitHub(){ document.getElementById('githubToken').value = localStorage.getItem('github_token') || ''; document.getElementById('githubDestino').value = localStorage.getItem('github_destino') || 'repo'; document.getElementById('githubRepoName').value = localStorage.getItem('github_repo') || ''; document.getElementById('githubGistName').value = localStorage.getItem('github_gist') || 'backup.json'; I18n._atualizarDestino(); document.getElementById('modalGitHub').classList.add('active'); },
+  salvarBackupNuvem(){ Storage.getBackupObject().then(b => GitHubBackup.salvarBackup(b)); },
+  restaurarBackupNuvem(){ GitHubBackup.restaurarBackup().then(d => { if(d){ window._backupTemp = d; this.prepareConfirm('restaurarBackup',''); } }); },
+
+  _renderLancamentoItem(item){
+    const tn = Utils.normalizeTipo(item.tipo);
+    const isD = tn === 'Despesa';
+    const tc = isD ? 'despesa' : (tn === 'Serviço' ? 'servico' : 'venda');
+    const v = parseFloat(item.valor);
+    return `<div class="lancamento-item"><span class="tipo-badge ${tc}">${I18n.translateTipo(tn)}</span><span class="lancamento-desc">${Utils.escape(item.desc)}</span><span style="color:${isD?'#dc2626':'#059669'};font-weight:800;flex-shrink:0;white-space:nowrap">${isD?'−':'+'} ${I18n.formatMoney(v)}</span><span class="status-badge ${item.pago==='Pago'?'pago':'pendente'}">${I18n.t(item.pago==='Pago'?'statusPago':'statusPendente')}</span></div>`;
+  },
+  _recentEntries(filtered, n = 5){
+    return filtered.slice().sort((a,b) => {
+      const byDate = (b.data || '').localeCompare(a.data || '');
+      if(byDate !== 0) return byDate;
+      return (b.id || '').localeCompare(a.id || '');
+    }).slice(0, n);
+  },
+
+  _renderEntryHtml(item){
+    const v = parseFloat(item.valor);
+    const tipoNorm = Utils.normalizeTipo(item.tipo);
+    const isD = tipoNorm === 'Despesa';
+    const tc = isD ? 'despesa' : (tipoNorm === 'Serviço' ? 'servico' : 'venda');
+    return `<div class="card-movimento" style="border-left-color:${isD?'#dc2626':'#059669'}">
+      <div class="entry-header">
+        <div class="entry-header-left">
+          <span class="tipo-badge ${tc}">${I18n.translateTipo(tipoNorm)}</span>
+          <span class="entry-date">${I18n.formatDateShort(item.data)}</span>
+        </div>
+        <div class="entry-header-right">
+          <div class="actions-menu-container">
+            <button class="btn-actions" data-id="${item.id}" aria-label="${I18n.t('acoes')}"><i class="fas fa-ellipsis-v"></i></button>
+            <div class="actions-dropdown">
+              <button class="action-item" onclick="App.openModal('${item.id}');App.closeMenu(this)"><i class="fas fa-edit"></i> ${I18n.t('btnEditar')}</button>
+              <button class="action-item status" onclick="App.prepareConfirm('toggleStatus','${item.id}');App.closeMenu(this)"><i class="fas fa-sync"></i> ${I18n.t('btnStatus')}</button>
+              <button class="action-item excluir" onclick="App.prepareConfirm('excluir','${item.id}');App.closeMenu(this)"><i class="fas fa-trash"></i> ${I18n.t('btnExcluir')}</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="entry-desc">${Utils.escape(item.desc)}</div>
+      <div class="entry-meta">
+        <span class="entry-value ${tc}">${isD?'−':'+'} ${I18n.formatMoney(v)}</span>
+        <span class="status-badge ${item.pago==='Pago'?'pago':'pendente'}">${I18n.t(item.pago==='Pago'?'statusPago':'statusPendente')}</span>
+      </div>
+    </div>`;
+  },
+
+  renderDashboard(){
+    const c = document.getElementById('page-painel');
+    const entries = this.entries;
+    const m = this.painelMes, a = this.painelAno;
+    const filtered = Utils.filterByMonth(entries, m, a);
+    const stats = filtered.reduce((acc,item) => {
+      const v = parseFloat(item.valor);
+      const tipoNorm = Utils.normalizeTipo(item.tipo);
+      const isDespesa = tipoNorm === 'Despesa';
+      const isPago = item.pago === 'Pago';
+      if(isDespesa){ acc.td += v; acc.dt += v; if(isPago) acc.dp += v; else acc.dpnd += v; }
+      else { acc.tr += v; if(tipoNorm === 'Serviço') acc.sv += v; else acc.vd += v; if(isPago) acc.rp += v; else acc.rpnd += v; }
+      return acc;
+    }, {tr:0,td:0,sv:0,vd:0,dt:0,rp:0,rpnd:0,dp:0,dpnd:0});
+    const saldo = stats.tr - stats.td;
+    const moeda = I18n.lang === 'pt' ? 'R$' : '$';
+    let html = `<div class="filtro-mes-ano"><button onclick="App.navegarPainel(-1)"><i class="fas fa-chevron-left"></i> ${I18n.t('mesAnterior')}</button><span class="mes-ano-label">${I18n.getMonthName(m)} ${a}</span><button onclick="App.navegarPainel(1)">${I18n.t('mesSeguinte')} <i class="fas fa-chevron-right"></i></button></div><div class="section-title"><i class="fas fa-chart-simple"></i> ${I18n.t('resumoGeral')}</div><div class="painel-grid"><div class="card-destaque" style="background:linear-gradient(135deg,var(--card-receita),#0284c7)"><div class="painel-desc"><i class="fas fa-arrow-up"></i> ${I18n.t('receitas')}</div><div class="painel-number-wrap"><span class="moeda">${moeda}</span><span class="painel-number">${I18n.formatMoney(stats.tr).replace(/[R$]/g,'').replace(/[$]/g,'').trim()}</span></div></div><div class="card-destaque" style="background:linear-gradient(135deg,var(--card-despesa),#d97706)"><div class="painel-desc"><i class="fas fa-arrow-down"></i> ${I18n.t('despesas')}</div><div class="painel-number-wrap"><span class="moeda">${moeda}</span><span class="painel-number">${I18n.formatMoney(stats.td).replace(/[R$]/g,'').replace(/[$]/g,'').trim()}</span></div></div><div class="card-destaque" style="background:linear-gradient(135deg,${saldo>0?'var(--card-saldo-pos)':saldo<0?'var(--card-saldo-neg)':'var(--card-saldo-zero)'},${saldo>0?'#059669':saldo<0?'#dc2626':'#475569'})"><div class="painel-desc"><i class="fas fa-balance-scale"></i> ${I18n.t('saldo')}</div><div class="painel-number-wrap"><span class="moeda">${moeda}</span><span class="painel-number">${I18n.formatMoney(saldo).replace(/[R$]/g,'').replace(/[$]/g,'').trim()}</span></div></div></div><div class="card"><div style="font-size:18px;font-weight:700;margin-bottom:6px"><i class="fas fa-chart-pie"></i> ${I18n.t('distribuicao')}</div><div class="grafico-container"><canvas id="graficoBarras"></canvas></div></div><div class="card card-lista-ultimos"><div style="font-size:18px;font-weight:700;margin-bottom:6px;padding:8px 12px 0 12px;"><i class="fas fa-clock"></i> ${I18n.t('ultimosLancamentos')}</div><div class="ultimos-lancamentos">`;
+    if(filtered.length === 0){ html += `<div style="text-align:center;padding:16px;color:var(--muted)">${I18n.t('emptyList')}</div>`; }
+    else { this._recentEntries(filtered).forEach(item => { html += this._renderLancamentoItem(item); }); }
+    html += `</div></div>`;
+    c.innerHTML = html;
+    requestAnimationFrame(() => {
+      setTimeout(() => {
+        const ctx = document.getElementById('graficoBarras');
+        if(ctx){
+          try {
+            if(this.chartInstances.barras) this.chartInstances.barras.destroy();
+            this.chartInstances.barras = new Chart(ctx, {
+              type: 'bar',
+              data: { labels: [I18n.t('receitasPagas'), I18n.t('receitasPendentes'), I18n.t('despesasPagas'), I18n.t('despesasPendentes')], datasets: [{ data: [stats.rp, stats.rpnd, stats.dp, stats.dpnd], backgroundColor: ['#0ea5e9','#7dd3fc','#ef4444','#fca5a5'], borderRadius: 6 }] },
+              options: { responsive: true, plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true } } }
+            });
+          } catch(err){ console.error('Erro ao criar gráfico:', err); }
+        }
+      }, 50);
+    });
+  },
+
+  renderList(){
+    const c = document.getElementById('page-lista');
+    const entries = this.entries;
+    const m = this.listaMes, a = this.listaAno;
+    let filtered = Utils.filterByMonth(entries, m, a);
+    if(this.filtroStatus === 'pago') filtered = filtered.filter(x => x.pago === 'Pago');
+    else if(this.filtroStatus === 'pendente') filtered = filtered.filter(x => x.pago === 'Pendente');
+    const total = filtered.length;
+    const totalPages = Math.ceil(total / this.ITENS_POR_PAGINA) || 1;
+    if(this.listaPagina > totalPages) this.listaPagina = totalPages;
+    if(this.listaPagina < 1) this.listaPagina = 1;
+    const start = (this.listaPagina - 1) * this.ITENS_POR_PAGINA;
+    const end = Math.min(start + this.ITENS_POR_PAGINA, total);
+    const page = filtered.slice(start, end);
+    let html = `<div class="filtro-mes-ano"><button onclick="App.navegarLista(-1)"><i class="fas fa-chevron-left"></i> ${I18n.t('mesAnterior')}</button><span class="mes-ano-label">${I18n.getMonthName(m)} ${a}</span><button onclick="App.navegarLista(1)">${I18n.t('mesSeguinte')} <i class="fas fa-chevron-right"></i></button></div><div class="section-title"><i class="fas fa-list"></i> ${I18n.t('tabLancamentos')}</div><div class="filtro-status"><button class="filtro-btn ${this.filtroStatus==='todos'?'active':''}" data-filtro="todos" onclick="App.filtrarLista('todos')">${I18n.t('filtroStatusTodos')}</button><button class="filtro-btn ${this.filtroStatus==='pago'?'active':''}" data-filtro="pago" onclick="App.filtrarLista('pago')">${I18n.t('filtroStatusPago')}</button><button class="filtro-btn ${this.filtroStatus==='pendente'?'active':''}" data-filtro="pendente" onclick="App.filtrarLista('pendente')">${I18n.t('filtroStatusPendente')}</button></div>`;
+    if(total === 0){ html += `<div class="card" style="text-align:center;padding:20px;color:var(--muted)">${I18n.t('emptyList')}</div>`; c.innerHTML = html; return; }
+    if(total > this.ITENS_POR_PAGINA){ html += `<div class="paginacao"><button onclick="App.mudarPaginaLista(-1)" ${this.listaPagina<=1?'disabled':''}><i class="fas fa-chevron-left"></i></button><span class="info">${this.listaPagina}/${totalPages} (${total})</span><button onclick="App.mudarPaginaLista(1)" ${this.listaPagina>=totalPages?'disabled':''}><i class="fas fa-chevron-right"></i></button></div>`; }
+    html += `<div class="lista-container">`;
+    page.forEach(item => { html += this._renderEntryHtml(item); });
+    html += `</div>`;
+    if(total > this.ITENS_POR_PAGINA){ html += `<div class="paginacao"><button onclick="App.mudarPaginaLista(-1)" ${this.listaPagina<=1?'disabled':''}><i class="fas fa-chevron-left"></i></button><span class="info">${this.listaPagina}/${totalPages} (${total})</span><button onclick="App.mudarPaginaLista(1)" ${this.listaPagina>=totalPages?'disabled':''}><i class="fas fa-chevron-right"></i></button></div>`; }
+    c.innerHTML = html;
+  },
+
+  renderResumo(){
+    const c = document.getElementById('page-resumo');
+    const entries = this.entries;
+    const m = this.filtroMes, a = this.filtroAno;
+    const filtered = Utils.filterByMonth(entries, m, a);
+    let tr=0,td=0,sv=0,vd=0,dt=0,rp=0,rpnd=0,dp=0,dpnd=0;
+    filtered.forEach(item => {
+      const v = parseFloat(item.valor);
+      const tipoNorm = Utils.normalizeTipo(item.tipo);
+      if(tipoNorm === 'Despesa'){ td += v; dt += v; item.pago === 'Pago' ? dp += v : dpnd += v; }
+      else if(tipoNorm === 'Serviço'){ tr += v; sv += v; item.pago === 'Pago' ? rp += v : rpnd += v; }
+      else if(tipoNorm === 'Venda'){ tr += v; vd += v; item.pago === 'Pago' ? rp += v : rpnd += v; }
+    });
+    const saldo = tr - td;
+    const media = filtered.length ? (tr+td)/filtered.length : 0;
+    const totalMov = tr + td;
+    const porcentagem = totalMov > 0 ? ((tr/totalMov)*100) : 0;
+    const moeda = I18n.lang === 'pt' ? 'R$' : '$';
+    let html = `<div style="font-size:22px;font-weight:800;color:var(--primary);margin-bottom:10px"><i class="fas fa-file-alt"></i> ${I18n.t('resumo')}</div><div class="filtro-mes-ano"><button onclick="App.navegarResumo(-1)"><i class="fas fa-chevron-left"></i> ${I18n.t('mesAnterior')}</button><span class="mes-ano-label">${I18n.getMonthName(m)} ${a}</span><button onclick="App.navegarResumo(1)">${I18n.t('mesSeguinte')} <i class="fas fa-chevron-right"></i></button></div><div class="painel-grid-6"><div class="card-destaque" style="background:linear-gradient(135deg,var(--card-receita),#0284c7)"><div class="painel-desc"><i class="fas fa-arrow-up"></i> ${I18n.t('receitas')}</div><div class="painel-number-wrap"><span class="moeda">${moeda}</span><span class="painel-number">${I18n.formatMoney(tr).replace(/[R$]/g,'').replace(/[$]/g,'').trim()}</span></div></div><div class="card-destaque" style="background:linear-gradient(135deg,var(--card-despesa),#d97706)"><div class="painel-desc"><i class="fas fa-arrow-down"></i> ${I18n.t('despesas')}</div><div class="painel-number-wrap"><span class="moeda">${moeda}</span><span class="painel-number">${I18n.formatMoney(td).replace(/[R$]/g,'').replace(/[$]/g,'').trim()}</span></div></div><div class="card-destaque" style="background:linear-gradient(135deg,${saldo>=0?'var(--card-saldo-pos)':'var(--card-saldo-neg)'},${saldo>=0?'#059669':'#dc2626'})"><div class="painel-desc"><i class="fas fa-balance-scale"></i> ${I18n.t('saldo')}</div><div class="painel-number-wrap"><span class="moeda">${moeda}</span><span class="painel-number">${I18n.formatMoney(saldo).replace(/[R$]/g,'').replace(/[$]/g,'').trim()}</span></div></div><div class="card-destaque" style="background:linear-gradient(135deg,var(--card-media),#7c3aed)"><div class="painel-desc"><i class="fas fa-calculator"></i> ${I18n.t('media')}</div><div class="painel-number-wrap"><span class="moeda">${moeda}</span><span class="painel-number">${I18n.formatMoney(media).replace(/[R$]/g,'').replace(/[$]/g,'').trim()}</span></div></div><div class="card-destaque" style="background:linear-gradient(135deg,var(--card-qtd),#db2777)"><div class="painel-desc"><i class="fas fa-list"></i> ${I18n.t('quantidade')}</div><div class="painel-number-wrap"><span class="painel-number" style="font-size:18px">${filtered.length}</span></div></div><div class="card-destaque" style="background:linear-gradient(135deg,var(--card-porcentagem),#7c3aed)"><div class="painel-desc"><i class="fas fa-percent"></i> ${I18n.t('porcentagem')}</div><div class="painel-number-wrap"><span class="painel-number" style="font-size:18px">${porcentagem.toFixed(1)}%</span></div></div></div><div class="card"><div style="font-size:16px;font-weight:700;margin-bottom:6px"><i class="fas fa-chart-pie"></i> ${I18n.t('distribuicao')}</div><div class="grafico-resumo-container"><canvas id="graficoResumo"></canvas></div></div><div class="card"><div style="font-size:16px;font-weight:700;margin-bottom:6px"><i class="fas fa-tags"></i> ${I18n.t('resumoTipo')}</div><div class="resumo-por-tipo"><div class="resumo-tipo-item servico"><div class="tipo-label"><i class="fas fa-tools"></i> ${I18n.t('tipoServico')}</div><div class="tipo-value-wrap"><span class="moeda">${moeda}</span><span class="tipo-value">${I18n.formatMoney(sv).replace(/[R$]/g,'').replace(/[$]/g,'').trim()}</span></div></div><div class="resumo-tipo-item venda"><div class="tipo-label"><i class="fas fa-tag"></i> ${I18n.t('tipoVenda')}</div><div class="tipo-value-wrap"><span class="moeda">${moeda}</span><span class="tipo-value">${I18n.formatMoney(vd).replace(/[R$]/g,'').replace(/[$]/g,'').trim()}</span></div></div><div class="resumo-tipo-item despesa"><div class="tipo-label"><i class="fas fa-receipt"></i> ${I18n.t('tipoDespesa')}</div><div class="tipo-value-wrap"><span class="moeda">${moeda}</span><span class="tipo-value">${I18n.formatMoney(dt).replace(/[R$]/g,'').replace(/[$]/g,'').trim()}</span></div></div></div></div><div class="card card-lista-ultimos"><div style="font-size:16px;font-weight:700;margin-bottom:6px;padding:8px 12px 0 12px;"><i class="fas fa-list"></i> ${I18n.t('ultimosLancamentos')}</div><div class="ultimos-lancamentos">`;
+    if(filtered.length === 0){ html += `<div style="text-align:center;padding:16px;color:var(--muted)">${I18n.t('semLancamentos')}</div>`; }
+    else { this._recentEntries(filtered).forEach(item => { html += this._renderLancamentoItem(item); }); }
+    html += `</div></div>`;
+    c.innerHTML = html;
+    requestAnimationFrame(() => {
+      setTimeout(() => {
+        const ctx = document.getElementById('graficoResumo');
+        if(ctx){
+          try {
+            if(this.chartInstances.resumo) this.chartInstances.resumo.destroy();
+            this.chartInstances.resumo = new Chart(ctx, {
+              type: 'doughnut',
+              data: {
+                labels: [I18n.t('receitasPagas'), I18n.t('receitasPendentes'), I18n.t('despesasPagas'), I18n.t('despesasPendentes')],
+                datasets: [{ data: [rp, rpnd, dp, dpnd], backgroundColor: ['#0ea5e9','#7dd3fc','#ef4444','#fca5a5'], borderWidth: 2, borderColor: Theme.current === 'dark' ? '#1e293b' : '#fff' }]
+              },
+              options: {
+                responsive: true,
+                maintainAspectRatio: true,
+                aspectRatio: 1.2,
+                plugins: {
+                  legend: { position: 'right', labels: { padding: 14, usePointStyle: true, pointStyle: 'circle', font: { size: 13, weight: '600' }, boxWidth: 12 } },
+                  tooltip: { callbacks: { label: ctx => { const total = ctx.dataset.data.reduce((a,b) => a+b, 0); const p = total > 0 ? ((ctx.parsed/total)*100).toFixed(1) : 0; return ctx.label + ': ' + I18n.formatMoney(ctx.parsed) + ' (' + p + '%)'; } } }
+                }
+              }
+            });
+          } catch(err){ console.error('Erro ao criar gráfico:', err); }
+        }
+      }, 50);
+    });
+  },
+
+  renderReport(){
+    const c = document.getElementById('page-relatorio');
+    const entries = this.entries;
+    const a = this.relatorioAno || new Date().getFullYear();
+    const filtered = entries.filter(i => parseInt(i.data.split('-')[0]) === a);
+    let ts=0,tv=0,td=0,total=0,ra=0,da=0;
+    filtered.forEach(item => {
+      const v = parseFloat(item.valor);
+      const tipoNorm = Utils.normalizeTipo(item.tipo);
+      total += v;
+      if(tipoNorm === 'Despesa'){ td += v; da += v; }
+      else if(tipoNorm === 'Serviço'){ ts += v; ra += v; }
+      else if(tipoNorm === 'Venda'){ tv += v; ra += v; }
+    });
+    const saldo = ra - da;
+    const sc = saldo >= 0 ? 'saldo-positivo' : 'saldo-negativo';
+    const moeda = I18n.lang === 'pt' ? 'R$' : '$';
+    let html = `<div class="card"><div style="display:flex;gap:6px;flex-wrap:wrap;align-items:center"><button class="btn-pdf" onclick="App.gerarPDF()"><i class="fas fa-file-pdf"></i> ${I18n.t('baixarPDF')}</button><button class="btn-pdf" style="background:#64748b" onclick="App.abrirLimpeza()"><i class="fas fa-broom"></i> ${I18n.t('ferramentas')}</button><div class="backup-status-bar"><button class="btn-github-backup github-config" onclick="App.abrirConfigGitHub()"><i class="fas fa-cog"></i></button>${GitHubBackup.token ? `<button class="btn-github-backup github-save" onclick="App.salvarBackupNuvem()"><i class="fas fa-cloud-upload-alt"></i></button><button class="btn-github-backup github-restore" onclick="App.restaurarBackupNuvem()"><i class="fas fa-cloud-download-alt"></i></button><button class="btn-github-backup github-unlink" onclick="GitHubBackup.desvincular()"><i class="fas fa-unlink"></i></button>` : ''}<span id="githubStatus" class="github-status ${GitHubBackup.token?(GitHubBackup._status==='sync'?'sync':GitHubBackup._status==='error'?'error':'default'):''}"><i class="fas ${GitHubBackup.token?(GitHubBackup._status==='sync'?'fa-check-circle':GitHubBackup._status==='error'?'fa-exclamation-circle':'fa-cloud-upload-alt'):'fa-cloud'}"></i> <span>${GitHubBackup.token ? I18n.t('githubConfigurado') : I18n.t('githubNaoConfigurado')}</span></span></div></div></div><div class="filtro-ano-container" style="display:flex;align-items:center;justify-content:center;gap:8px;margin-bottom:12px"><button onclick="App.navegarRelatorioAno(-1)"><i class="fas fa-chevron-left"></i> ${I18n.t('anoAnterior')}</button><span style="font-size:20px;font-weight:700;min-width:60px;text-align:center">${a}</span><button onclick="App.navegarRelatorioAno(1)">${I18n.t('anoSeguinte')} <i class="fas fa-chevron-right"></i></button></div><div style="font-size:18px;font-weight:700;margin-bottom:10px"><i class="fas fa-calendar-alt"></i> ${I18n.t('resumo')} ${a}</div><div class="card"><div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px"><div class="relatorio-card" style="border-left-color:#0ea5e9"><div class="relatorio-label">${I18n.t('receitas')}</div><div class="relatorio-valor-wrap"><span class="moeda">${moeda}</span><span class="valor receita">${I18n.formatMoney(ra).replace(/[R$]/g,'').replace(/[$]/g,'').trim()}</span></div></div><div class="relatorio-card" style="border-left-color:#f59e0b"><div class="relatorio-label">${I18n.t('despesas')}</div><div class="relatorio-valor-wrap"><span class="moeda">${moeda}</span><span class="valor despesa">${I18n.formatMoney(da).replace(/[R$]/g,'').replace(/[$]/g,'').trim()}</span></div></div><div class="relatorio-card" style="border-left-color:${saldo>=0?'#10b981':'#ef4444'}"><div class="relatorio-label">${I18n.t('saldo')}</div><div class="relatorio-valor-wrap"><span class="moeda">${moeda}</span><span class="valor ${sc}">${I18n.formatMoney(saldo).replace(/[R$]/g,'').replace(/[$]/g,'').trim()}</span></div></div></div></div><div style="font-size:16px;font-weight:700;margin:12px 0 8px"><i class="fas fa-tags"></i> ${I18n.t('resumoTipo')}</div><div class="card"><div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px"><div class="tipo-card servico"><div class="tipo-label"><i class="fas fa-tools"></i> ${I18n.t('tipoServico')}</div><div class="tipo-valor-wrap"><span class="moeda">${moeda}</span><span class="tipo-valor">${I18n.formatMoney(ts).replace(/[R$]/g,'').replace(/[$]/g,'').trim()}</span></div></div><div class="tipo-card venda"><div class="tipo-label"><i class="fas fa-tag"></i> ${I18n.t('tipoVenda')}</div><div class="tipo-valor-wrap"><span class="moeda">${moeda}</span><span class="tipo-valor">${I18n.formatMoney(tv).replace(/[R$]/g,'').replace(/[$]/g,'').trim()}</span></div></div><div class="tipo-card despesa"><div class="tipo-label"><i class="fas fa-receipt"></i> ${I18n.t('tipoDespesa')}</div><div class="tipo-valor-wrap"><span class="moeda">${moeda}</span><span class="tipo-valor">${I18n.formatMoney(td).replace(/[R$]/g,'').replace(/[$]/g,'').trim()}</span></div></div></div></div><div class="card"><div style="display:flex;align-items:center;gap:12px"><span style="font-weight:700">${I18n.t('movimentacao')} ${a}</span><span style="font-size:20px;font-weight:800;color:var(--primary)">${I18n.formatMoney(total)}</span></div></div><div style="font-weight:700;margin:12px 0 8px"><i class="fas fa-list"></i> ${I18n.t('listagemCompleta')}</div><div class="card card-lista-completa"><div style="overflow-x:auto"><table><thead><tr><th>${I18n.t('labelData')}</th><th>${I18n.t('labelDesc')}</th><th>${I18n.t('labelTipo')}</th><th>${I18n.t('status')}</th><th>${I18n.t('labelValor')} (${I18n.lang==='pt'?'R$':'$'})</th></tr></thead><tbody>`;
+    if(filtered.length > 0){
+      const sorted = filtered.slice().sort((a,b) => a.data.localeCompare(b.data));
+      sorted.forEach(item => {
+        const v = parseFloat(item.valor);
+        const tipoNorm = Utils.normalizeTipo(item.tipo);
+        const isD = tipoNorm === 'Despesa';
+        const statusText = I18n.t(item.pago === 'Pago' ? 'statusPago' : 'statusPendente');
+        const statusColor = item.pago === 'Pago' ? '#059669' : '#dc2626';
+        html += `<tr><td>${I18n.formatDateShort(item.data)}</td><td>${Utils.escape(item.desc)}</td><td>${I18n.translateTipo(tipoNorm)}</td><td style="color:${statusColor};font-weight:600;">${statusText}</td><td style="color:${isD?'#dc2626':'#059669'};font-weight:700">${isD?'−':'+'} ${I18n.formatNumber(v)}</td></tr>`;
+      });
+    } else {
+      html += `<tr><td colspan="5" style="text-align:center;padding:20px;color:var(--muted)">${I18n.t('semLancamentos')}</td></tr>`;
+    }
+    html += `</tbody></table></div></div>`;
+    c.innerHTML = html;
+    GitHubBackup.atualizarStatusUI();
+  },
+
+  gerarPDF(){
+    const container = document.querySelector('#page-relatorio');
+    if(!container){ this.showToast('Erro ao gerar PDF', false); return; }
+    const clone = container.cloneNode(true);
+    clone.querySelector('.backup-status-bar')?.remove();
+    const toolCard = clone.querySelector('.card:has(.btn-pdf)');
+    if(toolCard) toolCard.remove();
+    const anoNav = clone.querySelector('.filtro-ano-container');
+    if(anoNav) anoNav.remove();
+    const tabela = clone.querySelector('table');
+    if(tabela){ tabela.style.width = '100%'; tabela.style.tableLayout = 'auto'; tabela.style.minWidth = '700px'; }
+    const card = clone.querySelector('.card-lista-completa');
+    if(card){ card.style.overflow = 'visible'; card.style.padding = '0'; }
+    clone.style.display = 'block';
+    clone.style.background = Theme.current === 'dark' ? '#1e293b' : '#fff';
+    clone.style.padding = '16px';
+    clone.style.borderRadius = '16px';
+    clone.style.width = 'auto';
+    const temp = document.createElement('div');
+    temp.style.cssText = 'position:absolute;left:-9999px;top:0;width:900px;';
+    temp.appendChild(clone);
+    document.body.appendChild(temp);
+    setTimeout(() => {
+      html2canvas(temp, { scale: 2, useCORS: true, backgroundColor: Theme.current === 'dark' ? '#1e293b' : '#fff', width: 900 })
+        .then(canvas => {
+          const img = canvas.toDataURL('image/png');
+          const pdf = new window.jspdf.jsPDF('p','mm','a4');
+          const pw = pdf.internal.pageSize.getWidth();
+          const ph = (canvas.height * pw) / canvas.width;
+          pdf.addImage(img, 'PNG', 0, 0, pw, ph);
+          pdf.save('relatorio_financas.pdf');
+          this.showToast(I18n.t('pdfDownloaded'), true);
+          document.body.removeChild(temp);
+        })
+        .catch(() => { this.showToast('Erro ao gerar PDF', false); document.body.removeChild(temp); });
+    }, 300);
+  },
+
+  navegarPainel(d){ this.painelMes += d; if(this.painelMes > 11){ this.painelMes = 0; this.painelAno++; } else if(this.painelMes < 0){ this.painelMes = 11; this.painelAno--; } this.renderDashboard(); },
+  navegarLista(d){ this.listaMes += d; if(this.listaMes > 11){ this.listaMes = 0; this.listaAno++; } else if(this.listaMes < 0){ this.listaMes = 11; this.listaAno--; } this.listaPagina = 1; this.renderList(); },
+  mudarPaginaLista(d){ this.listaPagina += d; this.renderList(); },
+  navegarRelatorioAno(d){ this.relatorioAno += d; this.renderReport(); },
+  navegarResumo(d){ this.filtroMes += d; if(this.filtroMes > 11){ this.filtroMes = 0; this.filtroAno++; } else if(this.filtroMes < 0){ this.filtroMes = 11; this.filtroAno--; } this.renderResumo(); },
+  filtrarLista(s){ this.filtroStatus = s; document.querySelectorAll('.filtro-btn').forEach(b => { b.classList.toggle('active', b.dataset.filtro === s); }); this.listaPagina = 1; this.renderList(); },
+
+  init(){
+    Storage.init(); Theme.init(); I18n.init(); Calculator.init(); DatePickerGlobal.init(); GitHubBackup.init();
+    document.getElementById('fotoInput').addEventListener('change', function(e){ const file = e.target.files[0]; if(!file) return; if(file.size > 4.5 * 1024 * 1024){ App.showToast(I18n.t('photoTooLarge'), false); e.target.value = ''; return; } const reader = new FileReader; reader.onload = ev => { localStorage.setItem('foto', ev.target.result); App.atualizarFotoPerfil(); App.atualizarFotoPerfilModal(); App.showToast(I18n.t('photoUpdated'), true); }; reader.readAsDataURL(file); e.target.value = ''; });
+    document.addEventListener('click', function(e) {
+      const btn = e.target.closest('.btn-actions');
+      if(btn){ e.stopPropagation(); App.toggleMenu(btn, e); return; }
+      if(!e.target.closest('.actions-menu-container')){ document.querySelectorAll('.actions-dropdown.open').forEach(d => d.classList.remove('open')); }
+    });
+    Storage.getAll().then(entries => {
+      this.entries = entries; this.filtroStatus = 'todos'; this._jaAlertou = false;
+      const n = new Date; this.filtroMes = n.getMonth(); this.filtroAno = n.getFullYear(); this.relatorioAno = n.getFullYear();
+      this.painelMes = n.getMonth(); this.painelAno = n.getFullYear(); this.listaMes = n.getMonth(); this.listaAno = n.getFullYear(); this.listaPagina = 1;
+      this._renderCurrentPage();
+      const nome = localStorage.getItem('nome') || I18n.t('perfil'); document.getElementById('userName').textContent = nome;
+      document.getElementById('headerDate').textContent = I18n._formatHeaderDate(); this.atualizarFotoPerfil(); I18n.updateUI(); this._alertarPendencias();
+    });
+  }
+};
+
+document.addEventListener('DOMContentLoaded', () => App.init());
+</script>
+</body>
+</html>
