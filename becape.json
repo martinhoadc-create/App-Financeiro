@@ -1,0 +1,49 @@
+{
+  "app": "financas-app-v2",
+  "appLabel": "Finanças App v2.0",
+  "version": "2.0",
+  "exportedAt": "2026-09-12T23:25:26.362Z",
+  "source": "github",
+  "user": {
+    "name": "Usuário",
+    "avatar": null
+  },
+  "transactions": [
+    {
+      "id": 1,
+      "type": "income",
+      "category": "service",
+      "status": "paid",
+      "amount": 600,
+      "date": 1789182000000,
+      "description": "Hidraulica"
+    },
+    {
+      "id": 2,
+      "type": "income",
+      "category": "sale",
+      "status": "paid",
+      "amount": 2000,
+      "date": 1789182000000,
+      "description": "Tv"
+    },
+    {
+      "id": 3,
+      "type": "expense",
+      "category": "expense",
+      "status": "paid",
+      "amount": 200,
+      "date": 1789182000000,
+      "description": "Agua"
+    },
+    {
+      "id": 4,
+      "type": "income",
+      "category": "service",
+      "status": "paid",
+      "amount": 350,
+      "date": 1789182000000,
+      "description": "Manutenção em freezer"
+    }
+  ]
+}
