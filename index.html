@@ -9,7 +9,7 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="format-detection" content="telephone=no,email=no,address=no">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' blob: https://cdnjs.cloudflare.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' data: https://fonts.gstatic.com; img-src 'self' data: blob:; connect-src 'self' blob: https://api.github.com; worker-src 'self' blob:; object-src 'none'; base-uri 'none';">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' blob: https://cdnjs.cloudflare.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' data: https://fonts.gstatic.com; img-src 'self' data: blob:; connect-src 'self' blob: https://api.github.com; worker-src 'self' blob:; object-src 'none'; base-uri 'none'; frame-ancestors 'none';">
 <title>Finanças App</title>
 <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
@@ -31,286 +31,286 @@
 </head>
 <body>
 <div class="app-wrapper">
-    <div class="toast" id="toast"></div>
-    <div class="dialog-overlay" id="dialogConfirm">
-        <div class="dialog-box">
-            <div class="dialog-icon"><span class="material-icons" id="confirmIcon">help</span></div>
-            <div class="dialog-title" id="confirmTitle">Confirmação</div>
-            <div class="dialog-message" id="confirmMessage">Tem certeza?</div>
-            <div class="dialog-actions" id="confirmActions"></div>
-        </div>
-    </div>
-    <div class="dialog-overlay" id="dialogAlert">
-        <div class="dialog-box">
-            <div class="dialog-icon"><span class="material-icons" id="alertIcon">info</span></div>
-            <div class="dialog-title" id="alertTitle">Aviso</div>
-            <div class="dialog-message" id="alertMessage">Mensagem</div>
-            <div class="dialog-actions"><button class="btn-ok" id="alertOk">OK</button></div>
-        </div>
-    </div>
-    <header class="app-header">
-        <div class="header-top">
-            <div class="header-left">
-                <div class="profile-avatar" onclick="openProfileModal()" aria-label="Editar perfil">
-                    <img id="profileImage" src="" alt="Foto" style="display:none;">
-                    <span id="profilePlaceholder" class="material-icons">person</span>
-                </div>
-                <div class="user-info">
-                    <div class="user-name" id="userNameDisplay">Usuário</div>
-                    <div class="user-greeting" id="greetingText">Bem-vindo!</div>
-                </div>
-            </div>
-            <div class="header-right">
-                <div class="conn-btn off" id="connBtn" role="status" aria-live="polite">
-                    <svg class="conn-icon" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
-                    <span class="conn-dot"></span>
-                </div>
-                <button class="lang-btn" onclick="toggleLang()" id="langBtn" aria-label="Trocar idioma">🇧🇷 PT</button>
-            </div>
-        </div>
-        <div class="header-bottom">
-            <div class="bottom-row">
-                <div class="header-date" id="headerDate"></div>
-                <button class="dark-btn" onclick="toggleDarkMode()" id="darkModeBtn" aria-label="Alternar tema">☀️</button>
-            </div>
-        </div>
-    </header>
-    <div class="content">
-        <div class="balance-card" id="balanceCard">
-            <div class="label" data-i18n="balance">Saldo</div>
-            <div class="value" id="balanceDisplay">R$ 0,00</div>
-            <div class="sub">
-                <span class="income"><span class="material-icons">arrow_upward</span><span id="totalIncome">R$ 0,00</span></span>
-                <span class="expense"><span class="material-icons">arrow_downward</span><span id="totalExpense">R$ 0,00</span></span>
-            </div>
-        </div>
-        <div id="page-home" class="page active">
-            <div class="filter-nav">
-                <button class="nav-btn" onclick="changeMonth('chart',-1)" aria-label="Mês anterior"><span class="material-icons">chevron_left</span></button>
-                <span class="filter-month-label" id="chartNavLabel">Janeiro 2026</span>
-                <button class="nav-btn" onclick="changeMonth('chart',1)" aria-label="Próximo mês"><span class="material-icons">chevron_right</span></button>
-                <button class="btn-today" onclick="goToMonthToday('chart')" data-i18n="today">Hoje</button>
-            </div>
-            <div class="chart-container">
-                <h3><span class="material-icons">bar_chart</span> <span data-i18n="chart_title">Distribuição por Categoria</span></h3>
-                <div class="chart-stats">
-                    <div class="chart-stat"><div class="stat-label" id="statLabelService" data-i18n="service">Serviço</div><div class="stat-value service" id="statService">R$ 0,00</div></div>
-                    <div class="chart-stat"><div class="stat-label" id="statLabelSale" data-i18n="sale">Venda</div><div class="stat-value sale" id="statSale">R$ 0,00</div></div>
-                    <div class="chart-stat"><div class="stat-label" id="statLabelExpense" data-i18n="expense">Despesa</div><div class="stat-value expense" id="statExpense">R$ 0,00</div></div>
-                </div>
-                <div id="chartBars"></div>
-                <div class="chart-total-simple" id="chartTotal"><span class="material-icons">attach_money</span> <span data-i18n="total_general">Total geral</span>: <strong>R$ 0,00</strong></div>
-            </div>
-            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;">
-                <h3 data-i18n="transactions_title" style="font-size:14px;color:var(--gray-500);display:flex;align-items:center;gap:6px;"><span class="material-icons" style="font-size:18px;color:var(--gray-500);">list</span> Últimas Transações</h3>
-                <span id="transactionCount" style="font-size:12px;color:var(--gray-500);">0</span>
-            </div>
-            <div id="transactionList"></div>
-            <button class="btn-view-all" onclick="switchPage('transactions')" data-i18n="view_all_transactions"><span class="material-icons" style="font-size:18px;">list</span> Ver todas as transações</button>
-        </div>
-        <div id="page-transactions" class="page">
-            <div class="filter-nav">
-                <button class="nav-btn" onclick="changeMonth('trans',-1)" aria-label="Mês anterior"><span class="material-icons">chevron_left</span></button>
-                <span class="filter-month-label" id="transNavLabel">Janeiro 2026</span>
-                <button class="nav-btn" onclick="changeMonth('trans',1)" aria-label="Próximo mês"><span class="material-icons">chevron_right</span></button>
-                <button class="btn-today" onclick="goToMonthToday('trans')" data-i18n="today">Hoje</button>
-            </div>
-            <div class="transactions-header">
-                <h3><span class="material-icons">list</span> <span data-i18n="all_transactions">Todas as Transações</span></h3>
-                <span class="count" id="transPageCount">0</span>
-            </div>
-            <div class="filter-row-transactions">
-                <div class="filter-group">
-                    <label for="statusFilter" data-i18n="filter_by_status">Situação:</label>
-                    <select id="statusFilter" onchange="applyFilter('status')">
-                        <option value="all" data-i18n="filter_all">Todos</option>
-                        <option value="paid" data-i18n="filter_paid">Pago</option>
-                        <option value="pending" data-i18n="filter_pending">Pendente</option>
-                    </select>
-                </div>
-                <div class="filter-group">
-                    <label for="categoryFilter" data-i18n="filter_by_category">Categoria:</label>
-                    <select id="categoryFilter" onchange="applyFilter('category')">
-                        <option value="all" data-i18n="cat_filter_all">Todas</option>
-                        <option value="service" data-i18n="cat_filter_service">Serviço</option>
-                        <option value="sale" data-i18n="cat_filter_sale">Venda</option>
-                        <option value="expense" data-i18n="cat_filter_expense">Despesa</option>
-                    </select>
-                </div>
-            </div>
-            <div id="allTransactionsList"></div>
-        </div>
-        <div id="page-reports" class="page">
-            <div class="filter-nav">
-                <button class="nav-btn" onclick="changeMonth('report',-1)" aria-label="Mês anterior"><span class="material-icons">chevron_left</span></button>
-                <span class="filter-month-label" id="reportMonthLabel">Janeiro 2026</span>
-                <button class="nav-btn" onclick="changeMonth('report',1)" aria-label="Próximo mês"><span class="material-icons">chevron_right</span></button>
-                <button class="btn-today" onclick="goToMonthToday('report')" data-i18n="today">Hoje</button>
-            </div>
-            <div class="report-header-row">
-                <h3 class="report-section-title"><span class="material-icons">insights</span> <span data-i18n="report_summary_title">Resumo do Mês</span></h3>
-                <button class="pdf-btn" onclick="downloadReportPDF()" aria-label="Baixar PDF">
-                    <span class="material-icons">picture_as_pdf</span>
-                    <span data-i18n="pdf_download">Baixar PDF</span>
-                </button>
-            </div>
-            <div class="report-summary">
-                <div class="report-card"><div class="label" data-i18n="total_income">Total Receitas</div><div class="value income" id="reportIncome">R$ 0,00</div></div>
-                <div class="report-card"><div class="label" data-i18n="total_expense">Total Despesas</div><div class="value expense" id="reportExpense">R$ 0,00</div></div>
-                <div class="report-card"><div class="label" data-i18n="balance">Saldo</div><div class="value total" id="reportBalance">R$ 0,00</div></div>
-                <div class="report-card"><div class="label" data-i18n="average">Média</div><div class="value average" id="reportAverage">R$ 0,00</div></div>
-            </div>
-            <h3 class="report-section-title"><span class="material-icons">category</span> <span data-i18n="report_category_title">Resumo por Categoria</span></h3>
-            <div class="report-category-summary">
-                <div class="report-category-card"><div class="label" data-i18n="service">Serviços</div><div class="value service" id="reportCatService">R$ 0,00</div></div>
-                <div class="report-category-card"><div class="label" data-i18n="sale">Vendas</div><div class="value sale" id="reportCatSale">R$ 0,00</div></div>
-                <div class="report-category-card"><div class="label" data-i18n="expense">Despesas</div><div class="value expense" id="reportCatExpense">R$ 0,00</div></div>
-                <div class="report-category-card"><div class="label" data-i18n="total_annual">Total Anual</div><div class="value annual" id="reportCatAnnual">R$ 0,00</div></div>
-            </div>
-            <div id="reportDetail">
-                <h4 id="detailTitle"><span class="material-icons">receipt_long</span> <span data-i18n="detail_title">Transações Detalhadas</span></h4>
-                <div id="reportList"></div>
-            </div>
-        </div>
-        <div id="page-settings" class="page">
-            <div class="settings-section">
-                <h4><span class="material-icons">cloud</span> <span data-i18n="github_backup">Backup GitHub</span></h4>
-                <div class="settings-item">
-                    <div class="info"><span class="material-icons" id="ghConnIcon" style="color:var(--primary);">link</span><div><div class="text" id="ghConnLabel">Conectar ao GitHub</div><div class="sub" id="ghConnDesc">Configure repositório e token</div></div></div>
-                    <button class="settings-btn primary" id="ghDisconnectBtn" onclick="handleConnToggle()" aria-label="Conectar GitHub"><span class="material-icons" id="ghConnBtnIcon" style="font-size:14px;">login</span></button>
-                </div>
-                <div class="settings-item">
-                    <div class="info"><span class="material-icons">cloud_upload</span><div><div class="text" data-i18n="github_backup_now">Fazer Backup Agora</div><div class="sub" data-i18n="github_backup_desc">Envia JSON para o repositório</div></div></div>
-                    <button class="settings-btn success" onclick="githubBackup()" aria-label="Backup GitHub"><span class="material-icons" style="font-size:14px;">upload</span></button>
-                </div>
-                <div class="settings-item">
-                    <div class="info"><span class="material-icons">cloud_download</span><div><div class="text" data-i18n="github_restore_now">Restaurar do GitHub</div><div class="sub" data-i18n="github_restore_desc">Substitui os dados atuais</div></div></div>
-                    <button class="settings-btn warning" onclick="githubRestore()" aria-label="Restaurar GitHub"><span class="material-icons" style="font-size:14px;">download</span></button>
-                </div>
-            </div>
-            <div class="settings-section">
-                <h4><span class="material-icons">schedule</span> <span data-i18n="auto_backup_title">Backup Automático</span></h4>
-                <div class="settings-item" style="border-bottom:none;">
-                    <div class="info">
-                        <span class="material-icons">autorenew</span>
-                        <div>
-                            <div class="text" data-i18n="auto_backup_freq">Backup Automático</div>
-                            <div class="sub" data-i18n="auto_backup_desc">Faz backup em cada lançamento e a cada 6 horas</div>
-                        </div>
-                    </div>
-                    <button id="autoBackupToggle" class="settings-btn danger" onclick="toggleAutoBackup()" aria-label="Alternar backup automático">
-                        <span class="material-icons" style="font-size:14px;" id="autoBackupToggleIcon">toggle_off</span>
-                        <span id="autoBackupToggleLabel">Desligado</span>
-                    </button>
-                </div>
-            </div>
-            <div class="settings-section">
-                <h4><span class="material-icons" style="color:var(--danger);">delete</span> <span data-i18n="danger_zone">Zona de Perigo</span></h4>
-                <div class="settings-item" style="border-bottom:none;padding:8px 0;">
-                    <div class="info"><span class="material-icons" style="color:var(--danger);">cleaning_services</span><div><div class="text" data-i18n="open_clear_tools">Abrir Ferramentas de Limpeza</div><div class="sub" data-i18n="open_clear_tools_desc">Gerencie a exclusão de transações, perfil e dados</div></div></div>
-                    <button class="settings-btn danger" onclick="openClearModal()"><span class="material-icons" style="font-size:14px;">open_in_new</span><span data-i18n="open">Abrir</span></button>
-                </div>
-            </div>
-        </div>
-    </div>
-    <button class="fab" onclick="openModal()" aria-label="Adicionar transação"><span class="material-icons">add</span></button>
-    <nav class="bottom-nav">
-        <button class="nav-item active" data-page="home" onclick="switchPage('home')" aria-label="Início"><span class="material-icons">home</span><span data-i18n="nav_home">Início</span></button>
-        <button class="nav-item" data-page="transactions" onclick="switchPage('transactions')" aria-label="Transações"><span class="material-icons">list</span><span data-i18n="nav_transactions">Transações</span></button>
-        <button class="nav-item" data-page="reports" onclick="switchPage('reports')" aria-label="Relatórios"><span class="material-icons">insights</span><span data-i18n="nav_reports">Relatórios</span></button>
-        <button class="nav-item" data-page="settings" onclick="switchPage('settings')" aria-label="Configurações"><span class="material-icons">settings</span><span data-i18n="nav_settings">Config</span></button>
-    </nav>
+<div class="toast" id="toast"></div>
+<div class="dialog-overlay" id="dialogConfirm">
+<div class="dialog-box">
+<div class="dialog-icon"><span class="material-icons" id="confirmIcon">help</span></div>
+<div class="dialog-title" id="confirmTitle">Confirmação</div>
+<div class="dialog-message" id="confirmMessage">Tem certeza?</div>
+<div class="dialog-actions" id="confirmActions"></div>
+</div>
+</div>
+<div class="dialog-overlay" id="dialogAlert">
+<div class="dialog-box">
+<div class="dialog-icon"><span class="material-icons" id="alertIcon">info</span></div>
+<div class="dialog-title" id="alertTitle">Aviso</div>
+<div class="dialog-message" id="alertMessage">Mensagem</div>
+<div class="dialog-actions"><button class="btn-ok" id="alertOk">OK</button></div>
+</div>
+</div>
+<header class="app-header">
+<div class="header-top">
+<div class="header-left">
+<div class="profile-avatar" onclick="openProfileModal()" aria-label="Editar perfil">
+<img id="profileImage" src="" alt="Foto" style="display:none;">
+<span id="profilePlaceholder" class="material-icons">person</span>
+</div>
+<div class="user-info">
+<div class="user-name" id="userNameDisplay">Usuário</div>
+<div class="user-greeting" id="greetingText">Bem-vindo!</div>
+</div>
+</div>
+<div class="header-right">
+<div class="conn-btn off" id="connBtn" role="status" aria-live="polite">
+<svg class="conn-icon" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
+<span class="conn-dot"></span>
+</div>
+<button class="lang-btn" onclick="toggleLang()" id="langBtn" aria-label="Trocar idioma">🇧🇷 PT</button>
+</div>
+</div>
+<div class="header-bottom">
+<div class="bottom-row">
+<div class="header-date" id="headerDate"></div>
+<button class="dark-btn" onclick="toggleDarkMode()" id="darkModeBtn" aria-label="Alternar tema">☀️</button>
+</div>
+</div>
+</header>
+<div class="content">
+<div class="balance-card" id="balanceCard">
+<div class="label" data-i18n="balance">Saldo</div>
+<div class="value" id="balanceDisplay">R$ 0,00</div>
+<div class="sub">
+<span class="income"><span class="material-icons">arrow_upward</span><span id="totalIncome">R$ 0,00</span></span>
+<span class="expense"><span class="material-icons">arrow_downward</span><span id="totalExpense">R$ 0,00</span></span>
+</div>
+</div>
+<div id="page-home" class="page active">
+<div class="filter-nav">
+<button class="nav-btn" onclick="changeMonth('chart',-1)" aria-label="Mês anterior"><span class="material-icons">chevron_left</span></button>
+<span class="filter-month-label" id="chartNavLabel">Janeiro 2026</span>
+<button class="nav-btn" onclick="changeMonth('chart',1)" aria-label="Próximo mês"><span class="material-icons">chevron_right</span></button>
+<button class="btn-today" onclick="goToMonthToday('chart')" data-i18n="today">Hoje</button>
+</div>
+<div class="chart-container">
+<h3><span class="material-icons">bar_chart</span> <span data-i18n="chart_title">Distribuição por Categoria</span></h3>
+<div class="chart-stats">
+<div class="chart-stat"><div class="stat-label" id="statLabelService" data-i18n="service">Serviço</div><div class="stat-value service" id="statService">R$ 0,00</div></div>
+<div class="chart-stat"><div class="stat-label" id="statLabelSale" data-i18n="sale">Venda</div><div class="stat-value sale" id="statSale">R$ 0,00</div></div>
+<div class="chart-stat"><div class="stat-label" id="statLabelExpense" data-i18n="expense">Despesa</div><div class="stat-value expense" id="statExpense">R$ 0,00</div></div>
+</div>
+<div id="chartBars"></div>
+<div class="chart-total-simple" id="chartTotal"><span class="material-icons">attach_money</span> <span data-i18n="total_general">Total geral</span>: <strong>R$ 0,00</strong></div>
+</div>
+<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;">
+<h3 data-i18n="transactions_title" style="font-size:14px;color:var(--gray-500);display:flex;align-items:center;gap:6px;"><span class="material-icons" style="font-size:18px;color:var(--gray-500);">list</span> Últimas Transações</h3>
+<span id="transactionCount" style="font-size:12px;color:var(--gray-500);">0</span>
+</div>
+<div id="transactionList"></div>
+<button class="btn-view-all" onclick="switchPage('transactions')" data-i18n="view_all_transactions"><span class="material-icons" style="font-size:18px;">list</span> Ver todas as transações</button>
+</div>
+<div id="page-transactions" class="page">
+<div class="filter-nav">
+<button class="nav-btn" onclick="changeMonth('trans',-1)" aria-label="Mês anterior"><span class="material-icons">chevron_left</span></button>
+<span class="filter-month-label" id="transNavLabel">Janeiro 2026</span>
+<button class="nav-btn" onclick="changeMonth('trans',1)" aria-label="Próximo mês"><span class="material-icons">chevron_right</span></button>
+<button class="btn-today" onclick="goToMonthToday('trans')" data-i18n="today">Hoje</button>
+</div>
+<div class="transactions-header">
+<h3><span class="material-icons">list</span> <span data-i18n="all_transactions">Todas as Transações</span></h3>
+<span class="count" id="transPageCount">0</span>
+</div>
+<div class="filter-row-transactions">
+<div class="filter-group">
+<label for="statusFilter" data-i18n="filter_by_status">Situação:</label>
+<select id="statusFilter" onchange="applyFilter('status')">
+<option value="all" data-i18n="filter_all">Todos</option>
+<option value="paid" data-i18n="filter_paid">Pago</option>
+<option value="pending" data-i18n="filter_pending">Pendente</option>
+</select>
+</div>
+<div class="filter-group">
+<label for="categoryFilter" data-i18n="filter_by_category">Categoria:</label>
+<select id="categoryFilter" onchange="applyFilter('category')">
+<option value="all" data-i18n="cat_filter_all">Todas</option>
+<option value="service" data-i18n="cat_filter_service">Serviço</option>
+<option value="sale" data-i18n="cat_filter_sale">Venda</option>
+<option value="expense" data-i18n="cat_filter_expense">Despesa</option>
+</select>
+</div>
+</div>
+<div id="allTransactionsList"></div>
+</div>
+<div id="page-reports" class="page">
+<div class="filter-nav">
+<button class="nav-btn" onclick="changeMonth('report',-1)" aria-label="Mês anterior"><span class="material-icons">chevron_left</span></button>
+<span class="filter-month-label" id="reportMonthLabel">Janeiro 2026</span>
+<button class="nav-btn" onclick="changeMonth('report',1)" aria-label="Próximo mês"><span class="material-icons">chevron_right</span></button>
+<button class="btn-today" onclick="goToMonthToday('report')" data-i18n="today">Hoje</button>
+</div>
+<div class="report-header-row">
+<h3 class="report-section-title"><span class="material-icons">insights</span> <span data-i18n="report_summary_title">Resumo do Mês</span></h3>
+<button class="pdf-btn" onclick="downloadReportPDF()" aria-label="Baixar PDF">
+<span class="material-icons">picture_as_pdf</span>
+<span data-i18n="pdf_download">Baixar PDF</span>
+</button>
+</div>
+<div class="report-summary">
+<div class="report-card"><div class="label" data-i18n="total_income">Total Receitas</div><div class="value income" id="reportIncome">R$ 0,00</div></div>
+<div class="report-card"><div class="label" data-i18n="total_expense">Total Despesas</div><div class="value expense" id="reportExpense">R$ 0,00</div></div>
+<div class="report-card"><div class="label" data-i18n="balance">Saldo</div><div class="value total" id="reportBalance">R$ 0,00</div></div>
+<div class="report-card"><div class="label" data-i18n="average">Média</div><div class="value average" id="reportAverage">R$ 0,00</div></div>
+</div>
+<h3 class="report-section-title"><span class="material-icons">category</span> <span data-i18n="report_category_title">Resumo por Categoria</span></h3>
+<div class="report-category-summary">
+<div class="report-category-card"><div class="label" data-i18n="service">Serviços</div><div class="value service" id="reportCatService">R$ 0,00</div></div>
+<div class="report-category-card"><div class="label" data-i18n="sale">Vendas</div><div class="value sale" id="reportCatSale">R$ 0,00</div></div>
+<div class="report-category-card"><div class="label" data-i18n="expense">Despesas</div><div class="value expense" id="reportCatExpense">R$ 0,00</div></div>
+<div class="report-category-card"><div class="label" data-i18n="total_annual">Total Anual</div><div class="value annual" id="reportCatAnnual">R$ 0,00</div></div>
+</div>
+<div id="reportDetail">
+<h4 id="detailTitle"><span class="material-icons">receipt_long</span> <span data-i18n="detail_title">Transações Detalhadas</span></h4>
+<div id="reportList"></div>
+</div>
+</div>
+<div id="page-settings" class="page">
+<div class="settings-section">
+<h4><span class="material-icons">cloud</span> <span data-i18n="github_backup">Backup GitHub</span></h4>
+<div class="settings-item">
+<div class="info"><span class="material-icons" id="ghConnIcon" style="color:var(--primary);">link</span><div><div class="text" id="ghConnLabel">Conectar ao GitHub</div><div class="sub" id="ghConnDesc">Configure repositório e token</div></div></div>
+<button class="settings-btn primary" id="ghDisconnectBtn" onclick="handleConnToggle()" aria-label="Conectar GitHub"><span class="material-icons" id="ghConnBtnIcon" style="font-size:14px;">login</span></button>
+</div>
+<div class="settings-item">
+<div class="info"><span class="material-icons">cloud_upload</span><div><div class="text" data-i18n="github_backup_now">Fazer Backup Agora</div><div class="sub" data-i18n="github_backup_desc">Envia JSON para o repositório</div></div></div>
+<button class="settings-btn success" onclick="githubBackup()" aria-label="Backup GitHub"><span class="material-icons" style="font-size:14px;">upload</span></button>
+</div>
+<div class="settings-item">
+<div class="info"><span class="material-icons">cloud_download</span><div><div class="text" data-i18n="github_restore_now">Restaurar do GitHub</div><div class="sub" data-i18n="github_restore_desc">Substitui os dados atuais</div></div></div>
+<button class="settings-btn warning" onclick="githubRestore()" aria-label="Restaurar GitHub"><span class="material-icons" style="font-size:14px;">download</span></button>
+</div>
+</div>
+<div class="settings-section">
+<h4><span class="material-icons">schedule</span> <span data-i18n="auto_backup_title">Backup Automático</span></h4>
+<div class="settings-item" style="border-bottom:none;">
+<div class="info">
+<span class="material-icons">autorenew</span>
+<div>
+<div class="text" data-i18n="auto_backup_freq">Backup Automático</div>
+<div class="sub" data-i18n="auto_backup_desc">Faz backup em cada lançamento e a cada 6 horas</div>
+</div>
+</div>
+<button id="autoBackupToggle" class="settings-btn danger" onclick="toggleAutoBackup()" aria-label="Alternar backup automático">
+<span class="material-icons" style="font-size:14px;" id="autoBackupToggleIcon">toggle_off</span>
+<span id="autoBackupToggleLabel">Desligado</span>
+</button>
+</div>
+</div>
+<div class="settings-section">
+<h4><span class="material-icons" style="color:var(--danger);">delete</span> <span data-i18n="danger_zone">Zona de Perigo</span></h4>
+<div class="settings-item" style="border-bottom:none;padding:8px 0;">
+<div class="info"><span class="material-icons" style="color:var(--danger);">cleaning_services</span><div><div class="text" data-i18n="open_clear_tools">Abrir Ferramentas de Limpeza</div><div class="sub" data-i18n="open_clear_tools_desc">Gerencie a exclusão de transações, perfil e dados</div></div></div>
+<button class="settings-btn danger" onclick="openClearModal()"><span class="material-icons" style="font-size:14px;">open_in_new</span><span data-i18n="open">Abrir</span></button>
+</div>
+</div>
+</div>
+</div>
+<button class="fab" onclick="openModal()" aria-label="Adicionar transação"><span class="material-icons">add</span></button>
+<nav class="bottom-nav">
+<button class="nav-item active" data-page="home" onclick="switchPage('home')" aria-label="Início"><span class="material-icons">home</span><span data-i18n="nav_home">Início</span></button>
+<button class="nav-item" data-page="transactions" onclick="switchPage('transactions')" aria-label="Transações"><span class="material-icons">list</span><span data-i18n="nav_transactions">Transações</span></button>
+<button class="nav-item" data-page="reports" onclick="switchPage('reports')" aria-label="Relatórios"><span class="material-icons">insights</span><span data-i18n="nav_reports">Relatórios</span></button>
+<button class="nav-item" data-page="settings" onclick="switchPage('settings')" aria-label="Configurações"><span class="material-icons">settings</span><span data-i18n="nav_settings">Config</span></button>
+</nav>
 </div>
 <div class="modal-overlay" id="modal">
-    <div class="modal">
-        <div class="modal-header"><h2 id="modalTitle" data-i18n="new_transaction">Nova Transação</h2><button class="modal-close" onclick="closeModal()" aria-label="Fechar">✕</button></div>
-        <input type="hidden" id="editId" value="-1">
-        <div class="form-group"><label data-i18n="description">Descrição</label><input type="text" id="formDescription" data-i18n-placeholder="example_description" placeholder="Ex: Consultoria, Venda..."></div>
-        <div class="form-group"><label data-i18n="category">Categoria</label><select id="formCategory"><option value="service" data-i18n="cat_filter_service">Serviço</option><option value="sale" data-i18n="cat_filter_sale">Venda</option><option value="expense" data-i18n="cat_filter_expense">Despesa</option></select></div>
-        <div class="form-group"><label data-i18n="status">Situação</label><select id="formStatus"><option value="paid" data-i18n="filter_paid">Pago</option><option value="pending" data-i18n="filter_pending">Pendente</option></select></div>
-        <div class="form-row">
-            <div class="form-group"><label data-i18n="amount">Valor (R$)</label><div class="custom-amount-wrapper"><input class="amount-input" type="text" id="formAmount" placeholder="R$ 0,00" inputmode="none" readonly onclick="openNumpadModal()"></div></div>
-            <div class="form-group"><label data-i18n="date">Data</label><div class="custom-date-wrapper"><input class="date-input" type="text" id="formDate" placeholder="DD/MM/AAAA" readonly onclick="openCalendarModal('formDate')"></div></div>
-        </div>
-        <button class="btn-primary" onclick="saveTransaction()"><span id="saveBtn" data-i18n="save">Salvar</span></button>
-    </div>
+<div class="modal">
+<div class="modal-header"><h2 id="modalTitle" data-i18n="new_transaction">Nova Transação</h2><button class="modal-close" onclick="closeModal()" aria-label="Fechar">✕</button></div>
+<input type="hidden" id="editId" value="-1">
+<div class="form-group"><label data-i18n="description">Descrição</label><input type="text" id="formDescription" data-i18n-placeholder="example_description" placeholder="Ex: Consultoria, Venda..."></div>
+<div class="form-group"><label data-i18n="category">Categoria</label><select id="formCategory"><option value="service" data-i18n="cat_filter_service">Serviço</option><option value="sale" data-i18n="cat_filter_sale">Venda</option><option value="expense" data-i18n="cat_filter_expense">Despesa</option></select></div>
+<div class="form-group"><label data-i18n="status">Situação</label><select id="formStatus"><option value="paid" data-i18n="filter_paid">Pago</option><option value="pending" data-i18n="filter_pending">Pendente</option></select></div>
+<div class="form-row">
+<div class="form-group"><label data-i18n="amount">Valor (R$)</label><div class="custom-amount-wrapper"><input class="amount-input" type="text" id="formAmount" placeholder="R$ 0,00" inputmode="none" readonly onclick="openNumpadModal()"></div></div>
+<div class="form-group"><label data-i18n="date">Data</label><div class="custom-date-wrapper"><input class="date-input" type="text" id="formDate" placeholder="DD/MM/AAAA" readonly onclick="openCalendarModal('formDate')"></div></div>
+</div>
+<button class="btn-primary" onclick="saveTransaction()"><span id="saveBtn" data-i18n="save">Salvar</span></button>
+</div>
 </div>
 <div class="modal-overlay" id="clearModal">
-    <div class="modal clear-modal">
-        <div class="modal-header"><h2><span class="material-icons">cleaning_services</span> <span data-i18n="clear_tools_title">Ferramentas de Limpeza</span></h2><button class="modal-close" onclick="closeClearModal()" aria-label="Fechar">✕</button></div>
-        <div class="clear-options" id="clearOptionsContainer"></div>
-        <button class="btn-clear-execute" onclick="executeClear()"><span class="material-icons">delete</span><span data-i18n="clear_btn">Limpar</span></button>
-    </div>
+<div class="modal clear-modal">
+<div class="modal-header"><h2><span class="material-icons">cleaning_services</span> <span data-i18n="clear_tools_title">Ferramentas de Limpeza</span></h2><button class="modal-close" onclick="closeClearModal()" aria-label="Fechar">✕</button></div>
+<div class="clear-options" id="clearOptionsContainer"></div>
+<button class="btn-clear-execute" onclick="executeClear()"><span class="material-icons">delete</span><span data-i18n="clear_btn">Limpar</span></button>
+</div>
 </div>
 <div class="numpad-modal-overlay" id="numpadModalOverlay">
-    <div class="numpad-modal">
-        <div class="numpad-display" id="numpadDisplay">R$ 0,00</div>
-        <div class="numpad-grid">
-            <button onclick="numpadPress('7')">7</button><button onclick="numpadPress('8')">8</button><button onclick="numpadPress('9')">9</button><button onclick="numpadPress('÷')" class="num-operator">÷</button>
-            <button onclick="numpadPress('4')">4</button><button onclick="numpadPress('5')">5</button><button onclick="numpadPress('6')">6</button><button onclick="numpadPress('×')" class="num-operator">×</button>
-            <button onclick="numpadPress('1')">1</button><button onclick="numpadPress('2')">2</button><button onclick="numpadPress('3')">3</button><button onclick="numpadPress('-')" class="num-operator">−</button>
-            <button onclick="numpadPress('0')">0</button><button onclick="numpadPress('00')">00</button><button onclick="numpadPress('.')" class="num-comma">.</button><button onclick="numpadPress('+')" class="num-operator">+</button>
-            <button onclick="numpadPress('clear')" class="num-clear">C</button><button onclick="numpadPress('%')" class="num-operator">%</button><button onclick="numpadPress('backspace')" class="num-clear">←</button><button onclick="numpadPress('=')" class="num-equal">=</button>
-        </div>
-        <div class="numpad-actions">
-            <button class="btn-close-numpad" onclick="closeNumpadModal()" data-i18n="close">× Fechar</button>
-            <button class="btn-apply-numpad" onclick="applyNumpad()" data-i18n="apply">Aplicar</button>
-        </div>
-    </div>
+<div class="numpad-modal">
+<div class="numpad-display" id="numpadDisplay">R$ 0,00</div>
+<div class="numpad-grid">
+<button onclick="numpadPress('7')">7</button><button onclick="numpadPress('8')">8</button><button onclick="numpadPress('9')">9</button><button onclick="numpadPress('÷')" class="num-operator">÷</button>
+<button onclick="numpadPress('4')">4</button><button onclick="numpadPress('5')">5</button><button onclick="numpadPress('6')">6</button><button onclick="numpadPress('×')" class="num-operator">×</button>
+<button onclick="numpadPress('1')">1</button><button onclick="numpadPress('2')">2</button><button onclick="numpadPress('3')">3</button><button onclick="numpadPress('-')" class="num-operator">−</button>
+<button onclick="numpadPress('0')">0</button><button onclick="numpadPress('00')">00</button><button onclick="numpadPress('.')" class="num-comma">.</button><button onclick="numpadPress('+')" class="num-operator">+</button>
+<button onclick="numpadPress('clear')" class="num-clear">C</button><button onclick="numpadPress('%')" class="num-operator">%</button><button onclick="numpadPress('backspace')" class="num-clear">←</button><button onclick="numpadPress('=')" class="num-equal">=</button>
+</div>
+<div class="numpad-actions">
+<button class="btn-close-numpad" onclick="closeNumpadModal()" data-i18n="close">× Fechar</button>
+<button class="btn-apply-numpad" onclick="applyNumpad()" data-i18n="apply">Aplicar</button>
+</div>
+</div>
 </div>
 <div class="calendar-modal-overlay" id="calendarModalOverlay">
-    <div class="calendar-modal">
-        <div class="calendar-header">
-            <button type="button" onclick="changeCalendarMonth(-1)" aria-label="Mês anterior">‹</button>
-            <span class="month-year" id="calendarMonthYear"></span>
-            <button type="button" onclick="changeCalendarMonth(1)" aria-label="Próximo mês">›</button>
-        </div>
-        <div class="calendar-grid" id="calendarDays"></div>
-        <div class="calendar-actions">
-            <button class="btn-clear-cal" onclick="clearDate()" data-i18n="clear">Limpar</button>
-            <button class="btn-cancel-cal" onclick="closeCalendarModal()" data-i18n="cancel">Cancelar</button>
-            <button class="btn-confirm-cal" onclick="confirmDate()" data-i18n="confirm">Confirmar</button>
-        </div>
-    </div>
+<div class="calendar-modal">
+<div class="calendar-header">
+<button type="button" onclick="changeCalendarMonth(-1)" aria-label="Mês anterior">‹</button>
+<span class="month-year" id="calendarMonthYear"></span>
+<button type="button" onclick="changeCalendarMonth(1)" aria-label="Próximo mês">›</button>
+</div>
+<div class="calendar-grid" id="calendarDays"></div>
+<div class="calendar-actions">
+<button class="btn-clear-cal" onclick="clearDate()" data-i18n="clear">Limpar</button>
+<button class="btn-cancel-cal" onclick="closeCalendarModal()" data-i18n="cancel">Cancelar</button>
+<button class="btn-confirm-cal" onclick="confirmDate()" data-i18n="confirm">Confirmar</button>
+</div>
+</div>
 </div>
 <div class="modal-overlay" id="profileModal">
-    <div class="modal">
-        <div class="modal-header"><h2 data-i18n="edit_profile">Editar Perfil</h2><button class="modal-close" onclick="closeProfileModal()" aria-label="Fechar">✕</button></div>
-        <div class="profile-pic-upload">
-            <div class="preview" onclick="document.getElementById('avatarInput').click()">
-                <img id="profilePreview" src="" alt="Foto" style="display:none;">
-                <span id="profilePreviewPlaceholder" class="material-icons">person</span>
-                <div class="overlay"><span class="material-icons">photo_camera</span></div>
-            </div>
-            <input type="file" id="avatarInput" accept="image/*" onchange="handleAvatarUpload(event)">
-            <span class="hint" data-i18n="click_to_change">Clique na foto para alterar</span>
-        </div>
-        <div class="form-group"><label data-i18n="name">Nome</label><input type="text" id="profileNameInput" placeholder="Seu nome"></div>
-        <button class="btn-primary" onclick="saveProfile()"><span data-i18n="save">Salvar</span></button>
-    </div>
+<div class="modal">
+<div class="modal-header"><h2 data-i18n="edit_profile">Editar Perfil</h2><button class="modal-close" onclick="closeProfileModal()" aria-label="Fechar">✕</button></div>
+<div class="profile-pic-upload">
+<div class="preview" onclick="document.getElementById('avatarInput').click()">
+<img id="profilePreview" src="" alt="Foto" style="display:none;">
+<span id="profilePreviewPlaceholder" class="material-icons">person</span>
+<div class="overlay"><span class="material-icons">photo_camera</span></div>
+</div>
+<input type="file" id="avatarInput" accept="image/*" onchange="handleAvatarUpload(event)">
+<span class="hint" data-i18n="click_to_change">Clique na foto para alterar</span>
+</div>
+<div class="form-group"><label data-i18n="name">Nome</label><input type="text" id="profileNameInput" placeholder="Seu nome"></div>
+<button class="btn-primary" onclick="saveProfile()"><span data-i18n="save">Salvar</span></button>
+</div>
 </div>
 <div class="modal-overlay" id="githubModal">
-    <div class="modal">
-        <div class="modal-header"><h2><span class="material-icons">cloud</span> <span data-i18n="github_config_title">Configurar GitHub</span></h2><button class="modal-close" onclick="closeGithubModal()" aria-label="Fechar">✕</button></div>
-        <div class="form-group"><label data-i18n="github_repo">Repositório (owner/repo)</label><input type="text" id="ghRepo" data-i18n-placeholder="github_repo_ph" placeholder="usuario/meu-backup" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false" oninput="sanitizeInput('ghRepo', sanitizeRepo)"></div>
-        <div class="form-group"><label data-i18n="github_token">Token (PAT)</label><input type="password" id="ghToken" data-i18n-placeholder="github_token_ph" placeholder="github_pat_... ou ghp_..." autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false"></div>
-        <div class="form-group">
-            <label data-i18n="github_token_expiry">Data de expiração do token</label>
-            <div class="custom-date-wrapper"><input class="date-input" type="text" id="ghTokenExpiry" placeholder="DD/MM/AAAA" readonly onclick="openCalendarModal('ghTokenExpiry')" autocomplete="off"></div>
-            <p class="form-hint" id="ghTokenExpiryHint"></p>
-        </div>
-        <div class="form-row">
-            <div class="form-group"><label data-i18n="github_branch">Branch</label><input type="text" id="ghBranch" data-i18n-placeholder="github_branch_ph" placeholder="main" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false"></div>
-            <div class="form-group"><label data-i18n="github_path">Arquivo</label><input type="text" id="ghPath" data-i18n-placeholder="github_path_ph" placeholder="backup.json" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false" oninput="sanitizeInput('ghPath', sanitizePath)"></div>
-        </div>
-        <button class="btn-primary" onclick="saveGithubSettings()" data-i18n="save">Salvar</button>
-        <p style="margin-top:14px;font-size:12px;color:var(--gray-500);line-height:1.5;" data-i18n="github_security_warning">⚠️ O token fica salvo no navegador. Use um token fine-grained com permissão apenas de Contents: Read and write neste repositório específico.</p>
-    </div>
+<div class="modal">
+<div class="modal-header"><h2><span class="material-icons">cloud</span> <span data-i18n="github_config_title">Configurar GitHub</span></h2><button class="modal-close" onclick="closeGithubModal()" aria-label="Fechar">✕</button></div>
+<div class="form-group"><label data-i18n="github_repo">Repositório (owner/repo)</label><input type="text" id="ghRepo" data-i18n-placeholder="github_repo_ph" placeholder="usuario/meu-backup" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false" oninput="sanitizeInput('ghRepo', sanitizeRepo)"></div>
+<div class="form-group"><label data-i18n="github_token">Token (PAT)</label><input type="password" id="ghToken" data-i18n-placeholder="github_token_ph" placeholder="github_pat_... ou ghp_..." autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false"></div>
+<div class="form-group">
+<label data-i18n="github_token_expiry">Data de expiração do token</label>
+<div class="custom-date-wrapper"><input class="date-input" type="text" id="ghTokenExpiry" placeholder="DD/MM/AAAA" readonly onclick="openCalendarModal('ghTokenExpiry')" autocomplete="off"></div>
+<p class="form-hint" id="ghTokenExpiryHint"></p>
+</div>
+<div class="form-row">
+<div class="form-group"><label data-i18n="github_branch">Branch</label><input type="text" id="ghBranch" data-i18n-placeholder="github_branch_ph" placeholder="main" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false"></div>
+<div class="form-group"><label data-i18n="github_path">Arquivo</label><input type="text" id="ghPath" data-i18n-placeholder="github_path_ph" placeholder="backup.json" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false" oninput="sanitizeInput('ghPath', sanitizePath)"></div>
+</div>
+<button class="btn-primary" onclick="saveGithubSettings()" data-i18n="save">Salvar</button>
+<p style="margin-top:14px;font-size:12px;color:var(--gray-500);line-height:1.5;" data-i18n="github_security_warning">⚠️ O token fica salvo no navegador. Use um token fine-grained com permissão apenas de Contents: Read and write neste repositório específico.</p>
+</div>
 </div>
 <div id="globalMenu" class="global-menu">
-    <button class="menu-item status" onclick="menuAction('status')"><span class="material-icons">check_circle</span><span class="menu-label" id="menuStatusLabel">Marcar Pago</span></button>
-    <button class="menu-item edit" onclick="menuAction('edit')"><span class="material-icons">edit</span><span class="menu-label" data-i18n="edit">Editar</span></button>
-    <button class="menu-item delete" onclick="menuAction('delete')"><span class="material-icons">delete</span><span class="menu-label" data-i18n="delete">Excluir</span></button>
+<button class="menu-item status" onclick="menuAction('status')"><span class="material-icons">check_circle</span><span class="menu-label" id="menuStatusLabel">Marcar Pago</span></button>
+<button class="menu-item edit" onclick="menuAction('edit')"><span class="material-icons">edit</span><span class="menu-label" data-i18n="edit">Editar</span></button>
+<button class="menu-item delete" onclick="menuAction('delete')"><span class="material-icons">delete</span><span class="menu-label" data-i18n="delete">Excluir</span></button>
 </div>
 <script>
 const APP_ID='financas-app-v2';
@@ -340,6 +340,7 @@ function t(k){return translations[currentLang]?.[k]||k;}
 function recalcNextId(){nextId=transactions.reduce((m,x)=>Math.max(m,x.id),0)+1;}
 function safeGetItem(k){try{return localStorage.getItem(k);}catch(e){return null;}}
 function safeSetItem(k,v){try{localStorage.setItem(k,v);return true;}catch(e){showAlert(t('warning'),t('storage_full'),'error');return false;}}
+function safeRemoveItem(k){try{localStorage.removeItem(k);return true;}catch(e){return false;}}
 let _numFmt=null,_curFmt=null,_fmtLang='';
 function _ensureFormatters(){if(_fmtLang===currentLang&&_numFmt&&_curFmt) return;const loc=currentLang==='pt'?'pt-BR':'en-US';_numFmt=new Intl.NumberFormat(loc,{minimumFractionDigits:2,maximumFractionDigits:2});_curFmt=new Intl.NumberFormat(loc,{style:'currency',currency:currentLang==='pt'?'BRL':'USD'});_fmtLang=currentLang;}
 function fmtNum(v){_ensureFormatters();return _numFmt.format(v||0);}
@@ -355,13 +356,32 @@ function getAmountRaw(){return el.formAmount.dataset.rawValue||'';}
 function expiryStatusFor(iso){if(!iso) return null;const m=String(iso).match(/^(\d{4})-(\d{2})-(\d{2})$/);if(!m) return null;const y=+m[1],mo=+m[2]-1,d=+m[3];const expiry=new Date(y,mo,d);expiry.setHours(0,0,0,0);if(isNaN(expiry.getTime())) return null;if(expiry.getFullYear()!==y||expiry.getMonth()!==mo||expiry.getDate()!==d) return null;const today=new Date();today.setHours(0,0,0,0);const diff=Math.round((expiry-today)/(1000*60*60*24));if(diff<0) return {level:'critical',days:Math.abs(diff)};if(diff<=3) return {level:'danger',days:diff};if(diff<=7) return {level:'warning',days:diff};if(diff<=15) return {level:'warn',days:diff};if(diff<=30) return {level:'neutral',days:diff};return {level:'ok',days:diff};}
 function checkTokenExpiry(){return expiryStatusFor(githubSettings.tokenExpiry);}
 function expiryHintKey(level){return level==='ok'?'github_token_expiry_ok':level==='neutral'?'github_token_expiry_neutral':level==='warn'?'github_token_expiry_warn':level==='warning'?'github_token_expiry_warning':level==='danger'?'github_token_expiry_danger':'github_token_expiry_critical';}
-function fmtExpiryHint(){const hint=el.ghTokenExpiryHint;if(!hint) return;hint.className='form-hint';hint.textContent='';let iso=githubSettings.tokenExpiry||'';if(el.githubModal.classList.contains('open')&&el.ghTokenExpiry) iso=el.ghTokenExpiry.dataset.iso||'';if(!iso) return;const info=expiryStatusFor(iso);if(!info) return;hint.textContent=t(expiryHintKey(info.level)).replace('{days}',info.days);hint.className='form-hint show '+info.level;}
-function notifyTokenExpiry(){const info=checkTokenExpiry();if(!info) return 0;if(info.level==='ok'||info.level==='neutral') return 0;const today=new Date().toDateString();const lastNotified=safeGetItem('finances_expiry_notified')||'';if(lastNotified===today) return 0;try{localStorage.setItem('finances_expiry_notified',today);}catch(e){}const msg=t(expiryHintKey(info.level)).replace('{days}',info.days);const cls='toast-'+info.level;const dur=info.level==='critical'||info.level==='danger'?7000:5000;showToast(msg,dur,cls);return dur;}
-function resetExpiryNotifyGuard(){try{localStorage.removeItem('finances_expiry_notified');}catch(e){}}
+function fmtExpiryHint(){const hint=el.ghTokenExpiryHint;if(!hint) return;hint.className='form-hint';hint.textContent='';let iso=githubSettings.tokenExpiry||'';if(el.ghTokenExpiry&&el.ghTokenExpiry.dataset.iso!==undefined){iso=el.ghTokenExpiry.dataset.iso||'';}if(!iso) return;const info=expiryStatusFor(iso);if(!info) return;hint.textContent=t(expiryHintKey(info.level)).replace('{days}',info.days);hint.className='form-hint show '+info.level;}
+const EXPIRY_NOTIFY_KEY='finances_expiry_notified_ts';
+const EXPIRY_NOTIFY_TTL=12*60*60*1000;
+function notifyTokenExpiry(force){
+const info=checkTokenExpiry();
+if(!info) return 0;
+if(info.level==='ok'||info.level==='neutral') return 0;
+if(!force){
+const last=safeGetItem(EXPIRY_NOTIFY_KEY);
+if(last){
+const elapsed=Date.now()-(parseInt(last,10)||0);
+if(elapsed<EXPIRY_NOTIFY_TTL) return 0;
+}
+}
+safeSetItem(EXPIRY_NOTIFY_KEY,String(Date.now()));
+const msg=t(expiryHintKey(info.level)).replace('{days}',info.days);
+const cls='toast-'+info.level;
+const dur=info.level==='critical'||info.level==='danger'?7000:5000;
+showToast(msg,dur,cls);
+return dur;
+}
+function resetExpiryNotifyGuard(){safeRemoveItem(EXPIRY_NOTIFY_KEY);safeRemoveItem('finances_expiry_notified');}
 let autoBackupEnabled=false,_autoBackupDebounceTimer=null,_autoBackup6hTimer=null,_last6hBackup=0;
 function resetAutoBackupTimers(){if(_autoBackup6hTimer){clearInterval(_autoBackup6hTimer);_autoBackup6hTimer=null;}if(_autoBackupDebounceTimer){clearTimeout(_autoBackupDebounceTimer);_autoBackupDebounceTimer=null;}}
 function loadAutoBackupSetting(){autoBackupEnabled=safeGetItem('finances_auto_backup')==='1';syncAutoBackupUI();if(autoBackupEnabled) start6hTimer();}
-function toggleAutoBackup(){autoBackupEnabled=!autoBackupEnabled;try{localStorage.setItem('finances_auto_backup',autoBackupEnabled?'1':'0');}catch(e){}syncAutoBackupUI();if(autoBackupEnabled){start6hTimer();if(!githubSettings.repo||!githubSettings.token) showToast(t('auto_backup_no_github_warning'),5500);else{showToast(t('auto_backup_on_toast'),3500);if(transactions.length) scheduleAutoBackup();}}else{resetAutoBackupTimers();showToast(t('auto_backup_off_toast'),3500);}}
+function toggleAutoBackup(){autoBackupEnabled=!autoBackupEnabled;safeSetItem('finances_auto_backup',autoBackupEnabled?'1':'0');syncAutoBackupUI();if(autoBackupEnabled){start6hTimer();if(!githubSettings.repo||!githubSettings.token) showToast(t('auto_backup_no_github_warning'),5500);else{showToast(t('auto_backup_on_toast'),3500);if(transactions.length) scheduleAutoBackup();}}else{resetAutoBackupTimers();showToast(t('auto_backup_off_toast'),3500);}}
 function syncAutoBackupUI(){const btn=$('autoBackupToggle'),icon=$('autoBackupToggleIcon'),label=$('autoBackupToggleLabel');if(!btn) return;if(autoBackupEnabled){btn.className='settings-btn success';btn.setAttribute('aria-label',t('auto_backup_on_label'));if(icon) icon.textContent='toggle_on';if(label) label.textContent=t('auto_backup_on_label');}else{btn.className='settings-btn danger';btn.setAttribute('aria-label',t('auto_backup_off_label'));if(icon) icon.textContent='toggle_off';if(label) label.textContent=t('auto_backup_off_label');}}
 function start6hTimer(){if(_autoBackup6hTimer){clearInterval(_autoBackup6hTimer);}_autoBackup6hTimer=setInterval(()=>{if(!autoBackupEnabled||!githubSettings.repo||!githubSettings.token||_githubBusy) return;_last6hBackup=Date.now();githubBackup(true);},6*60*60*1000);}
 document.addEventListener('visibilitychange',()=>{if(document.visibilityState!=='visible') return;if(!autoBackupEnabled||!githubSettings.repo||!githubSettings.token||_githubBusy) return;if(Date.now()-_last6hBackup>=6*60*60*1000){_last6hBackup=Date.now();githubBackup(true);}});
@@ -369,32 +389,79 @@ function scheduleAutoBackup(){if(!autoBackupEnabled||!githubSettings.repo||!gith
 function openNumpadModal(){const raw=getAmountRaw();numpadValue=(raw&&!isNaN(parseFloat(raw)))?parseFloat(raw).toString():'0';numpadDecimal=numpadValue.includes('.');numpadOperator=null;numpadPrevious=null;numpadNewNumber=true;updateNumpadDisplay();el.numpadModalOverlay.classList.add('open');}
 function closeNumpadModal(){el.numpadModalOverlay.classList.remove('open');}
 function updateNumpadDisplay(){el.numpadDisplay.textContent=(currentLang==='pt'?'R$':'$')+' '+fmtNum(parseFloat(numpadValue)||0);}
-function applyNumpad(){const n=parseFloat(numpadValue);if(!isNaN(n)&&n>=0) setAmountInput(n);closeNumpadModal();}
-function numpadPress(k){
-  if(k==='clear'){numpadValue='0';numpadDecimal=false;numpadOperator=null;numpadPrevious=null;numpadNewNumber=true;updateNumpadDisplay();return;}
-  if(k==='backspace'){if(numpadValue.length>1){numpadValue=numpadValue.slice(0,-1);if(numpadValue==='-')numpadValue='0';numpadDecimal=numpadValue.includes('.');}else{numpadValue='0';numpadDecimal=false;}updateNumpadDisplay();return;}
-  if(k==='00'){if(numpadNewNumber){numpadValue='0';numpadNewNumber=false;}else if(numpadValue!=='0'){if(numpadDecimal){const p=numpadValue.split('.');if(p.length===2&&p[1].length>=2) return;}numpadValue+='00';}updateNumpadDisplay();return;}
-  if(k==='.'){if(numpadNewNumber){numpadValue='0.';numpadDecimal=true;numpadNewNumber=false;}else if(!numpadDecimal){numpadValue+='.';numpadDecimal=true;}updateNumpadDisplay();return;}
-  if(['+','-','×','÷','%'].includes(k)){if(numpadOperator&&numpadPrevious!==null&&!numpadNewNumber)numpadCalculate();numpadOperator=k;numpadPrevious=parseFloat(numpadValue);numpadNewNumber=true;updateNumpadDisplay();return;}
-  if(k>='0'&&k<='9'){if(numpadNewNumber){numpadValue=k;numpadNewNumber=false;}else{if(numpadValue==='0')numpadValue=k;else{if(numpadDecimal){const p=numpadValue.split('.');if(p.length===2&&p[1].length>=2)return;}numpadValue+=k;}}numpadDecimal=numpadValue.includes('.');updateNumpadDisplay();return;}
-  if(k==='=')numpadCalculate();
+function applyNumpad(){
+const n=parseFloat(numpadValue);
+if(isNaN(n)||n<=0){
+showAlert(t('warning'),t('invalid_amount'),'info');
+return;
 }
-function numpadCalculate(){if(!numpadOperator||numpadPrevious===null){applyNumpad();return;}const c=parseFloat(numpadValue);let r=0;switch(numpadOperator){case'+':r=numpadPrevious+c;break;case'-':r=numpadPrevious-c;break;case'×':r=numpadPrevious*c;break;case'÷':if(c!==0)r=numpadPrevious/c;else{showAlert(t('warning'),t('division_by_zero'),'error');return;}break;case'%':r=(numpadPrevious*c)/100;break;default:return;}numpadValue=r.toString();numpadDecimal=numpadValue.includes('.');numpadOperator=null;numpadPrevious=null;numpadNewNumber=true;updateNumpadDisplay();}
+setAmountInput(n);
+closeNumpadModal();
+}
+function numpadPress(k){
+if(k==='clear'){numpadValue='0';numpadDecimal=false;numpadOperator=null;numpadPrevious=null;numpadNewNumber=true;updateNumpadDisplay();return;}
+if(k==='backspace'){if(numpadValue.length>1){numpadValue=numpadValue.slice(0,-1);if(numpadValue==='-')numpadValue='0';numpadDecimal=numpadValue.includes('.');}else{numpadValue='0';numpadDecimal=false;}updateNumpadDisplay();return;}
+if(k==='00'){if(numpadNewNumber){numpadValue='0';numpadNewNumber=false;}else if(numpadValue!=='0'){if(numpadDecimal){const p=numpadValue.split('.');if(p.length===2&&p[1].length>=2) return;}numpadValue+='00';}updateNumpadDisplay();return;}
+if(k==='.'){if(numpadNewNumber){numpadValue='0.';numpadDecimal=true;numpadNewNumber=false;}else if(!numpadDecimal){numpadValue+='.';numpadDecimal=true;}updateNumpadDisplay();return;}
+if(k==='%'){
+const cur=parseFloat(numpadValue)||0;
+if(numpadPrevious!==null&&numpadOperator){
+let result;
+if(numpadOperator==='+'||numpadOperator==='-'){
+const delta=(numpadPrevious*cur)/100;
+result=numpadOperator==='+'?numpadPrevious+delta:numpadPrevious-delta;
+}else{
+const frac=cur/100;
+if(numpadOperator==='×') result=numpadPrevious*frac;
+else { if(frac===0){showAlert(t('warning'),t('division_by_zero'),'error');return;} result=numpadPrevious/frac; }
+}
+numpadValue=result.toString();
+numpadOperator=null;
+numpadPrevious=null;
+}else{
+numpadValue=(cur/100).toString();
+}
+numpadDecimal=numpadValue.includes('.');
+numpadNewNumber=true;
+updateNumpadDisplay();
+return;
+}
+if(['+','-','×','÷'].includes(k)){if(numpadOperator&&numpadPrevious!==null&&!numpadNewNumber)numpadCalculate();numpadOperator=k;numpadPrevious=parseFloat(numpadValue);numpadNewNumber=true;updateNumpadDisplay();return;}
+if(k>='0'&&k<='9'){if(numpadNewNumber){numpadValue=k;numpadNewNumber=false;}else{if(numpadValue==='0')numpadValue=k;else{if(numpadDecimal){const p=numpadValue.split('.');if(p.length===2&&p[1].length>=2)return;}numpadValue+=k;}}numpadDecimal=numpadValue.includes('.');updateNumpadDisplay();return;}
+if(k==='=')numpadCalculate();
+}
+function numpadCalculate(){if(!numpadOperator||numpadPrevious===null){applyNumpad();return;}const c=parseFloat(numpadValue);let r=0;switch(numpadOperator){case'+':r=numpadPrevious+c;break;case'-':r=numpadPrevious-c;break;case'×':r=numpadPrevious*c;break;case'÷':if(c!==0)r=numpadPrevious/c;else{showAlert(t('warning'),t('division_by_zero'),'error');return;}break;default:return;}numpadValue=r.toString();numpadDecimal=numpadValue.includes('.');numpadOperator=null;numpadPrevious=null;numpadNewNumber=true;updateNumpadDisplay();}
 function openCalendarModal(target){
-  _calendarTarget=target||'formDate';
-  let d=null;
-  if(_calendarTarget==='ghTokenExpiry'){const iso=(el.ghTokenExpiry&&el.ghTokenExpiry.dataset.iso)||'';const m=iso.match(/^(\d{4})-(\d{2})-(\d{2})$/);if(m){const yy=+m[1],mm=+m[2]-1,dd=+m[3];const dt=new Date(yy,mm,dd);if(dt.getFullYear()===yy&&dt.getMonth()===mm&&dt.getDate()===dd) d=dt;}}
-  else{const v=el.formDate.value.trim();if(v){const p=v.split('/');if(p.length===3){let day,mon,yr;if(currentLang==='pt'){day=+p[0];mon=+p[1]-1;yr=+p[2];}else{mon=+p[0]-1;day=+p[1];yr=+p[2];}if(!isNaN(day)&&!isNaN(mon)&&!isNaN(yr)){const dt=new Date(yr,mon,day);if(dt.getFullYear()===yr&&dt.getMonth()===mon&&dt.getDate()===day) d=dt;}}}}
-  if(!d){d=new Date();d.setHours(0,0,0,0);}
-  selectedDate=new Date(d);calendarMonth=selectedDate.getMonth();calendarYear=selectedDate.getFullYear();
-  renderCalendar();el.calendarModalOverlay.classList.add('open');
+_calendarTarget=target||'formDate';
+let d=null;
+if(_calendarTarget==='ghTokenExpiry'){const iso=(el.ghTokenExpiry&&el.ghTokenExpiry.dataset.iso)||'';const m=iso.match(/^(\d{4})-(\d{2})-(\d{2})$/);if(m){const yy=+m[1],mm=+m[2]-1,dd=+m[3];const dt=new Date(yy,mm,dd);if(dt.getFullYear()===yy&&dt.getMonth()===mm&&dt.getDate()===dd) d=dt;}}
+else{const v=el.formDate.value.trim();if(v){const p=v.split('/');if(p.length===3){let day,mon,yr;if(currentLang==='pt'){day=+p[0];mon=+p[1]-1;yr=+p[2];}else{mon=+p[0]-1;day=+p[1];yr=+p[2];}if(!isNaN(day)&&!isNaN(mon)&&!isNaN(yr)){const dt=new Date(yr,mon,day);if(dt.getFullYear()===yr&&dt.getMonth()===mon&&dt.getDate()===day) d=dt;}}}}
+if(!d){d=new Date();d.setHours(0,0,0,0);}
+selectedDate=new Date(d);calendarMonth=selectedDate.getMonth();calendarYear=selectedDate.getFullYear();
+renderCalendar();el.calendarModalOverlay.classList.add('open');
 }
 function closeCalendarModal(){el.calendarModalOverlay.classList.remove('open');}
 function changeCalendarMonth(delta){calendarMonth+=delta;if(calendarMonth<0){calendarMonth=11;calendarYear--;}if(calendarMonth>11){calendarMonth=0;calendarYear++;}renderCalendar();}
 function renderCalendar(){const isPt=currentLang==='pt',mNames=isPt?MONTHS_PT:MONTHS_EN,dNames=isPt?DAYS_PT:DAYS_EN;el.calendarMonthYear.textContent=mNames[calendarMonth]+' '+calendarYear;const first=new Date(calendarYear,calendarMonth,1).getDay(),days=new Date(calendarYear,calendarMonth+1,0).getDate(),today=new Date();today.setHours(0,0,0,0);let html='';for(let i=0;i<7;i++) html+=`<div class="day-name${i===0?' sunday':''}">${dNames[i]}</div>`;for(let i=0;i<first;i++) html+='<div></div>';for(let d=1;d<=days;d++){const dt=new Date(calendarYear,calendarMonth,d);dt.setHours(0,0,0,0);let classes='day-cell';if(dt.getTime()===today.getTime()) classes+=' today';if(selectedDate&&dt.getTime()===selectedDate.getTime()) classes+=' selected';if(dt.getDay()===0) classes+=' sunday';html+=`<button class="${classes}" onclick="selectDate(${d})">${d}</button>`;}el.calendarDays.innerHTML=html;}
 function selectDate(day){selectedDate=new Date(calendarYear,calendarMonth,day);selectedDate.setHours(0,0,0,0);renderCalendar();}
-function clearDate(){selectedDate=null;if(_calendarTarget==='ghTokenExpiry'){if(el.ghTokenExpiry){el.ghTokenExpiry.value='';el.ghTokenExpiry.dataset.iso='';}fmtExpiryHint();}else{el.formDate.value='';}renderCalendar();}
-function confirmDate(){if(selectedDate){if(_calendarTarget==='ghTokenExpiry'){if(el.ghTokenExpiry){el.ghTokenExpiry.value=fmtDateInput(selectedDate);el.ghTokenExpiry.dataset.iso=dateToIso(selectedDate);}fmtExpiryHint();}else{el.formDate.value=fmtDateInput(selectedDate);}}closeCalendarModal();}
+function clearDate(){selectedDate=null;renderCalendar();}
+function confirmDate(){
+if(_calendarTarget==='ghTokenExpiry'){
+if(el.ghTokenExpiry){
+if(selectedDate){
+el.ghTokenExpiry.value=fmtDateInput(selectedDate);
+el.ghTokenExpiry.dataset.iso=dateToIso(selectedDate);
+}else{
+el.ghTokenExpiry.value='';
+el.ghTokenExpiry.dataset.iso='';
+}
+}
+fmtExpiryHint();
+}else{
+el.formDate.value=selectedDate?fmtDateInput(selectedDate):'';
+}
+closeCalendarModal();
+}
 function _dialogCore({title,msg,icon,buttons,cancelValue=false}){return new Promise(resolve=>{const o=$('dialogConfirm'),actions=$('confirmActions');actions.innerHTML='';actions.className='dialog-actions'+(buttons.length===3?' three-options':'');const clean=()=>{o.classList.remove('open');o.onclick=null;};for(const b of buttons){const btn=document.createElement('button');btn.textContent=b.text;btn.className=b.cls;btn.onclick=()=>{clean();resolve(b.value);};actions.appendChild(btn);}el.confirmTitle.textContent=title||'Confirmação';el.confirmMessage.textContent=msg||'';el.confirmIcon.textContent=icon||'help';o.classList.add('open');o.onclick=e=>{if(e.target===o){clean();resolve(cancelValue);}};});}
 function showConfirm(title,msg,icon,confirmText,cancelText,isDanger){return _dialogCore({title:title||'Confirmação',msg:msg||'Tem certeza?',icon:icon||'help',cancelValue:false,buttons:[{text:cancelText||'Cancelar',cls:'btn-cancel',value:false},{text:confirmText||'Confirmar',cls:isDanger?'btn-danger':'btn-confirm',value:true}]});}
 function showStatusConfirm(title,msg,icon,lblUpdate,lblKeep,lblCancel){return _dialogCore({title:title||'Confirmação',msg:msg||'Escolha uma opção:',icon:icon||'help',cancelValue:'cancel',buttons:[{text:lblCancel||'Cancelar',cls:'btn-cancel-status',value:'cancel'},{text:lblKeep||'Pagar e manter',cls:'btn-keep',value:'keep'},{text:lblUpdate||'Pagar e atualizar',cls:'btn-update',value:'update'}]});}
@@ -438,19 +505,62 @@ function saveProfile(){let name=el.profileNameInput.value.trim();if(!name||name=
 function updateCurrencySymbol(){const s=currentLang==='pt'?'R$':'$';el.formAmount.placeholder=s+' '+fmtNum(0);const raw=getAmountRaw();if(raw&&!isNaN(parseFloat(raw))) el.formAmount.value=fmtNum(parseFloat(raw));if(el.numpadModalOverlay.classList.contains('open')) el.numpadDisplay.textContent=s+' '+fmtNum(parseFloat(numpadValue)||0);}
 function populateClearOptions(){const c=el.clearOptionsContainer;if(!c) return;const years=new Set();transactions.forEach(x=>years.add(new Date(x.date).getFullYear()));const sorted=Array.from(years).sort((a,b)=>b-a);const currentYear=new Date().getFullYear();const mainYear=sorted.includes(currentYear)?currentYear:(sorted[0]||currentYear);const otherYears=sorted.filter(y=>y!==mainYear);let html=`<label><input type="radio" name="clearOption" value="all" checked><span class="radio-label">${t('clear_option_all')}</span></label>`;html+=`<div class="year-row"><label class="year-main-label"><input type="radio" name="clearOption" value="year_${mainYear}"><span class="radio-label">${t('clear_option_year').replace('{year}',mainYear)}</span></label>`;if(otherYears.length){html+=`<button type="button" class="year-toggle-btn${_yearDropdownOpen?' open':''}" id="yearToggleBtn" onclick="toggleYearDropdown(event)" aria-label="${t('show_previous_years')}" aria-expanded="${_yearDropdownOpen?'true':'false'}"><span class="material-icons">expand_more</span></button>`;}html+=`</div>`;if(otherYears.length){html+=`<div class="year-dropdown${_yearDropdownOpen?' open':''}" id="yearDropdown">`;otherYears.forEach(y=>{html+=`<label><input type="radio" name="clearOption" value="year_${y}"><span class="radio-label">${t('clear_option_year').replace('{year}',y)}</span></label>`;});html+=`</div>`;}html+=`<label><input type="radio" name="clearOption" value="profile"><span class="radio-label">${t('clear_option_profile')}</span></label><label><input type="radio" name="clearOption" value="all_data"><span class="radio-label">${t('clear_option_all_data')}</span></label>`;c.innerHTML=html;}
 function toggleYearDropdown(event){if(event){event.preventDefault();event.stopPropagation();}const dd=document.getElementById('yearDropdown'),btn=document.getElementById('yearToggleBtn');if(!dd||!btn) return;const open=dd.classList.toggle('open');btn.classList.toggle('open',open);btn.setAttribute('aria-expanded',open?'true':'false');_yearDropdownOpen=open;}
-function openClearModal(){populateClearOptions();el.clearModal.classList.add('open');}
+function openClearModal(){_yearDropdownOpen=false;populateClearOptions();el.clearModal.classList.add('open');}
 function closeClearModal(){el.clearModal.classList.remove('open');}
 async function executeClear(){const sel=document.querySelector('input[name="clearOption"]:checked');if(!sel){showAlert(t('warning'),t('missing_description'),'info');return;}const val=sel.value;if(val==='all'){if(!transactions.length){showAlert(t('warning'),t('no_transactions_to_clear'),'info');return;}const c=await showConfirm(t('clear_btn'),t('clear_transactions_confirm_all'),'receipt_long',t('clear_btn'),t('cancel'),true);if(!c) return;const prev=transactions,prevId=nextId;transactions=[];nextId=1;if(!safeSetItem('finances_transactions','[]')){transactions=prev;nextId=prevId;return;}_bumpTxVersion();renderAll();showToast(t('data_cleared'));closeClearModal();scheduleAutoBackup();}else if(val.startsWith('year_')){const y=parseInt(val.split('_')[1],10);const filtered=transactions.filter(x=>new Date(x.date).getFullYear()===y);if(!filtered.length){showAlert(t('warning'),t('no_transactions_to_clear'),'info');return;}const c=await showConfirm(t('clear_btn'),t('clear_transactions_confirm').replace('{year}',y),'receipt_long',t('clear_btn'),t('cancel'),true);if(!c) return;const prev=transactions;transactions=transactions.filter(x=>new Date(x.date).getFullYear()!==y);if(!safeSetItem('finances_transactions',JSON.stringify(transactions))){transactions=prev;return;}recalcNextId();_bumpTxVersion();renderAll();showToast(t('data_cleared'));closeClearModal();scheduleAutoBackup();}else if(val==='profile'){const hasName=userProfile.name&&userProfile.name!=='Usuário'&&userProfile.name!=='User',hasAvatar=!!userProfile.avatar;if(!hasName&&!hasAvatar){showAlert(t('warning'),t('no_profile_to_clear'),'info');return;}const c=await showConfirm(t('clear_option_profile'),t('clear_profile_confirm'),'person',t('clear_btn'),t('cancel'),false);if(!c) return;const prevP=userProfile;userProfile={name:t('default_user'),avatar:null};if(!safeSetItem('finances_profile',JSON.stringify(userProfile))){userProfile=prevP;return;}renderAll();showToast(t('data_cleared'));closeClearModal();scheduleAutoBackup();}else if(val==='all_data'){const hasT=transactions.length>0,hasName=userProfile.name&&userProfile.name!=='Usuário'&&userProfile.name!=='User',hasAvatar=!!userProfile.avatar;if(!hasT&&!hasName&&!hasAvatar){showAlert(t('warning'),t('no_data_to_clear'),'info');return;}const c=await showConfirm(t('clear_option_all_data'),t('clear_all_confirm'),'delete_forever',t('clear_all_btn'),t('cancel'),true);if(!c) return;const prev=transactions,prevId=nextId,prevP=userProfile;transactions=[];nextId=1;userProfile={name:t('default_user'),avatar:null};if(!safeSetItem('finances_transactions','[]')||!safeSetItem('finances_profile',JSON.stringify(userProfile))){transactions=prev;nextId=prevId;userProfile=prevP;return;}_bumpTxVersion();renderAll();showToast(t('data_cleared'));closeClearModal();scheduleAutoBackup();}}
 async function downloadReportPDF(){const f=getFiltered();if(!f.length){showAlert(t('warning'),t('no_transactions_for_pdf'),'info');return;}const monthName=(currentLang==='pt'?MONTHS_PT:MONTHS_EN)[nav.report.month]+' '+nav.report.year;const totals=getFilteredTotals(),catTotals={service:0,sale:0,expense:0};for(const tr of f){if(catTotals[tr.category]!==undefined) catTotals[tr.category]+=tr.amount;}const annualYear=nav.report.year;let annual=0;for(const tr of transactions){const d=new Date(tr.date);if(d.getFullYear()===annualYear)annual+=tr.type==='income'?tr.amount:-tr.amount;}let rows='';for(const tr of f){const amountClass=tr.type==='income'?'income':'expense';rows+=`<tr><td>${fmtDateInput(new Date(tr.date))}</td><td>${esc(tr.description)}</td><td>${getCategoryLabel(tr.category)}</td><td>${getStatusLabel(tr.status)}</td><td class="${amountClass}">${fmtCur(tr.amount)}</td></tr>`;}const incArr=f.filter(x=>x.type==='income'),avg=incArr.length?incArr.reduce((s,x)=>s+x.amount,0)/incArr.length:0;const htmlContent=`<div class="pdf-content"><h2>📊 ${t('report_summary_title')}</h2><div class="pdf-date">${monthName} - ${new Intl.DateTimeFormat(currentLang==='pt'?'pt-BR':'en-US',{dateStyle:'full'}).format(new Date())}</div><h3>📈 ${t('report_summary_title')}</h3><table><tr><th>${t('total_income')}</th><td class="income">${fmtCur(totals.income)}</td></tr><tr><th>${t('total_expense')}</th><td class="expense">${fmtCur(totals.expense)}</td></tr><tr><th>${t('balance')}</th><td>${fmtCur(totals.income-totals.expense)}</td></tr><tr><th>${t('average')}</th><td>${fmtCur(avg)}</td></tr></table><h3>📊 ${t('report_category_title')}</h3><table><tr><th>${t('service')}</th><td class="income">${fmtCur(catTotals.service)}</td></tr><tr><th>${t('sale')}</th><td class="income">${fmtCur(catTotals.sale)}</td></tr><tr><th>${t('expense')}</th><td class="expense">${fmtCur(catTotals.expense)}</td></tr><tr><th>${t('total_annual')} (${annualYear})</th><td>${fmtCur(annual)}</td></tr></table><h3>${t('detail_title')}</h3><table><thead><tr><th>${t('date')}</th><th>${t('description')}</th><th>${t('category')}</th><th>${t('status')}</th><th>${t('amount')}</th></tr></thead><tbody>${rows}</tbody></table><p style="margin-top:20px;color:#4B5563;font-size:12px;">${t('app_name')} - ${new Date().toLocaleString(currentLang==='pt'?'pt-BR':'en-US')}</p></div>`;showToast(t('pdf_generating'),3000);let element=null;const filename=`relatorio_${monthName.replace(/\s/g,'_')}.pdf`;try{element=document.createElement('div');element.innerHTML=htmlContent;document.body.appendChild(element);const pdfBlob=await html2pdf().set({margin:[0.5,0.5,0.5,0.5],image:{type:'jpeg',quality:0.98},html2canvas:{scale:2,useCORS:true},jsPDF:{unit:'in',format:'a4',orientation:'portrait'}}).from(element).outputPdf('blob');if(navigator.share&&navigator.canShare){try{const file=new File([pdfBlob],filename,{type:'application/pdf'});if(navigator.canShare({files:[file]})){await navigator.share({files:[file],title:t('pdf_share_title')});showToast(t('pdf_success'));return;}}catch(err){if(err&&err.name==='AbortError') return;}}try{const dataUri=await new Promise((resolve,reject)=>{const reader=new FileReader();reader.onload=()=>resolve(reader.result);reader.onerror=()=>reject(new Error('FileReader falhou'));reader.readAsDataURL(pdfBlob);});const a=document.createElement('a');a.href=dataUri;a.download=filename;a.style.display='none';document.body.appendChild(a);a.click();setTimeout(()=>a.remove(),2000);showToast(t('pdf_success'));return;}catch(e2){console.warn('Data URI falhou:',e2);}try{const url=URL.createObjectURL(pdfBlob);const a=document.createElement('a');a.href=url;a.download=filename;a.style.display='none';document.body.appendChild(a);a.click();setTimeout(()=>{URL.revokeObjectURL(url);a.remove();},2000);showToast(t('pdf_success'));return;}catch(e3){console.warn('Blob URL falhou:',e3);}showAlert(t('warning'),'Não foi possível baixar o PDF neste dispositivo. Tente abrir o app no navegador Chrome para baixar.','info');}catch(err){showAlert(t('warning'),t('pdf_error')+': '+err.message,'error');console.error(err);}finally{if(element&&element.parentNode) element.parentNode.removeChild(element);}}
 function sanitizeInput(inputId,sanitizeFn){const i=$(inputId);if(!i) return;const before=i.value,clean=sanitizeFn(before);if(before===clean) return;const pos=i.selectionStart||0,removed=before.length-clean.length;i.value=clean;const np=Math.max(0,pos-removed);try{i.setSelectionRange(np,np);}catch(e){}}
 function loadGithubSettings(){const s=safeGetItem('finances_github');if(s){try{const parsed=JSON.parse(s);Object.assign(githubSettings,parsed);}catch(e){}}const gs=safeGetItem('finances_github_status');if(gs) githubStatus=gs;ghBranchValidated=false;updateGithubStatus();}
-function updateGithubStatus(){const configured=!!(githubSettings.repo&&githubSettings.token);const info=checkTokenExpiry();if(el.ghConnLabel){if(configured){el.ghConnLabel.textContent=t('github_disconnect');const baseDesc=githubSettings.repo+' • '+githubSettings.branch+'/'+githubSettings.path;if(info){el.ghConnDesc.textContent=baseDesc+' • '+t(expiryHintKey(info.level)).replace('{days}',info.days);el.ghConnDesc.className='sub '+info.level;}else{el.ghConnDesc.textContent=baseDesc;el.ghConnDesc.className='sub';}el.ghConnIcon.textContent='link_off';el.ghConnIcon.style.color='var(--danger)';el.ghConnBtnIcon.textContent='logout';el.ghDisconnectBtn.className='settings-btn danger';el.ghDisconnectBtn.setAttribute('aria-label',t('github_disconnect'));}else{el.ghConnLabel.textContent=t('github_connect');el.ghConnDesc.textContent=t('github_connect_desc');el.ghConnDesc.className='sub';el.ghConnIcon.textContent='link';el.ghConnIcon.style.color='var(--primary)';el.ghConnBtnIcon.textContent='login';el.ghDisconnectBtn.className='settings-btn primary';el.ghDisconnectBtn.setAttribute('aria-label',t('github_connect'));}}if(el.connBtn){let cls='off';if(configured){if(info&&info.level==='critical') cls='expired';else if(info&&(info.level==='danger'||info.level==='warning')) cls='error';else if(info&&info.level==='warn') cls='pending';else if(githubStatus==='ok') cls='ok';else if(githubStatus==='error') cls='error';else cls='pending';}el.connBtn.className='conn-btn '+cls;let title=!configured?t('github_not_configured'):(githubStatus==='ok'?t('github_connected_tip'):(githubStatus==='error'?t('github_error_tip'):t('github_pending_tip')));if(configured&&info&&(info.level!=='ok'&&info.level!=='neutral')){title=t(expiryHintKey(info.level)).replace('{days}',info.days);}el.connBtn.title=title;el.connBtn.setAttribute('aria-label',t('github_conn_aria'));}}
+function updateGithubStatus(){
+const configured=!!(githubSettings.repo&&githubSettings.token);
+const info=checkTokenExpiry();
+if(el.ghConnLabel){
+if(configured){
+el.ghConnLabel.textContent=t('github_disconnect');
+const baseDesc=githubSettings.repo+' • '+githubSettings.branch+'/'+githubSettings.path;
+const showExpiry=info&&(info.level==='warning'||info.level==='danger'||info.level==='critical');
+if(showExpiry){
+el.ghConnDesc.textContent=baseDesc+' • '+t(expiryHintKey(info.level)).replace('{days}',info.days);
+el.ghConnDesc.className='sub '+info.level;
+}else{
+el.ghConnDesc.textContent=baseDesc;
+el.ghConnDesc.className='sub';
+}
+el.ghConnIcon.textContent='link_off';el.ghConnIcon.style.color='var(--danger)';
+el.ghConnBtnIcon.textContent='logout';el.ghDisconnectBtn.className='settings-btn danger';
+el.ghDisconnectBtn.setAttribute('aria-label',t('github_disconnect'));
+}else{
+el.ghConnLabel.textContent=t('github_connect');
+el.ghConnDesc.textContent=t('github_connect_desc');
+el.ghConnDesc.className='sub';
+el.ghConnIcon.textContent='link';el.ghConnIcon.style.color='var(--primary)';
+el.ghConnBtnIcon.textContent='login';el.ghDisconnectBtn.className='settings-btn primary';
+el.ghDisconnectBtn.setAttribute('aria-label',t('github_connect'));
+}
+}
+if(el.connBtn){
+let cls='off';
+if(configured){
+if(info&&info.level==='critical') cls='expired';
+else if(info&&(info.level==='danger'||info.level==='warning')) cls='error';
+else if(info&&info.level==='warn') cls='pending';
+else if(githubStatus==='ok') cls='ok';
+else if(githubStatus==='error') cls='error';
+else cls='pending';
+}
+el.connBtn.className='conn-btn '+cls;
+let title=!configured?t('github_not_configured'):(githubStatus==='ok'?t('github_connected_tip'):(githubStatus==='error'?t('github_error_tip'):t('github_pending_tip')));
+if(configured&&info&&(info.level!=='ok'&&info.level!=='neutral')){title=t(expiryHintKey(info.level)).replace('{days}',info.days);}
+el.connBtn.title=title;
+el.connBtn.setAttribute('aria-label',t('github_conn_aria'));
+}
+}
 function handleConnToggle(){if(!githubSettings.repo||!githubSettings.token) openGithubModal();else githubDisconnect();}
 function ghDisplayBranch(){const b=githubSettings.branch||'';return(!b||b==='main'||b==='principal')?t('github_branch_ph'):b;}
 function ghDisplayPath(){const p=sanitizePath(githubSettings.path||'');return(!p||p==='backup.json'||p==='becape.json')?t('github_path_ph'):p;}
 function openGithubModal(){$('ghRepo').value=sanitizeRepo(githubSettings.repo||'');$('ghToken').value=githubSettings.token||'';$('ghBranch').value=ghDisplayBranch();$('ghPath').value=ghDisplayPath();if(el.ghTokenExpiry){el.ghTokenExpiry.value=isoToLocalDate(githubSettings.tokenExpiry||'');el.ghTokenExpiry.dataset.iso=githubSettings.tokenExpiry||'';el.ghTokenExpiry.placeholder=currentLang==='pt'?'DD/MM/AAAA':'MM/DD/YYYY';}fmtExpiryHint();el.githubModal.classList.add('open');}
 function closeGithubModal(){el.githubModal.classList.remove('open');}
-function saveGithubSettings(){const repo=sanitizeRepo($('ghRepo').value).trim();const token=$('ghToken').value.trim();const branch=($('ghBranch').value.trim()||'main');const path=(sanitizePath($('ghPath').value).trim()||'backup.json');const tokenExpiry=(el.ghTokenExpiry&&el.ghTokenExpiry.dataset.iso)||'';if(repo&&!/^[\w.-]+\/[\w.-]+$/.test(repo)){showAlert(t('warning'),t('github_invalid_repo'),'info');return;}githubSettings={repo,token,branch,path,tokenExpiry};githubStatus='idle';ghBranchValidated=false;safeSetItem('finances_github',JSON.stringify({repo,token,branch,path,tokenExpiry}));localStorage.removeItem('finances_github_status');resetExpiryNotifyGuard();updateGithubStatus();closeGithubModal();showToast(t('github_saved'));if(tokenExpiry) setTimeout(()=>notifyTokenExpiry(),500);}
+function saveGithubSettings(){const repo=sanitizeRepo($('ghRepo').value).trim();const token=$('ghToken').value.trim();const branch=($('ghBranch').value.trim()||'main');const path=(sanitizePath($('ghPath').value).trim()||'backup.json');const tokenExpiry=(el.ghTokenExpiry&&el.ghTokenExpiry.dataset.iso)||'';if(repo&&!/^[\w.-]+\/[\w.-]+$/.test(repo)){showAlert(t('warning'),t('github_invalid_repo'),'info');return;}githubSettings={repo,token,branch,path,tokenExpiry};githubStatus='idle';ghBranchValidated=false;safeSetItem('finances_github',JSON.stringify({repo,token,branch,path,tokenExpiry}));safeRemoveItem('finances_github_status');resetExpiryNotifyGuard();updateGithubStatus();closeGithubModal();showToast(t('github_saved'));if(tokenExpiry) setTimeout(()=>notifyTokenExpiry(true),500);}
 function utf8ToBase64(str){const bytes=new TextEncoder().encode(str);let bin='';for(let i=0;i<bytes.length;i++)bin+=String.fromCharCode(bytes[i]);return btoa(bin);}
 function base64ToUtf8(b64){const bin=atob(b64),bytes=new Uint8Array(bin.length);for(let i=0;i<bin.length;i++)bytes[i]=bin.charCodeAt(i);return new TextDecoder().decode(bytes);}
 function ghHeaders(){return{'Authorization':'Bearer '+githubSettings.token,'Accept':'application/vnd.github+json','X-GitHub-Api-Version':'2022-11-28','Content-Type':'application/json'};}
@@ -458,24 +568,30 @@ async function ghEnsureBranch(){if(ghBranchValidated) return;if(!githubSettings.
 async function ghGetFile(){const path=encodePath(githubSettings.path);const url=`https://api.github.com/repos/${githubSettings.repo}/contents/${path}?ref=${encodeURIComponent(githubSettings.branch)}&_=${Date.now()}`;const r=await fetch(url,{headers:ghHeaders(),cache:'no-store'});if(r.status===404) return null;if(!r.ok){const err=await r.json().catch(()=>({}));throw new Error(`GitHub ${r.status}: ${err.message||r.statusText}`);}return await r.json();}
 async function ghPutFile(content,sha,message){const path=encodePath(githubSettings.path);const url=`https://api.github.com/repos/${githubSettings.repo}/contents/${path}`;const body={message:message||`${t('backup')} ${new Date().toISOString()}`,content:utf8ToBase64(content),branch:githubSettings.branch};if(sha) body.sha=sha;const r=await fetch(url,{method:'PUT',headers:ghHeaders(),body:JSON.stringify(body)});if(!r.ok){const err=await r.json().catch(()=>({}));throw new Error(`GitHub ${r.status}: ${err.message||err.statusText}`);}return await r.json();}
 function checkFileOwnership(file){try{const raw=base64ToUtf8(file.content.replace(/\n/g,''));if(!raw.trim()) return null;const data=JSON.parse(raw);const owner=data.app||data.appLabel||'';if(!owner) return null;if(owner!==APP_ID&&owner!==APP_LABEL) return t('github_conflict_msg').replace('{owner}',owner).replace('{path}',githubSettings.path);return null;}catch(e){return t('github_conflict_invalid').replace('{path}',githubSettings.path);}}
-async function githubBackup(silent){silent=silent===true;if(_githubBusy){if(!silent) showToast(t('github_busy'));return;}if(!githubSettings.repo||!githubSettings.token){if(!silent){showAlert(t('warning'),t('github_not_configured'),'info');openGithubModal();}return;}if(!transactions.length){if(!silent) showAlert(t('warning'),t('github_backup_empty_local'),'info');return;}_githubBusy=true;try{await ghEnsureBranch();if(!silent) showToast(t('github_uploading'),3000);const now=new Date();const payload={app:APP_ID,appLabel:APP_LABEL,version:'2.0',exportedAt:now.toISOString(),source:'github',user:userProfile,transactions};const json=JSON.stringify(payload,null,2);const existing=await ghGetFile();let sha=null;if(existing&&existing.sha){sha=existing.sha;const conflict=checkFileOwnership(existing);if(conflict){if(silent){githubStatus='error';localStorage.setItem('finances_github_status','error');updateGithubStatus();return;}const ok=await showConfirm(t('github_conflict_title'),conflict,'warning',t('github_conflict_overwrite'),t('cancel'),true);if(!ok){showToast(t('github_conflict_cancelled'));return;}}}const msg=`${t('backup')} ${now.toLocaleString(currentLang==='pt'?'pt-BR':'en-US')} (${transactions.length})`;const res=await ghPutFile(json,sha,msg);const commit=res.commit&&res.commit.sha?res.commit.sha.slice(0,7):'';githubStatus='ok';localStorage.setItem('finances_github_status','ok');updateGithubStatus();if(!silent) showToast(t('github_backup_ok')+(commit?' • '+commit:''));}catch(e){githubStatus='error';localStorage.setItem('finances_github_status','error');updateGithubStatus();if(!silent) showAlert(t('warning'),t('github_backup_fail')+': '+e.message,'error');}finally{_githubBusy=false;}}
-async function githubRestore(){if(_githubBusy){showToast(t('github_busy'));return;}if(!githubSettings.repo||!githubSettings.token){showAlert(t('warning'),t('github_not_configured'),'info');openGithubModal();return;}_githubBusy=true;try{await ghEnsureBranch();showToast(t('github_downloading'),3000);let file=await ghGetFile();if(!file){await new Promise(r=>setTimeout(r,1200));file=await ghGetFile();}if(!file){githubStatus='error';localStorage.setItem('finances_github_status','error');updateGithubStatus();showAlert(t('warning'),t('github_file_not_found'),'info');return;}const content=base64ToUtf8(file.content.replace(/\n/g,''));let data;try{data=JSON.parse(content);}catch(e){githubStatus='error';localStorage.setItem('finances_github_status','error');updateGithubStatus();showAlert(t('warning'),t('invalid_file'),'error');return;}const owner=data.app||data.appLabel||'';if(owner&&owner!==APP_ID&&owner!==APP_LABEL){githubStatus='error';localStorage.setItem('finances_github_status','error');updateGithubStatus();showAlert(t('warning'),t('github_restore_conflict').replace('{owner}',owner),'error');return;}if(!data.transactions||!Array.isArray(data.transactions)){githubStatus='error';localStorage.setItem('finances_github_status','error');updateGithubStatus();showAlert(t('warning'),t('invalid_file'),'error');return;}if(data.transactions.length===0){githubStatus='error';localStorage.setItem('finances_github_status','error');updateGithubStatus();showAlert(t('warning'),t('github_backup_empty_remote'),'info');return;}const validTxs=data.transactions.filter(isValidTransaction);if(!validTxs.length){githubStatus='error';localStorage.setItem('finances_github_status','error');updateGithubStatus();showAlert(t('warning'),t('invalid_file'),'error');return;}const ok=await showConfirm(t('github_restore_confirm_title'),t('github_restore_confirm_msg').replace('{count}',validTxs.length),'cloud_download',t('confirm'),t('cancel'),false);if(!ok) return;const prevT=transactions,prevP=userProfile;transactions=validTxs;if(data.user) userProfile=data.user;try{localStorage.setItem('finances_transactions',JSON.stringify(transactions));localStorage.setItem('finances_profile',JSON.stringify(userProfile));}catch(e){transactions=prevT;userProfile=prevP;githubStatus='error';localStorage.setItem('finances_github_status','error');updateGithubStatus();showAlert(t('warning'),t('storage_full'),'error');return;}_bumpTxVersion();recalcNextId();githubStatus='ok';localStorage.setItem('finances_github_status','ok');updateGithubStatus();renderAll();showToast(t('backup_restored'));}catch(e){githubStatus='error';localStorage.setItem('finances_github_status','error');updateGithubStatus();showAlert(t('warning'),t('github_restore_fail')+': '+e.message,'error');}finally{_githubBusy=false;}}
-async function githubDisconnect(){if(!githubSettings.repo&&!githubSettings.token){showAlert(t('warning'),t('github_not_connected'),'info');return;}const ok=await showConfirm(t('github_disconnect'),t('github_disconnect_confirm'),'link_off',t('confirm'),t('cancel'),true);if(!ok) return;resetAutoBackupTimers();resetExpiryNotifyGuard();githubSettings={repo:'',token:'',branch:'',path:'',tokenExpiry:''};githubStatus='idle';ghBranchValidated=false;localStorage.removeItem('finances_github');localStorage.removeItem('finances_github_status');updateGithubStatus();showToast(t('github_disconnected'));}
+async function githubBackup(silent){silent=silent===true;if(_githubBusy){if(!silent) showToast(t('github_busy'));return;}if(!githubSettings.repo||!githubSettings.token){if(!silent){showAlert(t('warning'),t('github_not_configured'),'info');openGithubModal();}return;}if(!transactions.length){if(!silent) showAlert(t('warning'),t('github_backup_empty_local'),'info');return;}_githubBusy=true;try{await ghEnsureBranch();if(!silent) showToast(t('github_uploading'),3000);const now=new Date();const payload={app:APP_ID,appLabel:APP_LABEL,version:'2.0',exportedAt:now.toISOString(),source:'github',user:userProfile,transactions};const json=JSON.stringify(payload,null,2);const existing=await ghGetFile();let sha=null;if(existing&&existing.sha){sha=existing.sha;const conflict=checkFileOwnership(existing);if(conflict){if(silent){githubStatus='error';safeSetItem('finances_github_status','error');updateGithubStatus();return;}const ok=await showConfirm(t('github_conflict_title'),conflict,'warning',t('github_conflict_overwrite'),t('cancel'),true);if(!ok){showToast(t('github_conflict_cancelled'));return;}}}const msg=`${t('backup')} ${now.toLocaleString(currentLang==='pt'?'pt-BR':'en-US')} (${transactions.length})`;const res=await ghPutFile(json,sha,msg);const commit=res.commit&&res.commit.sha?res.commit.sha.slice(0,7):'';githubStatus='ok';safeSetItem('finances_github_status','ok');updateGithubStatus();if(!silent) showToast(t('github_backup_ok')+(commit?' • '+commit:''));}catch(e){githubStatus='error';safeSetItem('finances_github_status','error');updateGithubStatus();if(!silent) showAlert(t('warning'),t('github_backup_fail')+': '+e.message,'error');}finally{_githubBusy=false;}}
+async function githubRestore(){if(_githubBusy){showToast(t('github_busy'));return;}if(!githubSettings.repo||!githubSettings.token){showAlert(t('warning'),t('github_not_configured'),'info');openGithubModal();return;}_githubBusy=true;try{await ghEnsureBranch();showToast(t('github_downloading'),3000);let file=await ghGetFile();if(!file){await new Promise(r=>setTimeout(r,1200));file=await ghGetFile();}if(!file){githubStatus='error';safeSetItem('finances_github_status','error');updateGithubStatus();showAlert(t('warning'),t('github_file_not_found'),'info');return;}const content=base64ToUtf8(file.content.replace(/\n/g,''));let data;try{data=JSON.parse(content);}catch(e){githubStatus='error';safeSetItem('finances_github_status','error');updateGithubStatus();showAlert(t('warning'),t('invalid_file'),'error');return;}const owner=data.app||data.appLabel||'';if(owner&&owner!==APP_ID&&owner!==APP_LABEL){githubStatus='error';safeSetItem('finances_github_status','error');updateGithubStatus();showAlert(t('warning'),t('github_restore_conflict').replace('{owner}',owner),'error');return;}if(!data.transactions||!Array.isArray(data.transactions)){githubStatus='error';safeSetItem('finances_github_status','error');updateGithubStatus();showAlert(t('warning'),t('invalid_file'),'error');return;}if(data.transactions.length===0){githubStatus='error';safeSetItem('finances_github_status','error');updateGithubStatus();showAlert(t('warning'),t('github_backup_empty_remote'),'info');return;}const validTxs=data.transactions.filter(isValidTransaction);if(!validTxs.length){githubStatus='error';safeSetItem('finances_github_status','error');updateGithubStatus();showAlert(t('warning'),t('invalid_file'),'error');return;}const ok=await showConfirm(t('github_restore_confirm_title'),t('github_restore_confirm_msg').replace('{count}',validTxs.length),'cloud_download',t('confirm'),t('cancel'),false);if(!ok) return;const prevT=transactions,prevP=userProfile;transactions=validTxs;if(data.user) userProfile=data.user;if(!safeSetItem('finances_transactions',JSON.stringify(transactions))||!safeSetItem('finances_profile',JSON.stringify(userProfile))){transactions=prevT;userProfile=prevP;githubStatus='error';safeSetItem('finances_github_status','error');updateGithubStatus();showAlert(t('warning'),t('storage_full'),'error');return;}_bumpTxVersion();recalcNextId();githubStatus='ok';safeSetItem('finances_github_status','ok');updateGithubStatus();renderAll();showToast(t('backup_restored'));}catch(e){githubStatus='error';safeSetItem('finances_github_status','error');updateGithubStatus();showAlert(t('warning'),t('github_restore_fail')+': '+e.message,'error');}finally{_githubBusy=false;}}
+async function githubDisconnect(){if(!githubSettings.repo&&!githubSettings.token){showAlert(t('warning'),t('github_not_connected'),'info');return;}const ok=await showConfirm(t('github_disconnect'),t('github_disconnect_confirm'),'link_off',t('confirm'),t('cancel'),true);if(!ok) return;resetAutoBackupTimers();resetExpiryNotifyGuard();githubSettings={repo:'',token:'',branch:'',path:'',tokenExpiry:''};githubStatus='idle';ghBranchValidated=false;safeRemoveItem('finances_github');safeRemoveItem('finances_github_status');updateGithubStatus();showToast(t('github_disconnected'));}
 function applyTranslations(){document.querySelectorAll('[data-i18n]').forEach(node=>{const k=node.getAttribute('data-i18n');if(k) node.textContent=t(k);});document.querySelectorAll('[data-i18n-placeholder]').forEach(node=>{const k=node.getAttribute('data-i18n-placeholder');if(k) node.placeholder=t(k);});document.documentElement.lang=currentLang==='pt'?'pt-BR':'en';el.formDate.placeholder=currentLang==='pt'?'DD/MM/AAAA':'MM/DD/YYYY';updateCurrencySymbol();el.langBtn.textContent=currentLang==='pt'?'🇧🇷 PT':'🇺🇸 EN';el.greetingText.textContent=t('welcome');const ghB=$('ghBranch'),ghP=$('ghPath');if(ghB&&(!ghB.value||ghB.value==='main'||ghB.value==='principal')) ghB.value=t('github_branch_ph');if(ghP&&(!ghP.value||ghP.value==='backup.json'||ghP.value==='becape.json')) ghP.value=t('github_path_ph');if(el.modal.classList.contains('open')){const editing=parseInt(el.editId.value,10)>0;el.modalTitle.textContent=editing?t('edit_transaction'):t('new_transaction');if(el.saveBtn) el.saveBtn.textContent=t('save');}if(el.calendarModalOverlay.classList.contains('open')) renderCalendar();if(el.githubModal.classList.contains('open')&&el.ghTokenExpiry){el.ghTokenExpiry.value=isoToLocalDate(el.ghTokenExpiry.dataset.iso||'');el.ghTokenExpiry.placeholder=currentLang==='pt'?'DD/MM/AAAA':'MM/DD/YYYY';fmtExpiryHint();}updateNavLabel('chart');updateNavLabel('report');updateNavLabel('trans');syncAutoBackupUI();renderAll();updateGithubStatus();}
-function toggleDarkMode(){document.body.classList.toggle('dark-mode');const isDark=document.body.classList.contains('dark-mode');el.darkModeBtn.textContent=isDark?'🌙':'☀️';localStorage.setItem('finances_darkmode',isDark?'true':'false');document.querySelector('meta[name="theme-color"]').setAttribute('content',isDark?'#0F172A':'#1E3A8A');if(activePage==='home') renderChart();}
-function toggleLang(){currentLang=currentLang==='pt'?'en':'pt';localStorage.setItem('finances_lang',currentLang);applyTranslations();}
+function toggleDarkMode(){document.body.classList.toggle('dark-mode');const isDark=document.body.classList.contains('dark-mode');el.darkModeBtn.textContent=isDark?'🌙':'☀️';safeSetItem('finances_darkmode',isDark?'true':'false');document.querySelector('meta[name="theme-color"]').setAttribute('content',isDark?'#0F172A':'#1E3A8A');if(activePage==='home') renderChart();}
+function toggleLang(){currentLang=currentLang==='pt'?'en':'pt';safeSetItem('finances_lang',currentLang);applyTranslations();}
 function handleBackButton(){const overlays=['dialogAlert','dialogConfirm','githubModal','profileModal','clearModal','modal','numpadModalOverlay','calendarModalOverlay'];for(const id of overlays){const o=$(id);if(o&&o.classList.contains('open')){if(id==='modal') closeModal();else if(id==='clearModal') closeClearModal();else if(id==='profileModal') closeProfileModal();else if(id==='githubModal') closeGithubModal();else if(id==='numpadModalOverlay') closeNumpadModal();else if(id==='calendarModalOverlay') closeCalendarModal();else o.classList.remove('open');return true;}}if(el.globalMenu.classList.contains('open')){el.globalMenu.classList.remove('open');return true;}return false;}
 function checkPendingAndNotify(){const p=transactions.filter(x=>x.status==='pending');if(p.length) showToast(t('pending_notification').replace('{count}',p.length),5000);}
 function loadData(){const s=safeGetItem('finances_transactions');if(s){try{const p=JSON.parse(s);if(Array.isArray(p)) transactions=p.filter(isValidTransaction);}catch(e){transactions=[];}}const prof=safeGetItem('finances_profile');if(prof){try{userProfile=JSON.parse(prof);}catch(e){}}const lang=safeGetItem('finances_lang');if(lang) currentLang=lang;_bumpTxVersion();loadGithubSettings();loadAutoBackupSetting();_last6hBackup=Date.now();recalcNextId();const n=new Date();nav.chart.month=nav.report.month=nav.trans.month=n.getMonth();nav.chart.year=nav.report.year=nav.trans.year=n.getFullYear();filterMonth={month:nav.report.month,year:nav.report.year};applyTranslations();}
 document.addEventListener('DOMContentLoaded',function(){
-  if(localStorage.getItem('finances_darkmode')==='true'){document.body.classList.add('dark-mode');el.darkModeBtn.textContent='🌙';document.querySelector('meta[name="theme-color"]').setAttribute('content','#0F172A');}
-  if(location.protocol==='http:'&&location.hostname!=='localhost'){showAlert('Conexão insegura','Use HTTPS para proteger seu token do GitHub.','lock');}
-  document.addEventListener('click',closeMenuOnClickOutside);
-  history.pushState(null,'',location.href);
-  window.addEventListener('popstate',()=>{if(handleBackButton()){history.pushState(null,'',location.href);}});
-  window.addEventListener('hashchange',()=>{if(handleBackButton()){history.pushState(null,'',location.href);}});
-  loadData();
-  setTimeout(()=>{const dur=notifyTokenExpiry();const delay=Math.max(dur,500)+800;setTimeout(checkPendingAndNotify,delay);},800);
+if(safeGetItem('finances_darkmode')==='true'){document.body.classList.add('dark-mode');el.darkModeBtn.textContent='🌙';document.querySelector('meta[name="theme-color"]').setAttribute('content','#0F172A');}
+document.addEventListener('click',closeMenuOnClickOutside);
+history.pushState(null,'',location.href);
+window.addEventListener('popstate',()=>{if(handleBackButton()){history.pushState(null,'',location.href);}});
+window.addEventListener('hashchange',()=>{if(handleBackButton()){history.pushState(null,'',location.href);}});
+loadData();
+setTimeout(()=>{
+const dur=notifyTokenExpiry();
+const delay=Math.max(dur,500)+800;
+setTimeout(checkPendingAndNotify,delay);
+},1200);
+if(location.protocol==='http:'&&location.hostname!=='localhost'){
+setTimeout(()=>showAlert('Conexão insegura','Use HTTPS para proteger seu token do GitHub.','lock'),7000);
+}
 });
 </script>
 </body>
