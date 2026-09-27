@@ -1,0 +1,1511 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+<meta name="theme-color" content="#1E3A8A">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="format-detection" content="telephone=no,email=no,address=no">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' blob: https://cdnjs.cloudflare.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' data: https://fonts.gstatic.com; img-src 'self' data: blob:; connect-src 'self' blob: https://api.github.com; worker-src 'self' blob:; object-src 'none'; base-uri 'none';">
+<title>Finanças App</title>
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<style>*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}:root{--primary:#2563EB;--primary-dark:#1D4ED8;--primary-light:#DBEAFE;--success:#16A34A;--success-light:#DCFCE7;--danger:#DC2626;--danger-light:#FEE2E2;--warning:#F59E0B;--warning-light:#FEF3C7;--gray-50:#F8FAFC;--gray-100:#F1F5F9;--gray-200:#E2E8F0;--gray-300:#CBD5E1;--gray-400:#94A3B8;--gray-500:#64748B;--gray-700:#334155;--gray-900:#0F172A;--shadow:0 1px 3px rgba(0,0,0,.1);--shadow-lg:0 10px 15px -3px rgba(0,0,0,.1);--radius:16px;--radius-sm:10px;--transition:all .2s ease;--color-service:#2563EB;--color-sale:#10B981;--color-expense:#EF4444;--header-height:134px;--footer-height:65px;--font-size-base:19px}html,body{height:100%;min-height:100dvh;min-height:-webkit-fill-available;font-family:system-ui,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif;background:var(--gray-50);color:var(--gray-900);transition:background .3s,color .3s;overflow:hidden;font-size:var(--font-size-base)}.app-wrapper{max-width:1200px;margin:0 auto;height:100dvh;height:-webkit-fill-available;min-height:100dvh;min-height:-webkit-fill-available;display:flex;flex-direction:column;background:var(--gray-50);position:relative;transition:background .3s;overflow:hidden;width:100%}.app-header{background:linear-gradient(135deg,#1E3A8A,#06B6D4);color:#fff;padding:16px 16px 12px;border-radius:0;box-shadow:0 4px 20px rgba(6,182,212,.3);flex-shrink:0;position:sticky;top:0;z-index:20;transition:background .3s;min-height:var(--header-height)}.header-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:4px;flex-wrap:wrap;gap:8px}.header-left{display:flex;align-items:center;gap:12px}.profile-avatar{width:68px;height:68px;border-radius:50%;background:rgba(255,255,255,.2);border:2px solid rgba(255,255,255,.4);display:flex;align-items:center;justify-content:center;cursor:pointer;overflow:hidden;flex-shrink:0;transition:var(--transition)}.profile-avatar:hover{transform:scale(1.05);border-color:#fff}.profile-avatar img{width:100%;height:100%;object-fit:cover}.profile-avatar .material-icons{font-size:38px;color:rgba(255,255,255,.8)}.user-info .user-name{font-weight:700;font-size:18px}.user-info .user-greeting{font-size:14px;opacity:.8}.header-right{display:flex;align-items:center;gap:6px}.lang-btn,.dark-btn{background:rgba(255,255,255,.2);border:2px solid rgba(255,255,255,.3);color:#fff;padding:6px 12px;border-radius:20px;font-size:13px;font-weight:700;cursor:pointer;transition:var(--transition);font-family:inherit}.lang-btn:hover,.dark-btn:hover{background:rgba(255,255,255,.3)}.dark-btn{padding:6px 10px;font-size:16px;line-height:1}.conn-btn{display:flex;align-items:center;gap:8px;background:rgba(255,255,255,.15);border:2px solid rgba(255,255,255,.25);color:#fff;padding:0 12px 0 10px;border-radius:20px;transition:all .25s ease;font-family:inherit;height:36px;flex-shrink:0;user-select:none}.conn-icon{width:18px;height:18px;fill:currentColor;flex-shrink:0;opacity:.95}.conn-dot{width:10px;height:10px;border-radius:50%;background:#94A3B8;box-shadow:0 0 0 2px rgba(148,163,184,.45);transition:all .3s ease;flex-shrink:0}.conn-btn.ok{background:linear-gradient(135deg,#16A34A,#059669);border-color:rgba(34,197,94,.8);box-shadow:0 4px 14px rgba(34,197,94,.5)}.conn-btn.ok .conn-dot{background:#fff;box-shadow:0 0 0 2px rgba(255,255,255,.55);animation:conn-pulse 2.5s infinite}.conn-btn.pending{background:linear-gradient(135deg,#F59E0B,#D97706);border-color:rgba(245,158,11,.8);box-shadow:0 4px 14px rgba(245,158,11,.45)}.conn-btn.pending .conn-dot{background:#fff;box-shadow:0 0 0 2px rgba(255,255,255,.55);animation:conn-pulse 1.8s infinite}.conn-btn.error{background:linear-gradient(135deg,#EF4444,#DC2626);border-color:rgba(239,68,68,.8);box-shadow:0 4px 14px rgba(239,68,68,.45)}.conn-btn.error .conn-dot{background:#fff;box-shadow:0 0 0 2px rgba(255,255,255,.55)}.conn-btn.expired{background:linear-gradient(135deg,#7F1D1D,#991B1B);border-color:rgba(127,29,29,.9);box-shadow:0 4px 14px rgba(220,38,38,.55)}.conn-btn.expired .conn-dot{background:#fff;box-shadow:0 0 0 2px rgba(255,255,255,.55);animation:conn-pulse 1s infinite}@keyframes conn-pulse{0%,100%{box-shadow:0 0 0 2px rgba(255,255,255,.55)}50%{box-shadow:0 0 0 6px rgba(255,255,255,.1)}}.header-bottom{padding-top:6px}.header-bottom .bottom-row{display:flex;justify-content:space-between;align-items:center;width:100%}.header-date{font-size:18px;font-weight:500;opacity:.9;color:#fff;letter-spacing:.3px;margin-left:auto;margin-right:12px}.header-bottom .dark-btn{flex-shrink:0;background:rgba(255,255,255,.15);border-color:rgba(255,255,255,.25)}.header-bottom .dark-btn:hover{background:rgba(255,255,255,.3)}.content{flex:1;padding:12px 12px 20px;overflow-y:auto;background:var(--gray-50);transition:background .3s;-webkit-overflow-scrolling:touch;min-height:0}.page{display:none;animation:fadeIn .3s ease}.page.active{display:block}@keyframes fadeIn{0%{opacity:0;transform:translateY(8px)}100%{opacity:1;transform:translateY(0)}}.balance-card{background:#fff;border-radius:var(--radius);padding:16px 20px;box-shadow:var(--shadow);text-align:center;margin-bottom:16px;color:var(--gray-900);transition:background .3s,color .3s}.balance-card .label{font-size:20px;color:var(--gray-500);text-transform:uppercase;letter-spacing:.5px;font-weight:700}.balance-card .value{font-size:22px;font-weight:700;color:var(--gray-900);margin-top:2px}.balance-card .sub{display:flex;justify-content:center;gap:24px;margin-top:6px;font-size:16px;font-weight:700}.balance-card .sub span{display:flex;align-items:center;gap:4px}.balance-card .sub .income{color:var(--success)}.balance-card .sub .expense{color:var(--danger)}.balance-card .sub .material-icons{font-size:20px}.chart-container{background:#fff;border-radius:var(--radius);padding:16px 14px 20px;box-shadow:var(--shadow);margin-bottom:16px;transition:background .3s,color .3s}.chart-container h3{font-size:15px;color:var(--gray-500);margin-bottom:14px;display:flex;align-items:center;gap:6px;justify-content:center}.chart-container h3 .material-icons{font-size:18px;color:var(--gray-500)}.chart-stats{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:14px}.chart-stat{background:var(--gray-50);border-radius:var(--radius-sm);padding:10px 4px;text-align:center;min-height:56px;display:flex;flex-direction:column;justify-content:center;align-items:center;transition:background .3s}.chart-stat .stat-label{font-size:14px;font-weight:600;color:var(--gray-500);text-transform:uppercase;letter-spacing:.3px;margin-bottom:4px}.chart-stat .stat-value{font-size:16px;font-weight:700;line-height:1.2;word-break:break-word}.chart-stat .stat-value.service{color:var(--color-service)}.chart-stat .stat-value.sale{color:var(--color-sale)}.chart-stat .stat-value.expense{color:var(--color-expense)}.bar-chart-simple{display:flex;flex-direction:column;gap:16px;margin-top:10px;width:100%}.bar-item-simple{display:flex;align-items:center;gap:8px;min-height:64px;width:100%}.bar-item-simple .bar-label{font-size:15px;font-weight:700;width:70px;flex-shrink:0;text-align:right;color:var(--gray-700);letter-spacing:-.2px}.bar-item-simple .bar-track{flex:1;height:50px;background:#e5e7eb;border-radius:24px;overflow:hidden;position:relative;min-width:30px;margin:0 2px;display:flex}.bar-track .bar-fill-paid,.bar-track .bar-fill-pending{height:100%;min-width:2px}.bar-item-simple .bar-values{display:flex;flex-direction:column;align-items:flex-start;min-width:90px;font-size:13px;font-weight:600;gap:2px;flex-shrink:0}.bar-item-simple .bar-values .bar-value.paid{color:#22C55E}.bar-item-simple .bar-values .bar-value.pending{color:#F59E0B}.chart-total-simple{text-align:center;margin-top:16px;padding-top:12px;border-top:1px solid var(--gray-100);font-size:15px;color:var(--gray-700);display:flex;align-items:center;justify-content:center;gap:6px}.chart-total-simple .material-icons{font-size:18px;color:var(--gray-500)}.chart-total-simple strong{color:var(--primary)}.no-data-chart{text-align:center;padding:24px 16px;color:var(--gray-500)}.no-data-chart .material-icons{font-size:40px;color:var(--gray-300);margin-bottom:6px}.filter-nav{display:flex;align-items:center;justify-content:space-between;background:#fff;border-radius:50px;padding:6px 12px;margin-bottom:16px;box-shadow:var(--shadow);transition:background .3s,color .3s,box-shadow .3s;border:1px solid var(--gray-200)}.filter-nav .nav-btn{background:#e2e8f0;border:none;border-radius:50%;width:40px;height:40px;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:var(--transition);color:#1e293b;font-size:20px}.filter-nav .nav-btn:hover{background:var(--primary);color:#fff}.filter-nav .nav-btn:active{transform:scale(.92)}.filter-nav .filter-month-label{font-size:18px;font-weight:600;color:var(--gray-700);flex:1;text-align:center}.filter-nav .btn-today{font-size:14px;font-weight:600;padding:6px 16px;border-radius:50px;background:var(--primary);color:#fff;border:none;cursor:pointer;transition:var(--transition);font-family:inherit;white-space:nowrap;height:36px;display:flex;align-items:center;justify-content:center}.filter-nav .btn-today:hover{background:var(--primary-dark)}body.dark-mode .filter-nav{background:#1E293B;border-color:#334155;box-shadow:none}body.dark-mode .filter-nav .nav-btn{background:#334155;color:#f1f5f9}body.dark-mode .filter-nav .nav-btn:hover{background:var(--primary);color:#fff}body.dark-mode .filter-nav .filter-month-label{color:#F1F5F9}body.dark-mode .filter-nav .btn-today{background:#3b82f6}body.dark-mode .filter-nav .btn-today:hover{background:#2563eb}.filter-row-transactions{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:12px;align-items:center}.filter-row-transactions .filter-group{display:flex;align-items:center;gap:4px;flex:1;min-width:110px}.filter-row-transactions label{font-size:14px;font-weight:600;color:var(--gray-700);white-space:nowrap}.filter-row-transactions select{flex:1;padding:8px 12px;border:2px solid var(--gray-200);border-radius:var(--radius-sm);font-family:inherit;background:#fff;font-size:15px;transition:var(--transition);min-width:80px}.filter-row-transactions select:focus{outline:none;border-color:var(--primary);box-shadow:0 0 0 3px rgba(37,99,235,.1)}.transactions-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;flex-wrap:wrap;gap:6px}.transactions-header h3{font-size:18px;font-weight:600;color:var(--gray-700);display:flex;align-items:center;gap:6px}.transactions-header h3 .material-icons{font-size:20px;color:var(--gray-500)}.transactions-header .count{font-size:13px;color:var(--gray-500);background:var(--gray-100);padding:2px 10px;border-radius:12px}.transaction-item,.report-item{background:#fff;border-radius:var(--radius-sm);padding:12px 14px;margin-bottom:8px;box-shadow:var(--shadow);display:flex;flex-direction:column;gap:4px;transition:var(--transition);position:relative}.transaction-item:hover,.report-item:hover{transform:translateX(2px)}.transaction-item .transaction-info,.report-item .left{flex:1;min-width:0;display:flex;flex-direction:column;gap:2px}.category-row{display:flex;justify-content:space-between;align-items:center}.category-row .category-label,.category-row .category{font-size:14px;font-weight:700;text-transform:uppercase;letter-spacing:.3px;color:var(--gray-900)}.category-row .category-label.service,.category-row .category.service{color:var(--color-service)}.category-row .category-label.sale,.category-row .category.sale{color:var(--color-sale)}.category-row .category-label.expense,.category-row .category.expense{color:var(--color-expense)}.category-row .category-label .cat-icon,.category-row .category .cat-icon{font-size:18px;vertical-align:middle;margin-right:4px}.category-row .category-label.service .cat-icon,.category-row .category.service .cat-icon{color:var(--color-service)}.category-row .category-label.sale .cat-icon,.category-row .category.sale .cat-icon{color:var(--color-sale)}.category-row .category-label.expense .cat-icon,.category-row .category.expense .cat-icon{color:var(--color-expense)}.category-row .date-display{display:flex;align-items:center;gap:4px;font-size:13px;color:var(--gray-500);font-weight:500;white-space:nowrap;flex-shrink:0}.category-row .date-display .date-icon{font-size:14px;color:var(--gray-500)}.title{font-weight:600;font-size:17px;color:var(--gray-900);margin-top:-2px;word-break:break-word}.meta{font-size:14px;color:var(--gray-500);display:flex;align-items:center;gap:6px;flex-wrap:nowrap;margin-top:2px}.meta .amount-value{font-weight:700;font-size:15px;margin-left:4px}.meta .amount-value.income{color:var(--success)}.meta .amount-value.expense{color:var(--danger)}.status-badge{font-size:14px;font-weight:700;padding:4px 12px;border-radius:20px;font-family:inherit;display:inline-flex;align-items:center;gap:4px;border:2px solid transparent;white-space:nowrap;flex-shrink:0}.status-badge.paid{background:#16A34A;color:#fff;border-color:#15803D}.status-badge.pending{background:#D97706;color:#fff;border-color:#B45309;animation:pulse-pending 2s infinite}@keyframes pulse-pending{0%{opacity:1}50%{opacity:.7}100%{opacity:1}}.status-badge .material-icons{font-size:14px}.report-item .status-badge{background:transparent!important;border-color:transparent!important;animation:none!important;padding:0;font-size:13px;gap:3px}.report-item .status-badge.paid{color:#16A34A}.report-item .status-badge.pending{color:#D97706}body.dark-mode .report-item .status-badge.paid{color:#6EE7B7}body.dark-mode .report-item .status-badge.pending{color:#FCD34D}.actions-btn{background:none;border:none;color:var(--gray-400);cursor:pointer;padding:4px;border-radius:50%;transition:var(--transition);display:flex;align-items:center;justify-content:center;width:32px;height:32px;flex-shrink:0;margin-left:auto}.actions-btn:hover{background:var(--gray-100);color:var(--gray-700)}.actions-btn .material-icons{font-size:20px}.global-menu{position:fixed;background:#fff;border-radius:var(--radius-sm);box-shadow:0 8px 30px rgba(0,0,0,.25);min-width:180px;z-index:999999;border:1px solid var(--gray-200);padding:6px 0;display:none}.global-menu.open{display:block}.global-menu .menu-item{display:flex;align-items:center;gap:10px;padding:10px 16px;border:none;background:transparent;width:100%;text-align:left;font-size:13px;font-weight:500;color:var(--gray-700);cursor:pointer;transition:var(--transition);font-family:inherit}.global-menu .menu-item:hover{background:var(--gray-50)}.global-menu .menu-item .material-icons{font-size:18px;color:var(--gray-500)}.global-menu .menu-item.edit:hover .material-icons{color:var(--primary)}.global-menu .menu-item.delete:hover{color:var(--danger)}.global-menu .menu-item.delete:hover .material-icons{color:var(--danger)}.global-menu .menu-item .menu-label{flex:1}.bottom-nav{flex-shrink:0;display:flex;background:#fff;border-top:1px solid var(--gray-200);box-shadow:0 -4px 10px rgba(0,0,0,.05);height:var(--footer-height);width:100%;margin:0 auto;position:sticky;bottom:0;z-index:30;transition:background .3s,border-color .3s}.bottom-nav .nav-item{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;border:none;background:transparent;color:var(--gray-500);font-size:13px;font-weight:500;cursor:pointer;transition:var(--transition);font-family:inherit;padding:4px 2px;position:relative}.bottom-nav .nav-item .material-icons{font-size:22px}.bottom-nav .nav-item.active{color:var(--primary)}.bottom-nav .nav-item.active::after{content:'';position:absolute;top:0;left:25%;right:25%;height:3px;background:var(--primary);border-radius:0 0 3px 3px}.bottom-nav .nav-item:hover{color:var(--primary);background:var(--gray-50)}.fab{position:fixed;bottom:calc(var(--footer-height) + 16px);right:16px;background:var(--primary);color:#fff;border:none;width:54px;height:54px;border-radius:50%;box-shadow:0 4px 12px rgba(37,99,235,.4);cursor:pointer;display:flex;align-items:center;justify-content:center;transition:var(--transition);z-index:50;touch-action:manipulation}.fab:hover{transform:scale(1.05);background:var(--primary-dark)}.fab:active{transform:scale(.95)}.fab .material-icons{font-size:28px;pointer-events:none}.toast{position:fixed;bottom:calc(var(--footer-height) + 16px);left:50%;transform:translateX(-50%);background:#FEF3C7;color:#92400E;padding:12px 24px;border-radius:var(--radius-sm);font-size:14px;font-weight:600;z-index:200;opacity:0;transition:all .3s ease;pointer-events:none;max-width:90%;text-align:center;box-shadow:0 4px 12px rgba(217,119,6,.3);border:1px solid #D97706}.toast.show{opacity:1;bottom:calc(var(--footer-height) + 20px)}.toast.toast-warn{background:#FEF3C7;color:#78350F;border-color:#D97706;box-shadow:0 4px 12px rgba(217,119,6,.4)}.toast.toast-warning{background:#FFEDD5;color:#7C2D12;border-color:#EA580C;box-shadow:0 4px 12px rgba(234,88,12,.4)}.toast.toast-danger{background:#FEE2E2;color:#991B1B;border-color:#DC2626;box-shadow:0 4px 12px rgba(220,38,38,.4)}.toast.toast-critical{background:#7F1D1D;color:#FEE2E2;border-color:#7F1D1D;box-shadow:0 4px 12px rgba(127,29,29,.6)}.modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);backdrop-filter:blur(4px);z-index:100;align-items:center;justify-content:center;padding:16px}.modal-overlay.open{display:flex}.modal{background:#fff;width:100%;max-width:480px;max-height:92vh;border-radius:var(--radius);padding:20px 20px 24px;animation:slideUp .3s ease;overflow-y:auto;transition:background .3s,color .3s;margin:0 auto;box-shadow:0 10px 40px rgba(0,0,0,.3)}@keyframes slideUp{0%{opacity:0;transform:translateY(30px) scale(.95)}100%{opacity:1;transform:translateY(0) scale(1)}}.modal-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px}.modal-header h2{font-size:20px;font-weight:700;display:flex;align-items:center;gap:8px}.modal-close{background:none;border:none;font-size:24px;cursor:pointer;color:var(--gray-500);padding:4px}.form-group{margin-bottom:14px}.form-group label{display:block;font-size:13px;font-weight:600;color:var(--gray-700);margin-bottom:4px}.form-group select,.form-group input{width:100%;padding:10px 12px;border:2px solid var(--gray-200);border-radius:var(--radius-sm);font-size:15px;font-family:inherit;background:#fff;transition:var(--transition)}.form-group select:focus,.form-group input:focus{outline:none;border-color:var(--primary);box-shadow:0 0 0 3px rgba(37,99,235,.1)}.form-hint{font-size:12px;color:var(--gray-500);margin-top:6px;line-height:1.4;display:none;font-weight:600}.form-hint.show{display:block}.form-hint.ok{color:#16A34A}.form-hint.neutral{color:#64748B}.form-hint.warn{color:#D97706}.form-hint.warning{color:#EA580C}.form-hint.danger{color:#DC2626}.form-hint.critical{color:#7F1D1D}.form-row{display:grid;grid-template-columns:1fr 1fr;gap:12px}.btn-primary{width:100%;padding:12px;background:var(--primary);color:#fff;border:none;border-radius:var(--radius-sm);font-size:16px;font-weight:600;cursor:pointer;transition:var(--transition);font-family:inherit}.btn-primary:hover{background:var(--primary-dark)}.numpad-modal{background:#fff;border-radius:var(--radius);max-width:400px;width:100%;padding:20px;box-shadow:var(--shadow-lg);animation:slideUp .3s ease;max-height:90vh;overflow-y:auto;transition:background .3s,color .3s}.numpad-modal .numpad-display{background:var(--gray-100);border-radius:var(--radius-sm);padding:12px 16px;margin-bottom:16px;text-align:right;font-size:28px;font-weight:700;color:var(--gray-900);min-height:60px;display:flex;align-items:center;justify-content:flex-end;border:2px solid var(--gray-200);font-family:monospace;transition:background .3s,color .3s,border-color .3s}.numpad-modal .numpad-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:10px}.numpad-modal .numpad-grid button{padding:14px 0;border:1px solid var(--gray-200);border-radius:var(--radius-sm);background:#fff;font-size:20px;cursor:pointer;transition:var(--transition);font-family:inherit;font-weight:500}.numpad-modal .numpad-grid button:hover{background:var(--gray-50)}.numpad-modal .numpad-grid button:active{transform:scale(.95)}.numpad-modal .numpad-grid .num-clear{background:var(--danger-light);color:var(--danger);border-color:var(--danger-light)}.numpad-modal .numpad-grid .num-clear:hover{background:var(--danger);color:#fff}.numpad-modal .numpad-grid .num-operator{background:var(--primary-light);color:var(--primary);border-color:var(--primary-light)}.numpad-modal .numpad-grid .num-operator:hover{background:var(--primary);color:#fff}.numpad-modal .numpad-grid .num-equal{background:var(--success-light);color:var(--success);border-color:var(--success-light)}.numpad-modal .numpad-grid .num-equal:hover{background:var(--success);color:#fff}.numpad-modal .numpad-actions{display:flex;gap:10px;margin-top:12px}.numpad-modal .numpad-actions button{flex:1;padding:10px;border:none;border-radius:var(--radius-sm);font-weight:600;font-size:14px;cursor:pointer;transition:var(--transition);font-family:inherit}.numpad-modal .numpad-actions .btn-close-numpad{background:var(--gray-100);color:var(--gray-700)}.numpad-modal .numpad-actions .btn-close-numpad:hover{background:var(--gray-200)}.numpad-modal .numpad-actions .btn-apply-numpad{background:var(--primary);color:#fff}.numpad-modal .numpad-actions .btn-apply-numpad:hover{background:var(--primary-dark)}.calendar-modal{background:#fff;border-radius:var(--radius);max-width:400px;width:100%;padding:20px;box-shadow:var(--shadow-lg);animation:slideUp .3s ease;max-height:90vh;overflow-y:auto;transition:background .3s,color .3s}.calendar-modal .calendar-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px}.calendar-modal .calendar-header .month-year{font-weight:700;font-size:20px}.calendar-modal .calendar-header button{background:none;border:none;font-size:24px;cursor:pointer;padding:4px 12px;border-radius:50%;transition:var(--transition);line-height:1;color:var(--gray-700)}.calendar-modal .calendar-header button:hover{background:var(--gray-100)}.calendar-modal .calendar-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:6px;text-align:center}.calendar-modal .calendar-grid .day-name{font-size:13px;font-weight:600;color:var(--gray-500);padding:4px 0}.calendar-modal .calendar-grid .day-name.sunday{color:#EF4444}.calendar-modal .calendar-grid .day-cell{padding:10px 0;border-radius:50%;cursor:pointer;font-size:16px;transition:var(--transition);font-weight:500;background:transparent;border:none;width:100%;font-family:inherit;color:var(--gray-900)}.calendar-modal .calendar-grid .day-cell:hover{background:var(--gray-100)}.calendar-modal .calendar-grid .day-cell.selected{background:var(--primary);color:#fff}.calendar-modal .calendar-grid .day-cell.today{font-weight:700;border:2px solid var(--gray-300)}.calendar-modal .calendar-grid .day-cell.other-month{color:var(--gray-300)}.calendar-modal .calendar-grid .day-cell.sunday{color:#EF4444}.calendar-modal .calendar-actions{display:flex;gap:10px;margin-top:16px;justify-content:center}.calendar-modal .calendar-actions button{flex:1;padding:10px;border:none;border-radius:var(--radius-sm);font-weight:600;font-size:14px;cursor:pointer;transition:var(--transition);font-family:inherit}.calendar-modal .calendar-actions .btn-clear-cal{background:var(--gray-100);color:var(--gray-700)}.calendar-modal .calendar-actions .btn-clear-cal:hover{background:var(--gray-200)}.calendar-modal .calendar-actions .btn-cancel-cal{background:var(--danger-light);color:var(--danger)}.calendar-modal .calendar-actions .btn-cancel-cal:hover{background:var(--danger);color:#fff}.calendar-modal .calendar-actions .btn-confirm-cal{background:var(--primary);color:#fff}.calendar-modal .calendar-actions .btn-confirm-cal:hover{background:var(--primary-dark)}.numpad-modal-overlay,.calendar-modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);backdrop-filter:blur(4px);z-index:200;align-items:center;justify-content:center;padding:16px}.numpad-modal-overlay.open,.calendar-modal-overlay.open{display:flex}.dialog-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);backdrop-filter:blur(4px);z-index:1000000;align-items:center;justify-content:center;padding:16px}.dialog-overlay.open{display:flex}.dialog-box{background:#fff;border-radius:var(--radius);max-width:360px;width:100%;padding:24px 20px 20px;box-shadow:var(--shadow-lg);animation:dialogIn .25s ease;transition:background .3s,color .3s}@keyframes dialogIn{0%{opacity:0;transform:scale(.95) translateY(10px)}100%{opacity:1;transform:scale(1) translateY(0)}}.dialog-box .dialog-icon{text-align:center;margin-bottom:12px}.dialog-box .dialog-icon .material-icons{font-size:48px}.dialog-box .dialog-title{font-size:18px;font-weight:700;text-align:center;margin-bottom:6px;color:var(--gray-900)}.dialog-box .dialog-message{font-size:14px;color:var(--gray-500);text-align:center;line-height:1.5;margin-bottom:18px;word-break:break-word}.dialog-box .dialog-actions{display:flex;gap:10px;justify-content:center}.dialog-box .dialog-actions button{flex:1;padding:10px;border:none;border-radius:var(--radius-sm);font-size:14px;font-weight:600;cursor:pointer;transition:var(--transition);font-family:inherit;min-width:80px}.dialog-box .dialog-actions .btn-cancel{background:var(--gray-100);color:var(--gray-700)}.dialog-box .dialog-actions .btn-cancel:hover{background:var(--gray-200)}.dialog-box .dialog-actions .btn-confirm{background:var(--primary);color:#fff}.dialog-box .dialog-actions .btn-confirm:hover{background:var(--primary-dark)}.dialog-box .dialog-actions .btn-danger{background:var(--danger);color:#fff}.dialog-box .dialog-actions .btn-danger:hover{background:#B91C1C}.dialog-box .dialog-actions .btn-ok{background:var(--primary);color:#fff;flex:0 1 auto;padding:10px 28px}.dialog-box .dialog-actions .btn-ok:hover{background:var(--primary-dark)}.dialog-box .dialog-actions.three-options button{flex:1;min-width:60px;font-size:12px;padding:8px 6px}.dialog-box .dialog-actions.three-options .btn-update{background:var(--primary);color:#fff}.dialog-box .dialog-actions.three-options .btn-update:hover{background:var(--primary-dark)}.dialog-box .dialog-actions.three-options .btn-keep{background:var(--gray-100);color:var(--gray-700)}.dialog-box .dialog-actions.three-options .btn-keep:hover{background:var(--gray-200)}.dialog-box .dialog-actions.three-options .btn-cancel-status{background:var(--danger-light);color:var(--danger)}.dialog-box .dialog-actions.three-options .btn-cancel-status:hover{background:var(--danger);color:#fff}.profile-pic-upload{display:flex;flex-direction:column;align-items:center;gap:8px;margin-bottom:16px}.profile-pic-upload .preview{width:80px;height:80px;border-radius:50%;background:var(--gray-100);border:3px dashed var(--gray-300);display:flex;align-items:center;justify-content:center;overflow:hidden;cursor:pointer;transition:var(--transition);position:relative}.profile-pic-upload .preview:hover{border-color:var(--primary);background:var(--primary-light)}.profile-pic-upload .preview img{width:100%;height:100%;object-fit:cover}.profile-pic-upload .preview .material-icons{font-size:36px;color:var(--gray-400)}.profile-pic-upload .preview .overlay{position:absolute;inset:0;background:rgba(0,0,0,.4);display:flex;align-items:center;justify-content:center;opacity:0;transition:var(--transition)}.profile-pic-upload .preview:hover .overlay{opacity:1}.profile-pic-upload .preview .overlay .material-icons{font-size:24px;color:#fff}.profile-pic-upload input[type=file]{display:none}.profile-pic-upload .hint{font-size:12px;color:var(--gray-500)}.report-summary{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px}.report-card{background:#fff;border-radius:var(--radius-sm);padding:14px 10px;text-align:center;box-shadow:var(--shadow);transition:background .3s,color .3s;display:flex;flex-direction:column;align-items:center}.report-card .label{font-size:15px;font-weight:700;color:var(--gray-500);text-transform:uppercase;letter-spacing:.4px;margin-bottom:4px}.report-card .value{font-size:22px;font-weight:700}.report-card .value.income{color:var(--success)}.report-card .value.expense{color:var(--danger)}.report-card .value.total{color:var(--primary)}.report-card .value.average{color:var(--warning)}.report-category-summary{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px}.report-category-card{background:#fff;border-radius:var(--radius-sm);padding:14px 10px;text-align:center;box-shadow:var(--shadow);transition:background .3s,color .3s;display:flex;flex-direction:column;align-items:center}.report-category-card .label{font-size:15px;font-weight:700;color:var(--gray-500);text-transform:uppercase;letter-spacing:.4px;margin-bottom:4px}.report-category-card .value{font-size:22px;font-weight:700}.report-category-card .value.service{color:var(--color-service)}.report-category-card .value.sale{color:var(--color-sale)}.report-category-card .value.expense{color:var(--color-expense)}.report-category-card .value.annual{color:var(--primary)}@media(max-width:480px){.report-summary,.report-category-summary{gap:8px}.report-card,.report-category-card{padding:10px 4px}.report-card .value,.report-category-card .value{font-size:18px}.report-card .label,.report-category-card .label{font-size:13px}}.settings-section{background:#fff;border-radius:var(--radius);padding:16px;box-shadow:var(--shadow);margin-top:16px;transition:background .3s,color .3s}.settings-section h4{font-size:15px;font-weight:600;color:var(--gray-500);margin-bottom:12px;display:flex;align-items:center;gap:8px}.settings-section h4 .material-icons{font-size:20px;color:var(--gray-500)}.settings-item{display:flex;justify-content:space-between;align-items:center;padding:12px 0;border-bottom:1px solid var(--gray-100);gap:8px}.settings-item:last-child{border-bottom:none}.settings-item .info{display:flex;align-items:center;gap:10px;min-width:0;flex:1}.settings-item .info .text{font-size:16px;font-weight:600}.settings-item .info .sub{font-size:12px;font-weight:500;color:var(--gray-500);word-break:break-all}.settings-item .info .sub.ok{color:#16A34A;font-weight:700}.settings-item .info .sub.neutral{color:#2563EB;font-weight:700}.settings-item .info .sub.warn{color:#D97706;font-weight:700}.settings-item .info .sub.warning{color:#EA580C;font-weight:700}.settings-item .info .sub.danger{color:#DC2626;font-weight:700}.settings-item .info .sub.critical{color:#7F1D1D;font-weight:700}.settings-btn{padding:8px 14px;border:none;border-radius:var(--radius-sm);font-weight:700;font-size:14px;cursor:pointer;transition:var(--transition);font-family:inherit;display:flex;align-items:center;gap:4px;flex-shrink:0}.settings-btn.danger{background:var(--danger-light);color:var(--danger)}.settings-btn.danger:hover{background:var(--danger);color:#fff}.settings-btn.success{background:var(--success-light);color:var(--success)}.settings-btn.success:hover{background:var(--success);color:#fff}.settings-btn.primary{background:var(--primary-light);color:var(--primary)}.settings-btn.primary:hover{background:var(--primary);color:#fff}.settings-btn.warning{background:var(--warning-light);color:var(--warning)}.settings-btn.warning:hover{background:var(--warning);color:#fff}.settings-btn:disabled{opacity:.4;cursor:not-allowed}.auto-backup-select{padding:8px 12px;border:2px solid var(--gray-200);border-radius:var(--radius-sm);font-family:inherit;background:#fff;font-size:14px;font-weight:600;color:var(--gray-700);cursor:pointer;transition:var(--transition);flex-shrink:0;max-width:150px}.auto-backup-select:focus{outline:none;border-color:var(--primary);box-shadow:0 0 0 3px rgba(37,99,235,.1)}body.dark-mode .auto-backup-select{background:#0F172A;color:#F1F5F9;border-color:#334155}.custom-amount-wrapper .amount-input{width:100%;text-align:center;font-size:18px;padding:10px;border:2px solid var(--gray-200);border-radius:var(--radius-sm);font-family:inherit;background:#fff;transition:var(--transition);cursor:pointer}.custom-amount-wrapper .amount-input:focus{outline:none;border-color:var(--primary);box-shadow:0 0 0 3px rgba(37,99,235,.1)}.custom-date-wrapper .date-input{width:100%;padding:10px;border:2px solid var(--gray-200);border-radius:var(--radius-sm);font-family:inherit;background:#fff;cursor:pointer;transition:var(--transition);font-size:15px}.custom-date-wrapper .date-input:focus{outline:none;border-color:var(--primary);box-shadow:0 0 0 3px rgba(37,99,235,.1)}.empty-state{text-align:center;padding:28px 16px;color:var(--gray-500)}.empty-state .material-icons{font-size:48px;color:var(--gray-300);margin-bottom:8px}.empty-state p{font-size:14px}.report-section-title{font-size:17px;font-weight:700;color:var(--gray-700);margin:16px 0 8px 0;display:flex;align-items:center;gap:6px}.report-section-title:first-of-type{margin-top:0}.report-section-title .material-icons{font-size:20px;color:var(--gray-500)}#detailTitle{font-size:18px;font-weight:700;color:var(--gray-700);margin-bottom:12px;display:flex;align-items:center;gap:8px}#detailTitle .material-icons{font-size:20px;color:var(--gray-500)}.report-item{border-bottom:1px solid var(--gray-100);margin-bottom:12px}.report-item:last-child{margin-bottom:0;border-bottom:none}#reportDetail{background:#fff;border-radius:var(--radius);padding:16px;box-shadow:var(--shadow);transition:background .3s,color .3s,box-shadow .3s}.clear-modal .clear-options{display:flex;flex-direction:column;gap:8px;margin-bottom:16px}.clear-modal .clear-options label{display:flex;align-items:center;gap:10px;padding:10px 14px;border-radius:var(--radius-sm);background:var(--gray-50);cursor:pointer;transition:var(--transition);font-weight:500;font-size:15px;color:var(--gray-700)}.clear-modal .clear-options label:hover{background:var(--gray-100)}.clear-modal .clear-options label input[type=radio]{width:18px;height:18px;accent-color:var(--primary);cursor:pointer;flex-shrink:0}.clear-modal .clear-options label .radio-label{flex:1}.clear-modal .btn-clear-execute{width:100%;padding:12px;border:none;border-radius:var(--radius-sm);font-weight:700;font-size:16px;cursor:pointer;transition:var(--transition);font-family:inherit;background:var(--danger);color:#fff;display:flex;align-items:center;justify-content:center;gap:8px}.clear-modal .btn-clear-execute:hover{background:#B91C1C}.clear-modal .clear-options .year-row{display:flex;align-items:stretch;gap:6px}.clear-modal .clear-options .year-row .year-main-label{flex:1;margin:0}.clear-modal .clear-options .year-toggle-btn{background:var(--gray-50);border:none;border-radius:var(--radius-sm);width:46px;display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--gray-700);transition:var(--transition);flex-shrink:0;padding:0}.clear-modal .clear-options .year-toggle-btn:hover{background:var(--primary);color:#fff}.clear-modal .clear-options .year-toggle-btn .material-icons{font-size:22px;transition:transform .25s ease}.clear-modal .clear-options .year-toggle-btn.open .material-icons{transform:rotate(180deg)}.clear-modal .clear-options .year-dropdown{display:none;flex-direction:column;gap:8px;margin-top:-2px;padding-left:14px;border-left:3px solid var(--gray-200)}.clear-modal .clear-options .year-dropdown.open{display:flex}body.dark-mode .clear-modal .clear-options .year-toggle-btn{background:#1E293B;color:#F1F5F9}body.dark-mode .clear-modal .clear-options .year-toggle-btn:hover{background:var(--primary);color:#fff}body.dark-mode .clear-modal .clear-options .year-dropdown{border-left-color:#334155}.pdf-btn{background:var(--primary);color:#fff;border:none;border-radius:var(--radius-sm);padding:8px 16px;font-size:14px;font-weight:600;cursor:pointer;transition:var(--transition);font-family:inherit;display:inline-flex;align-items:center;gap:6px;margin-left:auto}.pdf-btn:hover{background:var(--primary-dark);transform:scale(1.02)}.pdf-btn .material-icons{font-size:18px}.report-header-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;flex-wrap:wrap;gap:8px}.report-header-row h3{margin:0}.pdf-content{font-family:system-ui,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif;padding:20px;max-width:100%;color:#000!important;font-size:16px;line-height:1.5;background:#fff}.pdf-content h2{font-size:24px;margin-bottom:12px;color:#1E3A8A}.pdf-content .pdf-date{font-size:15px;color:#4B5563;margin-bottom:20px}.pdf-content table{width:100%;border-collapse:collapse;font-size:14px;margin-top:10px}.pdf-content th{background:#F1F5F9;text-align:left;padding:10px 14px;border-bottom:2px solid #CBD5E1;font-weight:700;color:#1F2937}.pdf-content td{padding:10px 14px;border-bottom:1px solid #E2E8F0;color:#1F2937}.pdf-content .income{color:#16A34A!important;font-weight:700}.pdf-content .expense{color:#DC2626!important;font-weight:700}.btn-view-all{width:100%;padding:10px;background:var(--gray-100);border:2px dashed var(--gray-300);border-radius:var(--radius-sm);font-family:inherit;font-size:14px;font-weight:600;color:var(--gray-700);cursor:pointer;transition:var(--transition);margin-top:8px;display:flex;align-items:center;justify-content:center;gap:6px}.btn-view-all:hover{background:var(--gray-200);border-color:var(--primary);color:var(--primary)}body.dark-mode{--gray-50:#0F172A;--gray-100:#1E293B;--gray-200:#334155;--gray-300:#475569;--gray-400:#64748B;--gray-500:#94A3B8;--gray-700:#CBD5E1;--gray-900:#F1F5F9;--shadow:0 1px 3px rgba(0,0,0,.5);--shadow-lg:0 10px 15px -3px rgba(0,0,0,.5);background:#0F172A}body.dark-mode .app-wrapper{background:#0F172A}body.dark-mode .balance-card,body.dark-mode .chart-container,body.dark-mode .transaction-item,body.dark-mode .report-card,body.dark-mode .report-item,body.dark-mode .settings-section,body.dark-mode .modal,body.dark-mode .numpad-modal,body.dark-mode .calendar-modal,body.dark-mode .report-category-card{background:#1E293B;color:#F1F5F9}body.dark-mode .chart-stat{background:#0F172A}body.dark-mode .filter-row-transactions select,body.dark-mode .form-group select,body.dark-mode .form-group input,body.dark-mode .custom-amount-wrapper .amount-input,body.dark-mode .custom-date-wrapper .date-input{background:#0F172A;color:#F1F5F9;border-color:#334155}body.dark-mode .form-hint.ok{color:#6EE7B7}body.dark-mode .form-hint.neutral{color:#94A3B8}body.dark-mode .form-hint.warn{color:#FCD34D}body.dark-mode .form-hint.warning{color:#FDBA74}body.dark-mode .form-hint.danger{color:#FCA5A5}body.dark-mode .form-hint.critical{color:#FECACA}body.dark-mode .bottom-nav{background:#1E293B;border-top-color:#334155}body.dark-mode .bottom-nav .nav-item{color:#94A3B8}body.dark-mode .bottom-nav .nav-item.active{color:#60A5FA}body.dark-mode .bottom-nav .nav-item.active::after{background:#60A5FA}body.dark-mode .profile-avatar{border-color:#475569}body.dark-mode .lang-btn,body.dark-mode .dark-btn{background:rgba(255,255,255,.1);border-color:rgba(255,255,255,.2)}body.dark-mode .lang-btn:hover,body.dark-mode .dark-btn:hover{background:rgba(255,255,255,.2)}body.dark-mode .conn-btn.off{background:rgba(255,255,255,.08);border-color:rgba(255,255,255,.15)}body.dark-mode .app-header{background:linear-gradient(135deg,#0F172A,#1E3A8A)}body.dark-mode .dialog-box{background:#1E293B;color:#F1F5F9}body.dark-mode .dialog-box .dialog-message{color:#94A3B8}body.dark-mode .global-menu{background:#1E293B;border-color:#334155}body.dark-mode .global-menu .menu-item{color:#F1F5F9}body.dark-mode .global-menu .menu-item:hover{background:#0F172A}body.dark-mode .global-menu .menu-item .material-icons{color:#94A3B8}body.dark-mode .settings-btn.danger{background:#7F1D1D;color:#FCA5A5}body.dark-mode .settings-btn.success{background:#064E3B;color:#6EE7B7}body.dark-mode .settings-btn.primary{background:#1E3A8A;color:#93C5FD}body.dark-mode .settings-btn.warning{background:#78350F;color:#FCD34D}body.dark-mode .fab{background:#3B82F6}body.dark-mode .fab:hover{background:#2563EB}body.dark-mode .bar-item-simple .bar-label,body.dark-mode .bar-item-simple .bar-values{color:#CBD5E1}body.dark-mode .bar-item-simple .bar-track{background:#334155}body.dark-mode .chart-total-simple{border-top-color:#334155;color:#CBD5E1}body.dark-mode .no-data-chart{color:#94A3B8}body.dark-mode .no-data-chart .material-icons{color:#475569}body.dark-mode .modal-header h2{color:#F1F5F9}body.dark-mode .modal-close{color:#94A3B8}body.dark-mode .form-group label{color:#CBD5E1}body.dark-mode .numpad-modal .numpad-display{background:#0F172A;color:#F1F5F9;border-color:#334155}body.dark-mode .numpad-modal .numpad-grid button{background:#1E293B;border-color:#334155;color:#F1F5F9}body.dark-mode .numpad-modal .numpad-grid button:hover{background:#0F172A}body.dark-mode .numpad-modal .numpad-actions .btn-close-numpad{background:#334155;color:#F1F5F9}body.dark-mode .calendar-modal .calendar-header button{color:#F1F5F9}body.dark-mode .calendar-modal .calendar-header button:hover{background:#334155}body.dark-mode .calendar-modal .calendar-grid .day-name{color:#94A3B8}body.dark-mode .calendar-modal .calendar-grid .day-cell{color:#CBD5E1}body.dark-mode .calendar-modal .calendar-grid .day-cell:hover{background:#334155}body.dark-mode .calendar-modal .calendar-grid .day-cell.today{border-color:#475569;color:#F1F5F9}body.dark-mode .calendar-modal .calendar-grid .day-cell.other-month{color:#475569}body.dark-mode .calendar-modal .calendar-actions .btn-clear-cal{background:#334155;color:#F1F5F9}body.dark-mode .toast{background:#78350F;color:#FDE68A;border-color:#D97706}body.dark-mode .toast.toast-warn{background:#78350F;color:#FDE68A;border-color:#D97706}body.dark-mode .toast.toast-warning{background:#7C2D12;color:#FED7AA;border-color:#EA580C}body.dark-mode .toast.toast-danger{background:#7F1D1D;color:#FCA5A5;border-color:#DC2626}body.dark-mode .toast.toast-critical{background:#450A0A;color:#FECACA;border-color:#7F1D1D}body.dark-mode #reportDetail{background:#1E293B;box-shadow:none}body.dark-mode .report-item{border-bottom-color:#334155;background:#1E293B}body.dark-mode .report-item .left .meta{color:#94A3B8}body.dark-mode .report-item .left .meta .amount-value{color:#F1F5F9}body.dark-mode .report-item .left .meta .amount-value.income{color:#6EE7B7}body.dark-mode .report-item .left .meta .amount-value.expense{color:#FCA5A5}body.dark-mode .report-section-title{color:#CBD5E1}body.dark-mode .report-section-title .material-icons{color:#94A3B8}body.dark-mode #detailTitle .material-icons{color:#94A3B8}body.dark-mode .transaction-item .transaction-info .meta .amount-value{color:#F1F5F9}body.dark-mode .transaction-item .transaction-info .meta .amount-value.income{color:#6EE7B7}body.dark-mode .transaction-item .transaction-info .meta .amount-value.expense{color:#FCA5A5}body.dark-mode .category-row .date-display,body.dark-mode .category-row .date-display .date-icon{color:#94A3B8}body.dark-mode .btn-view-all{background:#1E293B;border-color:#334155;color:#CBD5E1}body.dark-mode .btn-view-all:hover{background:#334155;border-color:#3B82F6;color:#60A5FA}body.dark-mode .settings-item .info .sub.ok{color:#6EE7B7}body.dark-mode .settings-item .info .sub.neutral{color:#93C5FD}body.dark-mode .settings-item .info .sub.warn{color:#FCD34D}body.dark-mode .settings-item .info .sub.warning{color:#FDBA74}body.dark-mode .settings-item .info .sub.danger{color:#FCA5A5}body.dark-mode .settings-item .info .sub.critical{color:#FECACA}@media(max-width:480px){.report-item{padding:14px 10px;margin-bottom:10px}.report-item .left .category-row .category{font-size:17px}.report-item .left .title{font-size:15px}.report-item .left .meta{font-size:14px}.report-item .left .meta .amount-value{font-size:15px}.status-badge{font-size:12px;padding:2px 8px}.status-badge .material-icons{font-size:12px!important}.transaction-item .transaction-info .meta .amount-value{font-size:14px}.report-section-title{font-size:15px}.report-section-title .material-icons{font-size:18px}#detailTitle{font-size:16px}#detailTitle .material-icons{font-size:18px}.chart-container h3 .material-icons{font-size:16px}.chart-total-simple .material-icons{font-size:16px}.transactions-header h3 .material-icons{font-size:18px}.settings-section h4 .material-icons{font-size:18px}.pdf-btn{font-size:12px;padding:6px 10px}.pdf-btn .material-icons{font-size:16px}.conn-btn{height:32px;padding:0 10px 0 8px;gap:6px}.conn-icon{width:15px;height:15px}.conn-dot{width:8px;height:8px}.auto-backup-select{font-size:12px;padding:6px 8px;max-width:120px}}@media(min-width:481px){.app-wrapper{max-width:1200px;padding:0 8px}.transaction-item,.report-item{padding:14px 16px}.category-row .category-label,.category-row .category{font-size:16px}.title{font-size:18px}.meta{font-size:15px}.meta .amount-value{font-size:16px}.status-badge{font-size:15px;padding:6px 14px}.chart-container h3{font-size:17px}.chart-stat .stat-value{font-size:18px}.report-card .value,.report-category-card .value{font-size:24px}.report-item .left .category-row .category{font-size:19px}.report-item .left .title{font-size:18px}.report-item .left .meta{font-size:16px}.report-item .left .meta .amount-value{font-size:17px}.report-section-title{font-size:19px}.report-section-title .material-icons{font-size:22px}#detailTitle{font-size:20px}#detailTitle .material-icons{font-size:22px}.btn-view-all{font-size:16px;padding:12px}.fab{width:60px;height:60px;bottom:calc(var(--footer-height) + 20px)}.fab .material-icons{font-size:32px}}@media(min-width:1232px){.fab{right:calc((100vw - 1200px)/2 + 20px)}}@media print{.app-header,.bottom-nav,.fab,.toast,.dialog-overlay,.modal-overlay,.global-menu,.no-print{display:none!important}.app-wrapper{max-width:100%;background:#fff!important;height:auto!important;overflow:visible!important}.content{overflow:visible!important;padding:20px}.page{display:block!important}.report-summary,.report-item,.report-category-summary{break-inside:avoid}.filter-row{display:none!important}body.dark-mode .report-item,body.dark-mode .report-card,body.dark-mode .report-category-card{background:#fff!important;color:#000!important}}
+.app-header{padding-top:calc(16px + env(safe-area-inset-top))}
+.content{padding-bottom:calc(20px + env(safe-area-inset-bottom))}
+#page-home.active,#page-transactions.active,#page-reports.active,#page-settings.active{padding-bottom:calc(80px + env(safe-area-inset-bottom))}
+.fab{bottom:calc(var(--footer-height) + 16px + env(safe-area-inset-bottom))}
+@media(min-width:481px){.fab{bottom:calc(var(--footer-height) + 20px + env(safe-area-inset-bottom))}}
+.toast{bottom:calc(var(--footer-height) + 16px + env(safe-area-inset-bottom))}
+.toast.show{bottom:calc(var(--footer-height) + 20px + env(safe-area-inset-bottom))}
+/* Legibilidade na aba Relatório */
+.report-item .left .title{font-size:17px}
+.report-item .status-badge{font-size:15px;gap:4px}
+@media(min-width:481px){
+  .report-item .left .title{font-size:19px}
+  .report-item .status-badge{font-size:16px}
+}
+</style>
+</head>
+<body>
+<div class="app-wrapper">
+    <div class="toast" id="toast"></div>
+    <div class="dialog-overlay" id="dialogConfirm">
+        <div class="dialog-box">
+            <div class="dialog-icon"><span class="material-icons" id="confirmIcon">help</span></div>
+            <div class="dialog-title" id="confirmTitle">Confirmação</div>
+            <div class="dialog-message" id="confirmMessage">Tem certeza?</div>
+            <div class="dialog-actions" id="confirmActions"></div>
+        </div>
+    </div>
+    <div class="dialog-overlay" id="dialogAlert">
+        <div class="dialog-box">
+            <div class="dialog-icon"><span class="material-icons" id="alertIcon">info</span></div>
+            <div class="dialog-title" id="alertTitle">Aviso</div>
+            <div class="dialog-message" id="alertMessage">Mensagem</div>
+            <div class="dialog-actions"><button class="btn-ok" id="alertOk">OK</button></div>
+        </div>
+    </div>
+    <header class="app-header">
+        <div class="header-top">
+            <div class="header-left">
+                <div class="profile-avatar" onclick="openProfileModal()" aria-label="Editar perfil">
+                    <img id="profileImage" src="" alt="Foto" style="display:none;">
+                    <span id="profilePlaceholder" class="material-icons">person</span>
+                </div>
+                <div class="user-info">
+                    <div class="user-name" id="userNameDisplay">Usuário</div>
+                    <div class="user-greeting" id="greetingText">Bem-vindo!</div>
+                </div>
+            </div>
+            <div class="header-right">
+                <div class="conn-btn off" id="connBtn" role="status" aria-live="polite">
+                    <svg class="conn-icon" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
+                    <span class="conn-dot"></span>
+                </div>
+                <button class="lang-btn" onclick="toggleLang()" id="langBtn" aria-label="Trocar idioma">🇧🇷 PT</button>
+            </div>
+        </div>
+        <div class="header-bottom">
+            <div class="bottom-row">
+                <div class="header-date" id="headerDate"></div>
+                <button class="dark-btn" onclick="toggleDarkMode()" id="darkModeBtn" aria-label="Alternar tema">☀️</button>
+            </div>
+        </div>
+    </header>
+    <div class="content">
+        <div class="balance-card" id="balanceCard">
+            <div class="label" data-i18n="balance">Saldo</div>
+            <div class="value" id="balanceDisplay">R$ 0,00</div>
+            <div class="sub">
+                <span class="income"><span class="material-icons">arrow_upward</span><span id="totalIncome">R$ 0,00</span></span>
+                <span class="expense"><span class="material-icons">arrow_downward</span><span id="totalExpense">R$ 0,00</span></span>
+            </div>
+        </div>
+        <div id="page-home" class="page active">
+            <div class="filter-nav">
+                <button class="nav-btn" onclick="changeMonth('chart',-1)" aria-label="Mês anterior"><span class="material-icons">chevron_left</span></button>
+                <span class="filter-month-label" id="chartNavLabel">Janeiro 2026</span>
+                <button class="nav-btn" onclick="changeMonth('chart',1)" aria-label="Próximo mês"><span class="material-icons">chevron_right</span></button>
+                <button class="btn-today" onclick="goToMonthToday('chart')" data-i18n="today">Hoje</button>
+            </div>
+            <div class="chart-container">
+                <h3><span class="material-icons">bar_chart</span> <span data-i18n="chart_title">Distribuição por Categoria</span></h3>
+                <div class="chart-stats">
+                    <div class="chart-stat"><div class="stat-label" id="statLabelService" data-i18n="service">Serviço</div><div class="stat-value service" id="statService">R$ 0,00</div></div>
+                    <div class="chart-stat"><div class="stat-label" id="statLabelSale" data-i18n="sale">Venda</div><div class="stat-value sale" id="statSale">R$ 0,00</div></div>
+                    <div class="chart-stat"><div class="stat-label" id="statLabelExpense" data-i18n="expense">Despesa</div><div class="stat-value expense" id="statExpense">R$ 0,00</div></div>
+                </div>
+                <div id="chartBars"></div>
+                <div class="chart-total-simple" id="chartTotal"><span class="material-icons">attach_money</span> <span data-i18n="total_general">Total geral</span>: <strong>R$ 0,00</strong></div>
+            </div>
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;">
+                <h3 data-i18n="transactions_title" style="font-size:14px;color:var(--gray-500);display:flex;align-items:center;gap:6px;"><span class="material-icons" style="font-size:18px;color:var(--gray-500);">list</span> Últimas Transações</h3>
+                <span id="transactionCount" style="font-size:12px;color:var(--gray-500);">0</span>
+            </div>
+            <div id="transactionList"></div>
+            <button class="btn-view-all" onclick="switchPage('transactions')" data-i18n="view_all_transactions"><span class="material-icons" style="font-size:18px;">list</span> Ver todas as transações</button>
+        </div>
+        <div id="page-transactions" class="page">
+            <div class="filter-nav">
+                <button class="nav-btn" onclick="changeMonth('trans',-1)" aria-label="Mês anterior"><span class="material-icons">chevron_left</span></button>
+                <span class="filter-month-label" id="transNavLabel">Janeiro 2026</span>
+                <button class="nav-btn" onclick="changeMonth('trans',1)" aria-label="Próximo mês"><span class="material-icons">chevron_right</span></button>
+                <button class="btn-today" onclick="goToMonthToday('trans')" data-i18n="today">Hoje</button>
+            </div>
+            <div class="transactions-header">
+                <h3><span class="material-icons">list</span> <span data-i18n="all_transactions">Todas as Transações</span></h3>
+                <span class="count" id="transPageCount">0</span>
+            </div>
+            <div class="filter-row-transactions">
+                <div class="filter-group">
+                    <label for="statusFilter" data-i18n="filter_by_status">Situação:</label>
+                    <select id="statusFilter" onchange="applyFilter('status')">
+                        <option value="all" data-i18n="filter_all">Todos</option>
+                        <option value="paid" data-i18n="filter_paid">Pago</option>
+                        <option value="pending" data-i18n="filter_pending">Pendente</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label for="categoryFilter" data-i18n="filter_by_category">Categoria:</label>
+                    <select id="categoryFilter" onchange="applyFilter('category')">
+                        <option value="all" data-i18n="cat_filter_all">Todas</option>
+                        <option value="service" data-i18n="cat_filter_service">Serviço</option>
+                        <option value="sale" data-i18n="cat_filter_sale">Venda</option>
+                        <option value="expense" data-i18n="cat_filter_expense">Despesa</option>
+                    </select>
+                </div>
+            </div>
+            <div id="allTransactionsList"></div>
+        </div>
+        <div id="page-reports" class="page">
+            <div class="filter-nav">
+                <button class="nav-btn" onclick="changeMonth('report',-1)" aria-label="Mês anterior"><span class="material-icons">chevron_left</span></button>
+                <span class="filter-month-label" id="reportMonthLabel">Janeiro 2026</span>
+                <button class="nav-btn" onclick="changeMonth('report',1)" aria-label="Próximo mês"><span class="material-icons">chevron_right</span></button>
+                <button class="btn-today" onclick="goToMonthToday('report')" data-i18n="today">Hoje</button>
+            </div>
+            <div class="report-header-row">
+                <h3 class="report-section-title"><span class="material-icons">insights</span> <span data-i18n="report_summary_title">Resumo do Mês</span></h3>
+                <button class="pdf-btn" onclick="downloadReportPDF()" aria-label="Baixar PDF">
+                    <span class="material-icons">picture_as_pdf</span>
+                    <span data-i18n="pdf_download">Baixar PDF</span>
+                </button>
+            </div>
+            <div class="report-summary">
+                <div class="report-card"><div class="label" data-i18n="total_income">Total Receitas</div><div class="value income" id="reportIncome">R$ 0,00</div></div>
+                <div class="report-card"><div class="label" data-i18n="total_expense">Total Despesas</div><div class="value expense" id="reportExpense">R$ 0,00</div></div>
+                <div class="report-card"><div class="label" data-i18n="balance">Saldo</div><div class="value total" id="reportBalance">R$ 0,00</div></div>
+                <div class="report-card"><div class="label" data-i18n="average">Média</div><div class="value average" id="reportAverage">R$ 0,00</div></div>
+            </div>
+            <h3 class="report-section-title"><span class="material-icons">category</span> <span data-i18n="report_category_title">Resumo por Categoria</span></h3>
+            <div class="report-category-summary">
+                <div class="report-category-card"><div class="label" data-i18n="service">Serviços</div><div class="value service" id="reportCatService">R$ 0,00</div></div>
+                <div class="report-category-card"><div class="label" data-i18n="sale">Vendas</div><div class="value sale" id="reportCatSale">R$ 0,00</div></div>
+                <div class="report-category-card"><div class="label" data-i18n="expense">Despesas</div><div class="value expense" id="reportCatExpense">R$ 0,00</div></div>
+                <div class="report-category-card"><div class="label" data-i18n="total_annual">Total Anual</div><div class="value annual" id="reportCatAnnual">R$ 0,00</div></div>
+            </div>
+            <div id="reportDetail">
+                <h4 id="detailTitle"><span class="material-icons">receipt_long</span> <span data-i18n="detail_title">Transações Detalhadas</span></h4>
+                <div id="reportList"></div>
+            </div>
+        </div>
+        <div id="page-settings" class="page">
+            <div class="settings-section">
+                <h4><span class="material-icons">cloud</span> <span data-i18n="github_backup">Backup GitHub</span></h4>
+                <div class="settings-item">
+                    <div class="info"><span class="material-icons" id="ghConnIcon" style="color:var(--primary);">link</span><div><div class="text" id="ghConnLabel">Conectar ao GitHub</div><div class="sub" id="ghConnDesc">Configure repositório e token</div></div></div>
+                    <button class="settings-btn primary" id="ghDisconnectBtn" onclick="handleConnToggle()" aria-label="Conectar GitHub"><span class="material-icons" id="ghConnBtnIcon" style="font-size:14px;">login</span></button>
+                </div>
+                <div class="settings-item">
+                    <div class="info"><span class="material-icons">cloud_upload</span><div><div class="text" data-i18n="github_backup_now">Fazer Backup Agora</div><div class="sub" data-i18n="github_backup_desc">Envia JSON para o repositório</div></div></div>
+                    <button class="settings-btn success" onclick="githubBackup()" aria-label="Backup GitHub"><span class="material-icons" style="font-size:14px;">upload</span></button>
+                </div>
+                <div class="settings-item">
+                    <div class="info"><span class="material-icons">cloud_download</span><div><div class="text" data-i18n="github_restore_now">Restaurar do GitHub</div><div class="sub" data-i18n="github_restore_desc">Substitui os dados atuais</div></div></div>
+                    <button class="settings-btn warning" onclick="githubRestore()" aria-label="Restaurar GitHub"><span class="material-icons" style="font-size:14px;">download</span></button>
+                </div>
+            </div>
+            <div class="settings-section">
+                <h4><span class="material-icons">schedule</span> <span data-i18n="auto_backup_title">Backup Automático</span></h4>
+                <div class="settings-item" style="border-bottom:none;">
+                    <div class="info">
+                        <span class="material-icons">autorenew</span>
+                        <div>
+                            <div class="text" data-i18n="auto_backup_freq">Backup Automático</div>
+                            <div class="sub" data-i18n="auto_backup_desc">Faz backup em cada lançamento e a cada 6 horas</div>
+                        </div>
+                    </div>
+                    <button id="autoBackupToggle" class="settings-btn danger" onclick="toggleAutoBackup()" aria-label="Alternar backup automático">
+                        <span class="material-icons" style="font-size:14px;" id="autoBackupToggleIcon">toggle_off</span>
+                        <span id="autoBackupToggleLabel">Desligado</span>
+                    </button>
+                </div>
+            </div>
+            <div class="settings-section">
+                <h4><span class="material-icons" style="color:var(--danger);">delete</span> <span data-i18n="danger_zone">Zona de Perigo</span></h4>
+                <div class="settings-item" style="border-bottom:none;padding:8px 0;">
+                    <div class="info"><span class="material-icons" style="color:var(--danger);">cleaning_services</span><div><div class="text" data-i18n="open_clear_tools">Abrir Ferramentas de Limpeza</div><div class="sub" data-i18n="open_clear_tools_desc">Gerencie a exclusão de transações, perfil e dados</div></div></div>
+                    <button class="settings-btn danger" onclick="openClearModal()"><span class="material-icons" style="font-size:14px;">open_in_new</span><span data-i18n="open">Abrir</span></button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <button class="fab" onclick="openModal()" aria-label="Adicionar transação"><span class="material-icons">add</span></button>
+    <nav class="bottom-nav">
+        <button class="nav-item active" data-page="home" onclick="switchPage('home')" aria-label="Início"><span class="material-icons">home</span><span data-i18n="nav_home">Início</span></button>
+        <button class="nav-item" data-page="transactions" onclick="switchPage('transactions')" aria-label="Transações"><span class="material-icons">list</span><span data-i18n="nav_transactions">Transações</span></button>
+        <button class="nav-item" data-page="reports" onclick="switchPage('reports')" aria-label="Relatórios"><span class="material-icons">insights</span><span data-i18n="nav_reports">Relatórios</span></button>
+        <button class="nav-item" data-page="settings" onclick="switchPage('settings')" aria-label="Configurações"><span class="material-icons">settings</span><span data-i18n="nav_settings">Config</span></button>
+    </nav>
+</div>
+<div class="modal-overlay" id="modal">
+    <div class="modal">
+        <div class="modal-header"><h2 id="modalTitle" data-i18n="new_transaction">Nova Transação</h2><button class="modal-close" onclick="closeModal()" aria-label="Fechar">✕</button></div>
+        <input type="hidden" id="editId" value="-1">
+        <div class="form-group"><label data-i18n="description">Descrição</label><input type="text" id="formDescription" data-i18n-placeholder="example_description" placeholder="Ex: Consultoria, Venda..."></div>
+        <div class="form-group"><label data-i18n="category">Categoria</label><select id="formCategory"><option value="service" data-i18n="cat_filter_service">Serviço</option><option value="sale" data-i18n="cat_filter_sale">Venda</option><option value="expense" data-i18n="cat_filter_expense">Despesa</option></select></div>
+        <div class="form-group"><label data-i18n="status">Situação</label><select id="formStatus"><option value="paid" data-i18n="filter_paid">Pago</option><option value="pending" data-i18n="filter_pending">Pendente</option></select></div>
+        <div class="form-row">
+            <div class="form-group"><label data-i18n="amount">Valor (R$)</label><div class="custom-amount-wrapper"><input class="amount-input" type="text" id="formAmount" placeholder="R$ 0,00" inputmode="none" readonly onclick="openNumpadModal()"></div></div>
+            <div class="form-group"><label data-i18n="date">Data</label><div class="custom-date-wrapper"><input class="date-input" type="text" id="formDate" placeholder="DD/MM/AAAA" readonly onclick="openCalendarModal('formDate')"></div></div>
+        </div>
+        <button class="btn-primary" onclick="saveTransaction()"><span id="saveBtn" data-i18n="save">Salvar</span></button>
+    </div>
+</div>
+<div class="modal-overlay" id="clearModal">
+    <div class="modal clear-modal">
+        <div class="modal-header"><h2><span class="material-icons">cleaning_services</span> <span data-i18n="clear_tools_title">Ferramentas de Limpeza</span></h2><button class="modal-close" onclick="closeClearModal()" aria-label="Fechar">✕</button></div>
+        <div class="clear-options" id="clearOptionsContainer"></div>
+        <button class="btn-clear-execute" onclick="executeClear()"><span class="material-icons">delete</span><span data-i18n="clear_btn">Limpar</span></button>
+    </div>
+</div>
+<div class="numpad-modal-overlay" id="numpadModalOverlay">
+    <div class="numpad-modal">
+        <div class="numpad-display" id="numpadDisplay">R$ 0,00</div>
+        <div class="numpad-grid">
+            <button onclick="numpadPress('7')">7</button><button onclick="numpadPress('8')">8</button><button onclick="numpadPress('9')">9</button><button onclick="numpadPress('÷')" class="num-operator">÷</button>
+            <button onclick="numpadPress('4')">4</button><button onclick="numpadPress('5')">5</button><button onclick="numpadPress('6')">6</button><button onclick="numpadPress('×')" class="num-operator">×</button>
+            <button onclick="numpadPress('1')">1</button><button onclick="numpadPress('2')">2</button><button onclick="numpadPress('3')">3</button><button onclick="numpadPress('-')" class="num-operator">−</button>
+            <button onclick="numpadPress('0')">0</button><button onclick="numpadPress('00')">00</button><button onclick="numpadPress('.')" class="num-comma">.</button><button onclick="numpadPress('+')" class="num-operator">+</button>
+            <button onclick="numpadPress('clear')" class="num-clear">C</button><button onclick="numpadPress('%')" class="num-operator">%</button><button onclick="numpadPress('backspace')" class="num-clear">←</button><button onclick="numpadPress('=')" class="num-equal">=</button>
+        </div>
+        <div class="numpad-actions">
+            <button class="btn-close-numpad" onclick="closeNumpadModal()" data-i18n="close">× Fechar</button>
+            <button class="btn-apply-numpad" onclick="applyNumpad()" data-i18n="apply">Aplicar</button>
+        </div>
+    </div>
+</div>
+<div class="calendar-modal-overlay" id="calendarModalOverlay">
+    <div class="calendar-modal">
+        <div class="calendar-header">
+            <button type="button" onclick="changeCalendarMonth(-1)" aria-label="Mês anterior">‹</button>
+            <span class="month-year" id="calendarMonthYear"></span>
+            <button type="button" onclick="changeCalendarMonth(1)" aria-label="Próximo mês">›</button>
+        </div>
+        <div class="calendar-grid" id="calendarDays"></div>
+        <div class="calendar-actions">
+            <button class="btn-clear-cal" onclick="clearDate()" data-i18n="clear">Limpar</button>
+            <button class="btn-cancel-cal" onclick="closeCalendarModal()" data-i18n="cancel">Cancelar</button>
+            <button class="btn-confirm-cal" onclick="confirmDate()" data-i18n="confirm">Confirmar</button>
+        </div>
+    </div>
+</div>
+<div class="modal-overlay" id="profileModal">
+    <div class="modal">
+        <div class="modal-header"><h2 data-i18n="edit_profile">Editar Perfil</h2><button class="modal-close" onclick="closeProfileModal()" aria-label="Fechar">✕</button></div>
+        <div class="profile-pic-upload">
+            <div class="preview" onclick="document.getElementById('avatarInput').click()">
+                <img id="profilePreview" src="" alt="Foto" style="display:none;">
+                <span id="profilePreviewPlaceholder" class="material-icons">person</span>
+                <div class="overlay"><span class="material-icons">photo_camera</span></div>
+            </div>
+            <input type="file" id="avatarInput" accept="image/*" onchange="handleAvatarUpload(event)">
+            <span class="hint" data-i18n="click_to_change">Clique na foto para alterar</span>
+        </div>
+        <div class="form-group"><label data-i18n="name">Nome</label><input type="text" id="profileNameInput" placeholder="Seu nome"></div>
+        <button class="btn-primary" onclick="saveProfile()"><span data-i18n="save">Salvar</span></button>
+    </div>
+</div>
+<div class="modal-overlay" id="githubModal">
+    <div class="modal">
+        <div class="modal-header"><h2><span class="material-icons">cloud</span> <span data-i18n="github_config_title">Configurar GitHub</span></h2><button class="modal-close" onclick="closeGithubModal()" aria-label="Fechar">✕</button></div>
+        <div class="form-group"><label data-i18n="github_repo">Repositório (owner/repo)</label><input type="text" id="ghRepo" data-i18n-placeholder="github_repo_ph" placeholder="usuario/meu-backup" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false" oninput="sanitizeInput('ghRepo', sanitizeRepo)"></div>
+        <div class="form-group"><label data-i18n="github_token">Token (PAT)</label><input type="password" id="ghToken" data-i18n-placeholder="github_token_ph" placeholder="github_pat_... ou ghp_..." autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false"></div>
+        <div class="form-group">
+            <label data-i18n="github_token_expiry">Data de expiração do token</label>
+            <div class="custom-date-wrapper"><input class="date-input" type="text" id="ghTokenExpiry" placeholder="DD/MM/AAAA" readonly onclick="openCalendarModal('ghTokenExpiry')" autocomplete="off"></div>
+            <p class="form-hint" id="ghTokenExpiryHint"></p>
+        </div>
+        <div class="form-row">
+            <div class="form-group"><label data-i18n="github_branch">Branch</label><input type="text" id="ghBranch" data-i18n-placeholder="github_branch_ph" placeholder="main" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false"></div>
+            <div class="form-group"><label data-i18n="github_path">Arquivo</label><input type="text" id="ghPath" data-i18n-placeholder="github_path_ph" placeholder="backup.json" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false" oninput="sanitizeInput('ghPath', sanitizePath)"></div>
+        </div>
+        <button class="btn-primary" onclick="saveGithubSettings()" data-i18n="save">Salvar</button>
+        <p style="margin-top:14px;font-size:12px;color:var(--gray-500);line-height:1.5;" data-i18n="github_security_warning">⚠️ O token fica salvo no navegador. Use um token fine-grained com permissão apenas de Contents: Read and write neste repositório específico.</p>
+    </div>
+</div>
+<div id="globalMenu" class="global-menu">
+    <button class="menu-item status" onclick="menuAction('status')"><span class="material-icons">check_circle</span><span class="menu-label" id="menuStatusLabel">Marcar Pago</span></button>
+    <button class="menu-item edit" onclick="menuAction('edit')"><span class="material-icons">edit</span><span class="menu-label" data-i18n="edit">Editar</span></button>
+    <button class="menu-item delete" onclick="menuAction('delete')"><span class="material-icons">delete</span><span class="menu-label" data-i18n="delete">Excluir</span></button>
+</div<script>
+const APP_ID='financas-app-v2';
+const APP_LABEL='Finanças App v2.0';
+const $=id=>document.getElementById(id);
+const el={toast:$('toast'),balanceDisplay:$('balanceDisplay'),totalIncome:$('totalIncome'),totalExpense:$('totalExpense'),reportIncome:$('reportIncome'),reportExpense:$('reportExpense'),reportBalance:$('reportBalance'),reportAverage:$('reportAverage'),statService:$('statService'),statSale:$('statSale'),statExpense:$('statExpense'),statLabelService:$('statLabelService'),statLabelSale:$('statLabelSale'),statLabelExpense:$('statLabelExpense'),chartTotal:$('chartTotal'),chartBars:$('chartBars'),chartNavLabel:$('chartNavLabel'),transactionList:$('transactionList'),allTransactionsList:$('allTransactionsList'),reportList:$('reportList'),transPageCount:$('transPageCount'),transactionCount:$('transactionCount'),formAmount:$('formAmount'),formDate:$('formDate'),formDescription:$('formDescription'),formCategory:$('formCategory'),formStatus:$('formStatus'),editId:$('editId'),modal:$('modal'),modalTitle:$('modalTitle'),saveBtn:$('saveBtn'),numpadDisplay:$('numpadDisplay'),numpadModalOverlay:$('numpadModalOverlay'),calendarModalOverlay:$('calendarModalOverlay'),calendarMonthYear:$('calendarMonthYear'),calendarDays:$('calendarDays'),profileImage:$('profileImage'),profilePlaceholder:$('profilePlaceholder'),profilePreview:$('profilePreview'),profilePreviewPlaceholder:$('profilePreviewPlaceholder'),userNameDisplay:$('userNameDisplay'),profileNameInput:$('profileNameInput'),profileModal:$('profileModal'),darkModeBtn:$('darkModeBtn'),langBtn:$('langBtn'),greetingText:$('greetingText'),headerDate:$('headerDate'),statusFilter:$('statusFilter'),categoryFilter:$('categoryFilter'),globalMenu:$('globalMenu'),menuStatusLabel:$('menuStatusLabel'),confirmTitle:$('confirmTitle'),confirmMessage:$('confirmMessage'),confirmIcon:$('confirmIcon'),alertTitle:$('alertTitle'),alertMessage:$('alertMessage'),alertIcon:$('alertIcon'),alertOk:$('alertOk'),reportCatService:$('reportCatService'),reportCatSale:$('reportCatSale'),reportCatExpense:$('reportCatExpense'),reportCatAnnual:$('reportCatAnnual'),reportMonthLabel:$('reportMonthLabel'),clearModal:$('clearModal'),clearOptionsContainer:$('clearOptionsContainer'),transNavLabel:$('transNavLabel'),githubModal:$('githubModal'),ghDisconnectBtn:$('ghDisconnectBtn'),connBtn:$('connBtn'),ghConnIcon:$('ghConnIcon'),ghConnLabel:$('ghConnLabel'),ghConnDesc:$('ghConnDesc'),ghConnBtnIcon:$('ghConnBtnIcon'),ghTokenExpiry:$('ghTokenExpiry'),ghTokenExpiryHint:$('ghTokenExpiryHint')};
+
+const now0=new Date();
+const nav={
+  chart:{month:now0.getMonth(),year:now0.getFullYear()},
+  report:{month:now0.getMonth(),year:now0.getFullYear()},
+  trans:{month:now0.getMonth(),year:now0.getFullYear()}
+};
+let transactions=[],currentLang='pt',filterMonth={month:now0.getMonth(),year:now0.getFullYear()},filterStatus='all',filterCategory='all',userProfile={name:'Usuário',avatar:null},nextId=1,activeId=-1,activePage='home';
+let selectedDate=null,calendarMonth=now0.getMonth(),calendarYear=now0.getFullYear(),_calendarTarget='formDate';
+let githubSettings={repo:'',token:'',branch:'',path:'',tokenExpiry:''},githubStatus='idle',ghBranchValidated=false,_githubBusy=false;
+let numpadValue='0',numpadDecimal=false,numpadOperator=null,numpadPrevious=null,numpadNewNumber=true;
+let _yearDropdownOpen=false;
+
+let _txVersion=0,_chartCacheKey='',_chartCacheVal=null;
+const _filteredCache=new Map();
+function _bumpTxVersion(){_txVersion++;_filteredCache.clear();}
+
+const MONTHS_PT=['Janeiro','Fevereiro','Março','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'],MONTHS_EN=['January','February','March','April','May','June','July','August','September','October','November','December'],DAYS_PT=['Dom','Seg','Ter','Qua','Qui','Sex','Sáb'],DAYS_EN=['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const sanitizeRepo=v=>String(v||'').replace(/\s+/g,'');
+const sanitizePath=v=>String(v||'').replace(/\s+/g,'').replace(/^\/+/,'');
+const encodePath=p=>String(p||'').split('/').filter(s=>s.length).map(encodeURIComponent).join('/');
+const categoryIcons={service:'build',sale:'shopping_cart',expense:'trending_down'};
+const getCategoryIcon=c=>categoryIcons[c]||'label';
+const getCategoryLabel=c=>t(c);
+const getStatusLabel=s=>t(s);
+function t(k){return translations[currentLang]?.[k]||k;}
+function recalcNextId(){nextId=transactions.reduce((m,x)=>Math.max(m,x.id),0)+1;}
+function safeGetItem(k){try{return localStorage.getItem(k);}catch(e){return null;}}
+function safeSetItem(k,v){try{localStorage.setItem(k,v);return true;}catch(e){showAlert(t('warning'),t('storage_full'),'error');return false;}}
+
+let _numFmt=null,_curFmt=null,_fmtLang='';
+function _ensureFormatters(){
+  if(_fmtLang===currentLang&&_numFmt&&_curFmt) return;
+  const loc=currentLang==='pt'?'pt-BR':'en-US';
+  _numFmt=new Intl.NumberFormat(loc,{minimumFractionDigits:2,maximumFractionDigits:2});
+  _curFmt=new Intl.NumberFormat(loc,{style:'currency',currency:currentLang==='pt'?'BRL':'USD'});
+  _fmtLang=currentLang;
+}
+function fmtNum(v){_ensureFormatters();return _numFmt.format(v||0);}
+function fmtCur(v){_ensureFormatters();return _curFmt.format(v||0);}
+
+function fmtDateInput(d){const dd=String(d.getDate()).padStart(2,'0'),mm=String(d.getMonth()+1).padStart(2,'0'),yy=d.getFullYear();return currentLang==='pt'?`${dd}/${mm}/${yy}`:`${mm}/${dd}/${yy}`;}
+function fmtDateHeader(d){return currentLang==='pt'?`${d.getDate()} de ${MONTHS_PT[d.getMonth()].toLowerCase()} de ${d.getFullYear()}`:`${MONTHS_EN[d.getMonth()]} ${d.getDate()}, ${d.getFullYear()}`;}
+function dateToIso(d){if(!(d instanceof Date)||isNaN(d.getTime())) return '';return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;}
+function isoToLocalDate(iso){if(!iso) return '';const m=String(iso).match(/^(\d{4})-(\d{2})-(\d{2})$/);if(!m) return '';return currentLang==='pt'?`${m[3]}/${m[2]}/${m[1]}`:`${m[2]}/${m[3]}/${m[1]}`;}
+function showToast(msg,dur,cls){const node=el.toast;node.textContent=msg;node.className='toast';if(cls) node.classList.add(cls);node.classList.add('show');clearTimeout(node._timeout);node._timeout=setTimeout(()=>node.classList.remove('show'),dur||5000);return dur||5000;}
+function isValidTransaction(tx){return tx&&typeof tx==='object'&&typeof tx.id==='number'&&typeof tx.amount==='number'&&tx.amount>0&&typeof tx.date==='number'&&!isNaN(tx.date)&&typeof tx.description==='string'&&['service','sale','expense'].includes(tx.category)&&['paid','pending'].includes(tx.status)&&['income','expense'].includes(tx.type);}
+function setAmountInput(value){
+  if(value==null||value===''||isNaN(parseFloat(value))){el.formAmount.value='';el.formAmount.dataset.rawValue='';return;}
+  const n=parseFloat(value);el.formAmount.value=fmtNum(n);el.formAmount.dataset.rawValue=n.toFixed(2);
+}
+function getAmountRaw(){return el.formAmount.dataset.rawValue||'';}
+
+function expiryStatusFor(iso){
+  if(!iso) return null;
+  const m=String(iso).match(/^(\d{4})-(\d{2})-(\d{2})$/);
+  if(!m) return null;
+  const y=+m[1],mo=+m[2]-1,d=+m[3];
+  const expiry=new Date(y,mo,d);expiry.setHours(0,0,0,0);
+  if(isNaN(expiry.getTime())) return null;
+  if(expiry.getFullYear()!==y||expiry.getMonth()!==mo||expiry.getDate()!==d) return null;
+  const today=new Date();today.setHours(0,0,0,0);
+  const diff=Math.round((expiry-today)/(1000*60*60*24));
+  if(diff<0) return {level:'critical',days:Math.abs(diff)};
+  if(diff<=3) return {level:'danger',days:diff};
+  if(diff<=7) return {level:'warning',days:diff};
+  if(diff<=15) return {level:'warn',days:diff};
+  if(diff<=30) return {level:'neutral',days:diff};
+  return {level:'ok',days:diff};
+}
+function checkTokenExpiry(){return expiryStatusFor(githubSettings.tokenExpiry);}
+function expiryHintKey(level){
+  return level==='ok'?'github_token_expiry_ok':
+         level==='neutral'?'github_token_expiry_neutral':
+         level==='warn'?'github_token_expiry_warn':
+         level==='warning'?'github_token_expiry_warning':
+         level==='danger'?'github_token_expiry_danger':
+         'github_token_expiry_critical';
+}
+function fmtExpiryHint(){
+  const hint=el.ghTokenExpiryHint;if(!hint) return;
+  hint.className='form-hint';hint.textContent='';
+  let iso=githubSettings.tokenExpiry||'';
+  if(el.githubModal.classList.contains('open')&&el.ghTokenExpiry) iso=el.ghTokenExpiry.dataset.iso||'';
+  if(!iso) return;
+  const info=expiryStatusFor(iso);
+  if(!info) return;
+  hint.textContent=t(expiryHintKey(info.level)).replace('{days}',info.days);
+  hint.className='form-hint show '+info.level;
+}
+/* B3: notifica no máximo 1x por dia. Retorna a duração exibida (0 se não disparou). */
+function notifyTokenExpiry(){
+  const info=checkTokenExpiry();
+  if(!info) return 0;
+  if(info.level==='ok'||info.level==='neutral') return 0;
+  const today=new Date().toDateString();
+  const lastNotified=safeGetItem('finances_expiry_notified')||'';
+  if(lastNotified===today) return 0;
+  try{localStorage.setItem('finances_expiry_notified',today);}catch(e){}
+  const msg=t(expiryHintKey(info.level)).replace('{days}',info.days);
+  const cls='toast-'+info.level;
+  const dur=info.level==='critical'||info.level==='danger'?7000:5000;
+  showToast(msg,dur,cls);
+  return dur;
+}
+function resetExpiryNotifyGuard(){try{localStorage.removeItem('finances_expiry_notified');}catch(e){}}
+
+let autoBackupEnabled=false,_autoBackupDebounceTimer=null,_autoBackup6hTimer=null,_last6hBackup=0;
+function resetAutoBackupTimers(){
+  if(_autoBackup6hTimer){clearInterval(_autoBackup6hTimer);_autoBackup6hTimer=null;}
+  if(_autoBackupDebounceTimer){clearTimeout(_autoBackupDebounceTimer);_autoBackupDebounceTimer=null;}
+}
+function loadAutoBackupSetting(){
+  autoBackupEnabled=safeGetItem('finances_auto_backup')==='1';
+  syncAutoBackupUI();
+  if(autoBackupEnabled) start6hTimer();
+}
+function toggleAutoBackup(){
+  autoBackupEnabled=!autoBackupEnabled;
+  try{localStorage.setItem('finances_auto_backup',autoBackupEnabled?'1':'0');}catch(e){}
+  syncAutoBackupUI();
+  if(autoBackupEnabled){
+    start6hTimer();
+    if(!githubSettings.repo||!githubSettings.token) showToast(t('auto_backup_no_github_warning'),5500);
+    else{showToast(t('auto_backup_on_toast'),3500);if(transactions.length) scheduleAutoBackup();}
+  }else{
+    resetAutoBackupTimers();
+    showToast(t('auto_backup_off_toast'),3500);
+  }
+}
+function syncAutoBackupUI(){
+  const btn=$('autoBackupToggle'),icon=$('autoBackupToggleIcon'),label=$('autoBackupToggleLabel');
+  if(!btn) return;
+  if(autoBackupEnabled){
+    btn.className='settings-btn success';btn.setAttribute('aria-label',t('auto_backup_on_label'));
+    if(icon) icon.textContent='toggle_on';if(label) label.textContent=t('auto_backup_on_label');
+  }else{
+    btn.className='settings-btn danger';btn.setAttribute('aria-label',t('auto_backup_off_label'));
+    if(icon) icon.textContent='toggle_off';if(label) label.textContent=t('auto_backup_off_label');
+  }
+}
+function start6hTimer(){
+  if(_autoBackup6hTimer){clearInterval(_autoBackup6hTimer);}
+  _autoBackup6hTimer=setInterval(()=>{
+    if(!autoBackupEnabled||!githubSettings.repo||!githubSettings.token||_githubBusy) return;
+    _last6hBackup=Date.now();githubBackup(true);
+  },6*60*60*1000);
+}
+document.addEventListener('visibilitychange',()=>{
+  if(document.visibilityState!=='visible') return;
+  if(!autoBackupEnabled||!githubSettings.repo||!githubSettings.token||_githubBusy) return;
+  if(Date.now()-_last6hBackup>=6*60*60*1000){_last6hBackup=Date.now();githubBackup(true);}
+});
+function scheduleAutoBackup(){
+  if(!autoBackupEnabled||!githubSettings.repo||!githubSettings.token) return;
+  if(_autoBackupDebounceTimer) clearTimeout(_autoBackupDebounceTimer);
+  _autoBackupDebounceTimer=setTimeout(()=>{_autoBackupDebounceTimer=null;if(!_githubBusy) githubBackup(true);},3000);
+}
+
+function openNumpadModal(){
+  const raw=getAmountRaw();
+  numpadValue=(raw&&!isNaN(parseFloat(raw)))?parseFloat(raw).toString():'0';
+  numpadDecimal=numpadValue.includes('.');numpadOperator=null;numpadPrevious=null;numpadNewNumber=true;
+  updateNumpadDisplay();el.numpadModalOverlay.classList.add('open');
+}
+function closeNumpadModal(){el.numpadModalOverlay.classList.remove('open');}
+function updateNumpadDisplay(){el.numpadDisplay.textContent=(currentLang==='pt'?'R$':'$')+' '+fmtNum(parseFloat(numpadValue)||0);}
+function applyNumpad(){const n=parseFloat(numpadValue);if(!isNaN(n)&&n>=0) setAmountInput(n);closeNumpadModal();}
+function numpadPress(k){
+  if(k==='clear'){numpadValue='0';numpadDecimal=false;numpadOperator=null;numpadPrevious=null;numpadNewNumber=true;updateNumpadDisplay();return;}
+  if(k==='backspace'){if(numpadValue.length>1){numpadValue=numpadValue.slice(0,-1);if(numpadValue==='-')numpadValue='0';numpadDecimal=numpadValue.includes('.');}else{numpadValue='0';numpadDecimal=false;}updateNumpadDisplay();return;}
+  if(k==='00'){
+    if(numpadNewNumber){numpadValue='0';numpadNewNumber=false;}
+    else if(numpadValue!=='0'){
+      if(numpadDecimal){
+        const p=numpadValue.split('.');
+        if(p.length===2&&p[1].length>=2) return;
+      }
+      numpadValue+='00';
+    }
+    updateNumpadDisplay();return;
+  }
+  if(k==='.'){if(numpadNewNumber){numpadValue='0.';numpadDecimal=true;numpadNewNumber=false;}else if(!numpadDecimal){numpadValue+='.';numpadDecimal=true;}updateNumpadDisplay();return;}
+  if(['+','-','×','÷','%'].includes(k)){if(numpadOperator&&numpadPrevious!==null&&!numpadNewNumber)numpadCalculate();numpadOperator=k;numpadPrevious=parseFloat(numpadValue);numpadNewNumber=true;updateNumpadDisplay();return;}
+  if(k>='0'&&k<='9'){if(numpadNewNumber){numpadValue=k;numpadNewNumber=false;}else{if(numpadValue==='0')numpadValue=k;else{if(numpadDecimal){const p=numpadValue.split('.');if(p.length===2&&p[1].length>=2)return;}numpadValue+=k;}}numpadDecimal=numpadValue.includes('.');updateNumpadDisplay();return;}
+  if(k==='=')numpadCalculate();
+}
+function numpadCalculate(){
+  if(!numpadOperator||numpadPrevious===null){applyNumpad();return;}
+  const c=parseFloat(numpadValue);let r=0;
+  switch(numpadOperator){
+    case'+':r=numpadPrevious+c;break;
+    case'-':r=numpadPrevious-c;break;
+    case'×':r=numpadPrevious*c;break;
+    case'÷':if(c!==0)r=numpadPrevious/c;else{showAlert(t('warning'),t('division_by_zero'),'error');return;}break;
+    case'%':r=(numpadPrevious*c)/100;break;
+    default:return;
+  }
+  numpadValue=r.toString();numpadDecimal=numpadValue.includes('.');numpadOperator=null;numpadPrevious=null;numpadNewNumber=true;updateNumpadDisplay();
+}
+
+function openCalendarModal(target){
+  _calendarTarget=target||'formDate';
+  let d=null;
+  if(_calendarTarget==='ghTokenExpiry'){
+    const iso=(el.ghTokenExpiry&&el.ghTokenExpiry.dataset.iso)||'';
+    const m=iso.match(/^(\d{4})-(\d{2})-(\d{2})$/);
+    if(m){const yy=+m[1],mm=+m[2]-1,dd=+m[3];const dt=new Date(yy,mm,dd);if(dt.getFullYear()===yy&&dt.getMonth()===mm&&dt.getDate()===dd) d=dt;}
+  }else{
+    const v=el.formDate.value.trim();
+    if(v){const p=v.split('/');if(p.length===3){let day,mon,yr;
+      if(currentLang==='pt'){day=+p[0];mon=+p[1]-1;yr=+p[2];}else{mon=+p[0]-1;day=+p[1];yr=+p[2];}
+      if(!isNaN(day)&&!isNaN(mon)&&!isNaN(yr)){const dt=new Date(yr,mon,day);if(dt.getFullYear()===yr&&dt.getMonth()===mon&&dt.getDate()===day) d=dt;}
+    }}
+  }
+  if(!d){d=new Date();d.setHours(0,0,0,0);}
+  selectedDate=new Date(d);calendarMonth=selectedDate.getMonth();calendarYear=selectedDate.getFullYear();
+  renderCalendar();el.calendarModalOverlay.classList.add('open');
+}
+function closeCalendarModal(){el.calendarModalOverlay.classList.remove('open');}
+function changeCalendarMonth(delta){
+  calendarMonth+=delta;
+  if(calendarMonth<0){calendarMonth=11;calendarYear--;}
+  if(calendarMonth>11){calendarMonth=0;calendarYear++;}
+  renderCalendar();
+}
+function renderCalendar(){
+  const isPt=currentLang==='pt',mNames=isPt?MONTHS_PT:MONTHS_EN,dNames=isPt?DAYS_PT:DAYS_EN;
+  el.calendarMonthYear.textContent=mNames[calendarMonth]+' '+calendarYear;
+  const first=new Date(calendarYear,calendarMonth,1).getDay(),days=new Date(calendarYear,calendarMonth+1,0).getDate(),today=new Date();
+  today.setHours(0,0,0,0);
+  let html='';
+  for(let i=0;i<7;i++) html+=`<div class="day-name${i===0?' sunday':''}">${dNames[i]}</div>`;
+  for(let i=0;i<first;i++) html+='<div></div>';
+  for(let d=1;d<=days;d++){
+    const dt=new Date(calendarYear,calendarMonth,d);dt.setHours(0,0,0,0);
+    let classes='day-cell';
+    if(dt.getTime()===today.getTime()) classes+=' today';
+    if(selectedDate&&dt.getTime()===selectedDate.getTime()) classes+=' selected';
+    if(dt.getDay()===0) classes+=' sunday';
+    html+=`<button class="${classes}" onclick="selectDate(${d})">${d}</button>`;
+  }
+  el.calendarDays.innerHTML=html;
+}
+function selectDate(day){selectedDate=new Date(calendarYear,calendarMonth,day);selectedDate.setHours(0,0,0,0);renderCalendar();}
+function clearDate(){
+  selectedDate=null;
+  if(_calendarTarget==='ghTokenExpiry'){
+    if(el.ghTokenExpiry){el.ghTokenExpiry.value='';el.ghTokenExpiry.dataset.iso='';}
+    fmtExpiryHint();
+  }else{
+    el.formDate.value='';
+  }
+  renderCalendar();
+}
+function confirmDate(){
+  if(selectedDate){
+    if(_calendarTarget==='ghTokenExpiry'){
+      if(el.ghTokenExpiry){el.ghTokenExpiry.value=fmtDateInput(selectedDate);el.ghTokenExpiry.dataset.iso=dateToIso(selectedDate);}
+      fmtExpiryHint();
+    }else{
+      el.formDate.value=fmtDateInput(selectedDate);
+    }
+  }
+  closeCalendarModal();
+}
+
+function _dialogCore({title,msg,icon,buttons,cancelValue=false}){
+  return new Promise(resolve=>{
+    const o=$('dialogConfirm'),actions=$('confirmActions');
+    actions.innerHTML='';
+    actions.className='dialog-actions'+(buttons.length===3?' three-options':'');
+    const clean=()=>{o.classList.remove('open');o.onclick=null;};
+    for(const b of buttons){
+      const btn=document.createElement('button');
+      btn.textContent=b.text;btn.className=b.cls;
+      btn.onclick=()=>{clean();resolve(b.value);};
+      actions.appendChild(btn);
+    }
+    el.confirmTitle.textContent=title||'Confirmação';
+    el.confirmMessage.textContent=msg||'';
+    el.confirmIcon.textContent=icon||'help';
+    o.classList.add('open');
+    o.onclick=e=>{if(e.target===o){clean();resolve(cancelValue);}};
+  });
+}
+function showConfirm(title,msg,icon,confirmText,cancelText,isDanger){
+  return _dialogCore({title:title||'Confirmação',msg:msg||'Tem certeza?',icon:icon||'help',cancelValue:false,
+    buttons:[
+      {text:cancelText||'Cancelar',cls:'btn-cancel',value:false},
+      {text:confirmText||'Confirmar',cls:isDanger?'btn-danger':'btn-confirm',value:true}
+    ]});
+}
+function showStatusConfirm(title,msg,icon,lblUpdate,lblKeep,lblCancel){
+  return _dialogCore({title:title||'Confirmação',msg:msg||'Escolha uma opção:',icon:icon||'help',cancelValue:'cancel',
+    buttons:[
+      {text:lblCancel||'Cancelar',cls:'btn-cancel-status',value:'cancel'},
+      {text:lblKeep||'Pagar e manter',cls:'btn-keep',value:'keep'},
+      {text:lblUpdate||'Pagar e atualizar',cls:'btn-update',value:'update'}
+    ]});
+}
+function showAlert(title,msg,icon){
+  return new Promise(r=>{
+    const o=$('dialogAlert');
+    el.alertTitle.textContent=title||'Aviso';
+    el.alertMessage.textContent=msg||'';
+    el.alertIcon.textContent=icon||'info';
+    o.classList.add('open');
+    el.alertOk.onclick=()=>{o.classList.remove('open');r();};
+    o.onclick=e=>{if(e.target===o){o.classList.remove('open');r();}};
+  });
+}
+
+const translations={pt:{welcome:'Bem-vindo!',balance:'Saldo',income:'Receita',expense:'Despesa',service:'Serviço',sale:'Venda',paid:'Pago',pending:'Pendente',home:'Início',transactions:'Transações',reports:'Relatórios',settings:'Configurações',chart_title:'Distribuição por Categoria',total_general:'Total geral',total_annual:'Total Anual',no_data:'Sem dados para mostrar',add_chart_hint:'Adicione transações para ver o gráfico',transactions_title:'Últimas Transações',all_transactions:'Todas as Transações',total_income:'Total Receitas',total_expense:'Total Despesas',detail_title:'Transações Detalhadas',new_transaction:'Nova Transação',edit_transaction:'Editar Transação',edit_profile:'Editar Perfil',category:'Categoria',status:'Situação',amount:'Valor (R$)',date:'Data',description:'Descrição',save:'Salvar',name:'Nome',click_to_change:'Clique na foto para alterar',no_transactions:'Nenhuma transação ainda',start_adding:'Comece adicionando sua primeira!',delete_confirm:'Tem certeza que deseja excluir?',delete_confirm_message:'Tem certeza que deseja excluir esta transação?',backup_restored:'Backup restaurado com sucesso!',data_cleared:'Dados limpos com sucesso!',transaction_saved:'Transação salva!',transaction_deleted:'Transação excluída!',status_changed:'Situação alterada!',status_changed_with_date:'Situação alterada para Pago e data atualizada para hoje!',invalid_amount:'Valor inválido! Digite um número maior que zero.',invalid_date:'Data inválida! Selecione uma data válida.',invalid_file:'Arquivo inválido! Selecione um arquivo JSON válido.',invalid_image:'Arquivo inválido! Selecione uma imagem.',mark_paid:'Marcar Pago',mark_pending:'Marcar Pendente',edit:'Editar',delete:'Excluir',nav_home:'Início',nav_transactions:'Transações',nav_reports:'Relatórios',nav_settings:'Config',danger_zone:'Zona de Perigo',clear_btn:'Limpar',clear_all_btn:'Limpar Tudo',clear_transactions_confirm:'Tem certeza que deseja REMOVER TODAS as transações de {year}?',clear_transactions_confirm_all:'Tem certeza que deseja REMOVER TODAS as transações?',clear_profile_confirm:'Tem certeza que deseja REMOVER foto e nome do usuário? As transações serão mantidas.',clear_all_confirm:'Tem certeza que deseja REMOVER TODOS os dados? Esta ação não pode ser desfeita.',backup:'Backup',app_name:'Finanças App v2.0',app_desc:'Desenvolvido com ❤️',default_user:'Usuário',example_description:'Ex: Consultoria, Venda...',close:'Fechar',apply:'Aplicar',clear:'Limpar',cancel:'Cancelar',confirm:'Confirmar',missing_amount:'Por favor, insira um valor válido.',missing_date:'Por favor, selecione uma data.',invalid_date_format:'Data inválida. Use o formato DD/MM/AAAA.',missing_description:'Por favor, preencha a descrição. Ex: Consultoria, Venda...',filter_all:'Todos',filter_paid:'Pago',filter_pending:'Pendente',filter_by_status:'Situação:',filter_by_category:'Categoria:',cat_filter_all:'Todas',cat_filter_service:'Serviço',cat_filter_sale:'Venda',cat_filter_expense:'Despesa',pending_notification:'Você tem {count} transação(ões) pendente(s)!',pdf_download:'Baixar PDF',pdf_generating:'Gerando PDF...',pdf_error:'Erro ao gerar PDF',pdf_success:'PDF gerado com sucesso!',pdf_share_title:'Compartilhar relatório',no_transactions_to_clear:'Não há transações para limpar.',no_transactions_for_pdf:'Não há transações para gerar o PDF.',no_profile_to_clear:'Não há dados de perfil para limpar.',no_data_to_clear:'Não há dados para limpar. O aplicativo já está vazio.',confirm_status_change:'Deseja alterar a situação para "{status}"?',warning:'Aviso',today:'Hoje',average:'Média',report_summary_title:'Resumo do Mês',report_category_title:'Resumo por Categoria',open_clear_tools:'Abrir Ferramentas de Limpeza',open_clear_tools_desc:'Gerencie a exclusão de transações, perfil e dados',open:'Abrir',clear_tools_title:'Ferramentas de Limpeza',clear_option_all:'Todas as transações',clear_option_year:'Transações de {year}',clear_option_profile:'Limpar Perfil',clear_option_all_data:'Limpar Todos os Dados',status_update_title:'Atualizar data?',status_update_message:'Esta transação está com data anterior a hoje ({date}). Deseja atualizar a data para hoje ao marcar como Pago?',status_update_btn_update:'Pagar e atualizar',status_update_btn_keep:'Pagar e manter',status_update_btn_cancel:'Cancelar',status_updated_with_date:'Situação alterada para Pago e data atualizada para hoje!',status_updated_keep_date:'Situação alterada para Pago (data mantida).',view_all_transactions:'Ver todas as transações',profile_saved:'Perfil salvo!',division_by_zero:'Divisão por zero não permitida!',github_backup:'Backup GitHub',github_backup_now:'Fazer Backup Agora',github_backup_desc:'Envia JSON para o repositório',github_restore_now:'Restaurar do GitHub',github_restore_desc:'Substitui os dados atuais',github_config_title:'Configurar GitHub',github_repo:'Repositório (owner/repo)',github_token:'Token (PAT)',github_token_expiry:'Data de expiração do token',github_token_expiry_ok:'Token válido por {days} dia(s).',github_token_expiry_neutral:'Token expira em {days} dia(s).',github_token_expiry_warn:'⚠️ Token expira em {days} dia(s).',github_token_expiry_warning:'⚠️ Atenção: token expira em {days} dia(s).',github_token_expiry_danger:'🔴 Urgente: token expira em {days} dia(s)!',github_token_expiry_critical:'🔴 Token expirado há {days} dia(s). Gere um novo.',github_branch:'Branch',github_path:'Arquivo',github_saved:'Configuração salva!',github_invalid_repo:'Formato inválido. Use "usuario/repositorio".',github_not_configured:'Não configurado',github_uploading:'Enviando backup...',github_downloading:'Baixando backup...',github_backup_ok:'Backup enviado ao GitHub!',github_backup_fail:'Falha no backup',github_restore_fail:'Falha ao restaurar',github_file_not_found:'Arquivo de backup não encontrado no repositório.',github_restore_confirm_title:'Restaurar do GitHub',github_restore_confirm_msg:'Deseja restaurar {count} transações do GitHub? Isso substitui os dados atuais.',github_security_warning:'⚠️ O token fica salvo no navegador. Use um token fine-grained com permissão apenas de Contents: Read and write neste repositório específico.',github_disconnect:'Desconectar do GitHub',github_disconnect_desc:'Remove repositório, token e arquivo salvos',github_disconnect_confirm:'Isso apaga as credenciais do GitHub salvas no navegador. Continuar?',github_disconnected:'Desconectado do GitHub!',github_not_connected:'Nenhuma conexão ativa com o GitHub.',github_connect:'Conectar ao GitHub',github_connect_desc:'Configure repositório e token para ativar',github_repo_ph:'usuario/meu-backup',github_token_ph:'github_pat_... ou ghp_...',github_branch_ph:'main',github_path_ph:'backup.json',github_connected_tip:'GitHub conectado',github_pending_tip:'Configurado, aguardando primeiro backup',github_error_tip:'Falha na última operação',github_expired_tip:'Token expirado',github_conn_aria:'Estado da conexão GitHub',github_conflict_title:'Arquivo de outro aplicativo',github_conflict_msg:'O arquivo "{path}" pertence ao aplicativo "{owner}". Sobrescrever apaga o backup dele. Continuar?',github_conflict_invalid:'O arquivo "{path}" já existe mas não é um backup válido. Sobrescrever?',github_conflict_overwrite:'Sobrescrever',github_conflict_cancelled:'Backup cancelado.',github_restore_conflict:'Este backup pertence ao aplicativo "{owner}", não a este. Restauração cancelada.',github_branch_autofix:'Branch "{old}" não existe. Usando "{new}" automaticamente.',github_backup_empty_local:'Você ainda não tem transações para enviar ao GitHub.',github_backup_empty_remote:'O backup no repositório está vazio (nenhuma transação).',github_busy:'Aguarde a operação atual terminar.',github_invalid_token:'Token inválido ou sem permissão.',github_repo_not_found:'Repositório não encontrado. Verifique "owner/repo".',auto_backup_title:'Backup Automático',auto_backup_freq:'Backup Automático',auto_backup_desc:'Faz backup em cada lançamento e a cada 6 horas',auto_backup_off:'Desligado',auto_backup_on_label:'Ligado',auto_backup_off_label:'Desligado',auto_backup_on_toast:'Backup automático ativado.',auto_backup_off_toast:'Backup automático desativado.',auto_backup_no_github_warning:'Backup automático ativado, mas o GitHub não está configurado. Configure na seção acima.',show_previous_years:'Mostrar anos anteriores',storage_full:'Armazenamento cheio! Não foi possível salvar.'},en:{welcome:'Welcome!',balance:'Balance',income:'Income',expense:'Expense',service:'Service',sale:'Sale',paid:'Paid',pending:'Pending',home:'Home',transactions:'Transactions',reports:'Reports',settings:'Settings',chart_title:'Distribution by Category',total_general:'Total general',total_annual:'Annual Total',no_data:'No data to show',add_chart_hint:'Add transactions to see the chart',transactions_title:'Latest Transactions',all_transactions:'All Transactions',total_income:'Total Income',total_expense:'Total Expenses',detail_title:'Detailed Transactions',new_transaction:'New Transaction',edit_transaction:'Edit Transaction',edit_profile:'Edit Profile',category:'Category',status:'Status',amount:'Amount ($)',date:'Date',description:'Description',save:'Save',name:'Name',click_to_change:'Click photo to change',no_transactions:'No transactions yet',start_adding:'Start by adding your first one!',delete_confirm:'Are you sure you want to delete?',delete_confirm_message:'Are you sure you want to delete this transaction?',backup_restored:'Backup restored successfully!',data_cleared:'Data cleared successfully!',transaction_saved:'Transaction saved!',transaction_deleted:'Transaction deleted!',status_changed:'Status changed!',status_changed_with_date:'Status changed to Paid and date updated to today!',invalid_amount:'Invalid amount! Enter a number greater than zero.',invalid_date:'Invalid date! Select a valid date.',invalid_file:'Invalid file! Please select a valid JSON file.',invalid_image:'Invalid file! Please select an image.',mark_paid:'Mark as Paid',mark_pending:'Mark as Pending',edit:'Edit',delete:'Delete',nav_home:'Home',nav_transactions:'Transactions',nav_reports:'Reports',nav_settings:'Settings',danger_zone:'Danger Zone',clear_btn:'Clear',clear_all_btn:'Clear All',clear_transactions_confirm:'Are you sure you want to REMOVE ALL transactions from {year}?',clear_transactions_confirm_all:'Are you sure you want to REMOVE ALL transactions?',clear_profile_confirm:'Are you sure you want to REMOVE photo and user name? Transactions will be kept.',clear_all_confirm:'Are you sure you want to REMOVE ALL data? This action cannot be undone.',backup:'Backup',app_name:'Finances App v2.0',app_desc:'Developed with ❤️',default_user:'User',example_description:'Ex: Consulting, Sale...',close:'Close',apply:'Apply',clear:'Clear',cancel:'Cancel',confirm:'Confirm',missing_amount:'Please enter a valid amount.',missing_date:'Please select a date.',invalid_date_format:'Invalid date. Use MM/DD/YYYY format.',missing_description:'Please fill in the description. Ex: Consulting, Sale...',filter_all:'All',filter_paid:'Paid',filter_pending:'Pending',filter_by_status:'Status:',filter_by_category:'Category:',cat_filter_all:'All',cat_filter_service:'Service',cat_filter_sale:'Sale',cat_filter_expense:'Expense',pending_notification:'You have {count} pending transaction(s)!',pdf_download:'Download PDF',pdf_generating:'Generating PDF...',pdf_error:'Error generating PDF',pdf_success:'PDF generated successfully!',pdf_share_title:'Share report',no_transactions_to_clear:'There are no transactions to clear.',no_transactions_for_pdf:'No transactions to generate the PDF.',no_profile_to_clear:'There is no profile data to clear.',no_data_to_clear:'There is no data to clear. The app is already empty.',confirm_status_change:'Do you want to change the status to "{status}"?',warning:'Warning',today:'Today',average:'Average',report_summary_title:'Monthly Summary',report_category_title:'Category Summary',open_clear_tools:'Open Cleaning Tools',open_clear_tools_desc:'Manage deletion of transactions, profile and data',open:'Open',clear_tools_title:'Cleaning Tools',clear_option_all:'All transactions',clear_option_year:'Transactions from {year}',clear_option_profile:'Clear Profile',clear_option_all_data:'Clear All Data',status_update_title:'Update date?',status_update_message:'This transaction has a date before today ({date}). Do you want to update the date to today when marking as Paid?',status_update_btn_update:'Pay and update',status_update_btn_keep:'Pay and keep',status_update_btn_cancel:'Cancel',status_updated_with_date:'Status changed to Paid and date updated to today!',status_updated_keep_date:'Status changed to Paid (date kept).',view_all_transactions:'View all transactions',profile_saved:'Profile saved!',division_by_zero:'Division by zero not allowed!',github_backup:'GitHub Backup',github_backup_now:'Backup Now',github_backup_desc:'Sends JSON to repository',github_restore_now:'Restore from GitHub',github_restore_desc:'Overwrites current data',github_config_title:'Configure GitHub',github_repo:'Repository (owner/repo)',github_token:'Token (PAT)',github_token_expiry:'Token expiration date',github_token_expiry_ok:'Token valid for {days} day(s).',github_token_expiry_neutral:'Token expires in {days} day(s).',github_token_expiry_warn:'⚠️ Token expires in {days} day(s).',github_token_expiry_warning:'⚠️ Warning: token expires in {days} day(s).',github_token_expiry_danger:'🔴 Urgent: token expires in {days} day(s)!',github_token_expiry_critical:'🔴 Token expired {days} day(s) ago. Generate a new one.',github_branch:'Branch',github_path:'File',github_saved:'Settings saved!',github_invalid_repo:'Invalid format. Use "user/repo".',github_not_configured:'Not configured',github_uploading:'Uploading backup...',github_downloading:'Downloading backup...',github_backup_ok:'Backup sent to GitHub!',github_backup_fail:'Backup failed',github_restore_fail:'Restore failed',github_file_not_found:'Backup file not found in repository.',github_restore_confirm_title:'Restore from GitHub',github_restore_confirm_msg:'Restore {count} transactions from GitHub? This overwrites current data.',github_security_warning:'⚠️ Token is stored in the browser. Use a fine-grained token with only Contents: Read and write on this specific repository.',github_disconnect:'Disconnect from GitHub',github_disconnect_desc:'Removes saved repository, token and file',github_disconnect_confirm:'This clears GitHub credentials saved in the browser. Continue?',github_disconnected:'Disconnected from GitHub!',github_not_connected:'No active GitHub connection.',github_connect:'Connect to GitHub',github_connect_desc:'Set repository and token to enable',github_repo_ph:'user/my-backup',github_token_ph:'github_pat_... or ghp_...',github_branch_ph:'main',github_path_ph:'backup.json',github_connected_tip:'GitHub connected',github_pending_tip:'Configured, awaiting first backup',github_error_tip:'Last operation failed',github_expired_tip:'Token expired',github_conn_aria:'GitHub connection status',github_conflict_title:'File from another app',github_conflict_msg:'File "{path}" belongs to app "{owner}". Overwriting will erase its backup. Continue?',github_conflict_invalid:'File "{path}" exists but is not a valid backup. Overwrite?',github_conflict_overwrite:'Overwrite',github_conflict_cancelled:'Backup cancelled.',github_restore_conflict:'This backup belongs to app "{owner}", not this one. Restore cancelled.',github_branch_autofix:'Branch "{old}" not found. Using "{new}" automatically.',github_backup_empty_local:'You have no transactions to send to GitHub yet.',github_backup_empty_remote:'The backup in the repository is empty (no transactions).',github_busy:'Please wait for the current operation to finish.',github_invalid_token:'Invalid token or insufficient permission.',github_repo_not_found:'Repository not found. Check "owner/repo".',auto_backup_title:'Auto Backup',auto_backup_freq:'Auto Backup',auto_backup_desc:'Backs up on every save and every 6 hours',auto_backup_off:'Off',auto_backup_on_label:'On',auto_backup_off_label:'Off',auto_backup_on_toast:'Auto backup enabled.',auto_backup_off_toast:'Auto backup disabled.',auto_backup_no_github_warning:'Auto backup enabled, but GitHub is not configured. Configure it in the section above.',show_previous_years:'Show previous years',storage_full:'Storage full! Could not save.'}};
+
+function getFiltered(applyMonth=true,customMonth=null){
+  const mf=customMonth||filterMonth;
+  const key=`${applyMonth}|${mf?mf.year+'_'+mf.month:'x'}|${filterStatus}|${filterCategory}|${_txVersion}`;
+  if(_filteredCache.has(key)) return _filteredCache.get(key);
+  if(_filteredCache.size>8) _filteredCache.clear();
+  let r=[...transactions];
+  if(applyMonth&&mf) r=r.filter(x=>{const d=new Date(x.date);return d.getFullYear()===mf.year&&d.getMonth()===mf.month;});
+  if(filterStatus!=='all') r=r.filter(x=>x.status===filterStatus);
+  if(filterCategory!=='all') r=r.filter(x=>x.category===filterCategory);
+  r.sort((a,b)=>b.date-a.date);
+  _filteredCache.set(key,r);
+  return r;
+}
+function sumTotals(list){let inc=0,exp=0;for(const x of list){if(x.type==='income')inc+=x.amount;else exp+=x.amount;}return{income:inc,expense:exp};}
+function getFilteredTotals(applyMonth=true,customMonth=null){return sumTotals(getFiltered(applyMonth,customMonth));}
+function getMonthTotals(month,year){return sumTotals(transactions.filter(x=>{const d=new Date(x.date);return d.getFullYear()===year&&d.getMonth()===month;}));}
+function getChartData(){
+  const key=`${nav.chart.year}_${nav.chart.month}_${_txVersion}`;
+  if(_chartCacheKey===key&&_chartCacheVal) return _chartCacheVal;
+  const r=transactions.filter(x=>{const d=new Date(x.date);return d.getFullYear()===nav.chart.year&&d.getMonth()===nav.chart.month;});
+  _chartCacheKey=key;_chartCacheVal=r;
+  return r;
+}
+
+function renderChart(){
+  const cb=el.chartBars;if(!cb) return;
+  const data=getChartData();
+  const totals={paid:{service:0,sale:0,expense:0},pending:{service:0,sale:0,expense:0}};
+  let has=false,totalInc=0,totalExp=0;
+  for(const tr of data){totals[tr.status][tr.category]+=tr.amount;if(tr.type==='income')totalInc+=tr.amount;else totalExp+=tr.amount;has=true;}
+  const catTotals={service:totals.paid.service+totals.pending.service,sale:totals.paid.sale+totals.pending.sale,expense:totals.paid.expense+totals.pending.expense};
+  const maxV=Math.max(catTotals.service,catTotals.sale,catTotals.expense);
+  el.statService.textContent=fmtCur(catTotals.service);
+  el.statSale.textContent=fmtCur(catTotals.sale);
+  el.statExpense.textContent=fmtCur(catTotals.expense);
+  el.chartTotal.innerHTML=`<span class="material-icons">attach_money</span> ${t('total_general')}: <strong>${fmtCur(totalInc-totalExp)}</strong>`;
+  const labels=currentLang==='pt'?['Serviço','Venda','Despesa']:['Service','Sale','Expense'];
+  el.statLabelService.textContent=labels[0];el.statLabelSale.textContent=labels[1];el.statLabelExpense.textContent=labels[2];
+  if(!has||maxV===0){cb.innerHTML=`<div class="no-data-chart"><span class="material-icons">pie_chart</span><p>${t('no_data')}</p><small>${t('add_chart_hint')}</small></div>`;return;}
+  const dark=document.body.classList.contains('dark-mode');
+  const cmap={service:dark?{paid:'#3B82F6',pending:'#93C5FD'}:{paid:'#2563EB',pending:'#93C5FD'},sale:dark?{paid:'#10B981',pending:'#6EE7B7'}:{paid:'#16A34A',pending:'#6EE7B7'},expense:dark?{paid:'#EF4444',pending:'#FCA5A5'}:{paid:'#DC2626',pending:'#FCA5A5'}};
+  const cats=['service','sale','expense'];
+  let html='<div class="bar-chart-simple">';
+  for(let i=0;i<cats.length;i++){
+    const cat=cats[i],paid=totals.paid[cat]||0,pending=totals.pending[cat]||0;
+    const paidPct=(paid/maxV)*100,pendingPct=(pending/maxV)*100;
+    html+=`<div class="bar-item-simple"><span class="bar-label">${labels[i]}</span><div class="bar-track">`;
+    if(paid>0) html+=`<div class="bar-fill-paid" style="width:${paidPct}%;background:${cmap[cat].paid}"></div>`;
+    if(pending>0) html+=`<div class="bar-fill-pending" style="width:${pendingPct}%;background:${cmap[cat].pending}"></div>`;
+    html+=`</div><div class="bar-values">`;
+    if(paid>0) html+=`<span class="bar-value paid">🟢 ${fmtCur(paid)}</span>`;
+    if(pending>0) html+=`<span class="bar-value pending">🟡 ${fmtCur(pending)}</span>`;
+    html+=`</div></div>`;
+  }
+  html+='</div>';cb.innerHTML=html;
+}
+function renderBalance(){
+  let n;
+  if(activePage==='reports') n=nav.report;
+  else if(activePage==='transactions') n=nav.trans;
+  else n=nav.chart;
+  const hTot=getMonthTotals(n.month,n.year);
+  el.totalIncome.textContent=fmtCur(hTot.income);
+  el.totalExpense.textContent=fmtCur(hTot.expense);
+  el.balanceDisplay.textContent=fmtCur(hTot.income-hTot.expense);
+  if(activePage==='reports'){
+    el.reportIncome.textContent=fmtCur(hTot.income);
+    el.reportExpense.textContent=fmtCur(hTot.expense);
+    el.reportBalance.textContent=fmtCur(hTot.income-hTot.expense);
+    const incomes=transactions.filter(x=>{const d=new Date(x.date);return x.type==='income'&&d.getFullYear()===nav.report.year&&d.getMonth()===nav.report.month;});
+    const avg=incomes.length?incomes.reduce((s,x)=>s+x.amount,0)/incomes.length:0;
+    el.reportAverage.textContent=fmtCur(avg);
+  }
+}
+function renderReportCategoryTotals(){
+  const f=getFiltered(),tot={service:0,sale:0,expense:0};
+  for(const x of f){if(tot[x.category]!==undefined)tot[x.category]+=x.amount;}
+  const year=nav.report.year;
+  let net=0;
+  for(const x of transactions){const d=new Date(x.date);if(d.getFullYear()===year)net+=x.type==='income'?x.amount:-x.amount;}
+  el.reportCatService.textContent=fmtCur(tot.service);
+  el.reportCatSale.textContent=fmtCur(tot.sale);
+  el.reportCatExpense.textContent=fmtCur(tot.expense);
+  el.reportCatAnnual.textContent=fmtCur(net);
+}
+function renderHeaderDate(){if(el.headerDate) el.headerDate.textContent=fmtDateHeader(new Date());}
+function renderTransactionList(list,container,variant){
+  if(!list||!list.length){
+    container.innerHTML=`<div class="empty-state"><span class="material-icons">receipt_long</span><p>${t('no_transactions')}</p><small>${t('start_adding')}</small></div>`;
+    return;
+  }
+  const isReport=variant==='report';
+  const itemCls=isReport?'report-item':'transaction-item';
+  const infoCls=isReport?'left':'transaction-info';
+  const catCls=isReport?'category':'category-label';
+  const showActions=!isReport&&variant!=='home';
+  let html='';
+  for(const tr of list){
+    const catLabel=getCategoryLabel(tr.category),catIcon=getCategoryIcon(tr.category);
+    const statusLabel=getStatusLabel(tr.status),statusIcon=tr.status==='paid'?'check_circle':'schedule';
+    const amountClass=tr.type==='income'?'income':'expense';
+    html+=`<div class="${itemCls}" data-id="${tr.id}"><div class="${infoCls}"><div class="category-row"><span class="${catCls} ${tr.category}"><span class="cat-icon material-icons">${catIcon}</span> ${catLabel}</span><span class="date-display"><span class="material-icons date-icon">calendar_today</span> ${fmtDateInput(new Date(tr.date))}</span></div><span class="title">${esc(tr.description)}</span><div class="meta"><span class="status-badge ${tr.status}"><span class="material-icons">${statusIcon}</span> ${statusLabel}</span><span class="amount-value ${amountClass}">${fmtCur(tr.amount)}</span>${showActions?`<button class="actions-btn" onclick="openMenu(event,${tr.id})" aria-label="Ações"><span class="material-icons">more_vert</span></button>`:''}</div></div></div>`;
+  }
+  container.innerHTML=html;
+}
+function renderHomeTransactions(){
+  const list=getChartData().slice().sort((a,b)=>b.date-a.date);
+  renderTransactionList(list.slice(0,5),el.transactionList,'home');
+  el.transactionCount.textContent=list.length+' '+t('transactions');
+}
+function renderAllTransactions(){
+  const list=getFiltered(true,{month:nav.trans.month,year:nav.trans.year});
+  renderTransactionList(list,el.allTransactionsList,'transaction');
+  el.transPageCount.textContent=list.length;
+}
+function renderReportList(){renderTransactionList(getFiltered(),el.reportList,'report');}
+function renderAll(opts){
+  opts=opts||{};
+  if(opts.balance!==false) renderBalance();
+  if(opts.header!==false) renderHeaderDate();
+  if(opts.profile!==false) loadProfile();
+  if(opts.github!==false) updateGithubStatus();
+  if(activePage==='home'){
+    if(opts.home!==false) renderHomeTransactions();
+    if(opts.chart!==false) renderChart();
+  }else if(activePage==='transactions'){
+    if(opts.trans!==false) renderAllTransactions();
+  }else if(activePage==='reports'){
+    if(opts.reportCat!==false) renderReportCategoryTotals();
+    if(opts.report!==false) renderReportList();
+  }else if(activePage==='settings'){
+    if(opts.clear!==false&&el.clearModal.classList.contains('open')) populateClearOptions();
+  }
+}
+
+function openMenu(event,id){
+  event.stopPropagation();activeId=id;
+  const trans=transactions.find(x=>x.id===id);
+  if(trans) el.menuStatusLabel.textContent=trans.status==='pending'?t('mark_paid'):t('mark_pending');
+  const rect=event.currentTarget.getBoundingClientRect();
+  let top=rect.bottom+8,left=rect.left-80;
+  if(left<16) left=16;
+  if(left+180>window.innerWidth) left=window.innerWidth-196;
+  if(top+200>window.innerHeight) top=Math.max(8,rect.top-208);
+  el.globalMenu.style.top=top+'px';el.globalMenu.style.left=left+'px';
+  el.globalMenu.classList.add('open');
+}
+function closeMenuOnClickOutside(e){
+  if(!el.globalMenu.contains(e.target)){
+    el.globalMenu.classList.remove('open');
+  }
+}
+function menuAction(action){
+  el.globalMenu.classList.remove('open');
+  const id=activeId;activeId=-1;
+  if(action==='status') toggleTransactionStatus(id);
+  else if(action==='edit') editTransaction(id);
+  else if(action==='delete') deleteTransaction(id);
+}
+
+function openModal(){
+  el.editId.value=-1;el.modalTitle.textContent=t('new_transaction');
+  if(el.saveBtn) el.saveBtn.textContent=t('save');
+  el.formDescription.value='';setAmountInput('');el.formDate.value=fmtDateInput(new Date());
+  el.formCategory.value='service';el.formStatus.value='paid';
+  el.modal.classList.add('open');
+}
+function closeModal(){
+  el.modal.classList.remove('open');
+  if(el.numpadModalOverlay.classList.contains('open')) closeNumpadModal();
+  if(el.calendarModalOverlay.classList.contains('open')) closeCalendarModal();
+}
+function editTransaction(id){
+  const tr=transactions.find(x=>x.id===id);if(!tr) return;
+  el.editId.value=id;el.modalTitle.textContent=t('edit_transaction');
+  if(el.saveBtn) el.saveBtn.textContent=t('save');
+  el.formDescription.value=tr.description||'';
+  setAmountInput(tr.amount);
+  el.formDate.value=fmtDateInput(new Date(tr.date));
+  el.formCategory.value=tr.category;el.formStatus.value=tr.status;
+  el.modal.classList.add('open');
+}
+async function saveTransaction(){
+  const desc=el.formDescription.value.trim();
+  if(!desc){showAlert(t('warning'),t('missing_description'),'info');return;}
+  const amtStr=getAmountRaw();
+  if(!amtStr){showAlert(t('warning'),t('missing_amount'),'info');return;}
+  const amt=parseFloat(amtStr);
+  if(isNaN(amt)||amt<=0){showAlert(t('warning'),t('invalid_amount'),'info');return;}
+  const dateStr=el.formDate.value.trim();
+  if(!dateStr){showAlert(t('warning'),t('missing_date'),'info');return;}
+  const parts=dateStr.split('/');
+  if(parts.length!==3){showAlert(t('warning'),t('invalid_date_format'),'info');return;}
+  let day,month,year;
+  if(currentLang==='pt'){day=+parts[0];month=+parts[1]-1;year=+parts[2];}
+  else{month=+parts[0]-1;day=+parts[1];year=+parts[2];}
+  if(isNaN(day)||isNaN(month)||isNaN(year)){showAlert(t('warning'),t('invalid_date_format'),'info');return;}
+  const dateObj=new Date(year,month,day);dateObj.setHours(0,0,0,0);
+  if(dateObj.getFullYear()!==year||dateObj.getMonth()!==month||dateObj.getDate()!==day){showAlert(t('warning'),t('invalid_date_format'),'info');return;}
+  const category=el.formCategory.value,status=el.formStatus.value,type=category==='expense'?'expense':'income',id=parseInt(el.editId.value,10);
+  const prev=transactions;
+  let createdId=null;
+  if(id>0){
+    transactions=transactions.map(x=>x.id===id?{...x,description:desc,amount:amt,date:dateObj.getTime(),category,status,type}:x);
+  }else{
+    createdId=nextId++;
+    transactions=[...transactions,{id:createdId,type,category,status,amount:amt,date:dateObj.getTime(),description:desc}];
+  }
+  if(!safeSetItem('finances_transactions',JSON.stringify(transactions))){
+    transactions=prev;
+    if(createdId!==null) nextId--;
+    return;
+  }
+  _bumpTxVersion();
+  closeModal();renderAll();
+  showToast(t('transaction_saved')+' ('+fmtDateInput(dateObj)+')');
+  scheduleAutoBackup();
+}
+async function deleteTransaction(id){
+  const c=await showConfirm(t('delete_confirm'),t('delete_confirm_message'),'delete',t('delete'),t('cancel'),true);
+  if(!c) return;
+  const prev=transactions;
+  transactions=transactions.filter(x=>x.id!==id);
+  if(!safeSetItem('finances_transactions',JSON.stringify(transactions))){transactions=prev;return;}
+  recalcNextId();_bumpTxVersion();
+  renderAll();showToast(t('transaction_deleted'));scheduleAutoBackup();
+}
+async function toggleTransactionStatus(id){
+  const tr=transactions.find(x=>x.id===id);if(!tr) return;
+  const newStatus=tr.status==='pending'?'paid':'pending',statusLabel=t(newStatus),today=new Date();
+  today.setHours(0,0,0,0);
+  const transDate=new Date(tr.date);transDate.setHours(0,0,0,0);
+  const isPast=(newStatus==='paid'&&transDate<today);
+  /* B2: snapshot ANTES de qualquer mutação */
+  const prevStatus=tr.status,prevDate=tr.date;
+  let result;
+  if(isPast){
+    result=await showStatusConfirm(t('status_update_title'),t('status_update_message').replace('{date}',fmtDateInput(transDate)),'update',t('status_update_btn_update'),t('status_update_btn_keep'),t('status_update_btn_cancel'));
+    if(result==='cancel'||result===null) return;
+    if(result==='update') tr.date=Date.now();
+  }else{
+    const ok=await showConfirm(t('status'),t('confirm_status_change').replace('{status}',statusLabel),'check_circle',t('confirm'),t('cancel'),false);
+    if(!ok) return;
+  }
+  tr.status=newStatus;
+  if(!safeSetItem('finances_transactions',JSON.stringify(transactions))){
+    tr.status=prevStatus;tr.date=prevDate;return;
+  }
+  _bumpTxVersion();
+  renderAll();
+  let msg;
+  if(newStatus==='paid'){
+    if(isPast&&result==='update') msg=t('status_updated_with_date');
+    else if(isPast&&result==='keep') msg=t('status_updated_keep_date');
+    else msg=t('status_changed');
+  }else msg=t('status_changed');
+  showToast(msg);scheduleAutoBackup();
+}
+function applyFilter(kind){
+  if(kind==='status') filterStatus=el.statusFilter.value;
+  else if(kind==='category') filterCategory=el.categoryFilter.value;
+  renderAllTransactions();renderReportList();
+}
+
+function _navLabel(kind){return kind==='chart'?el.chartNavLabel:kind==='report'?el.reportMonthLabel:el.transNavLabel;}
+function _navOnChange(kind){
+  updateNavLabel(kind);
+  if(kind==='chart'){renderChart();renderHomeTransactions();renderBalance();}
+  else if(kind==='report'){filterMonth={month:nav.report.month,year:nav.report.year};renderAll();}
+  else{renderAllTransactions();renderBalance();}
+}
+function updateNavLabel(kind){
+  const n=nav[kind];
+  _navLabel(kind).textContent=(currentLang==='pt'?MONTHS_PT:MONTHS_EN)[n.month]+' '+n.year;
+}
+function changeMonth(kind,d){
+  const n=nav[kind];
+  n.month+=d;
+  if(n.month<0){n.month=11;n.year--;}
+  if(n.month>11){n.month=0;n.year++;}
+  _navOnChange(kind);
+}
+function goToMonthToday(kind){
+  const n=nav[kind],now=new Date();
+  n.month=now.getMonth();n.year=now.getFullYear();
+  _navOnChange(kind);
+}
+function switchPage(page){
+  activePage=page;
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  const target=$('page-'+page);if(target) target.classList.add('active');
+  document.querySelectorAll('.bottom-nav .nav-item').forEach(b=>b.classList.toggle('active',b.dataset.page===page));
+  if(page==='transactions'){renderAllTransactions();renderBalance();}
+  if(page==='reports'){renderReportList();renderBalance();renderReportCategoryTotals();}
+  if(page==='home'){renderHomeTransactions();renderBalance();renderChart();}
+  if(page==='settings'){populateClearOptions();updateGithubStatus();}
+}
+
+function loadProfile(){
+  const display=(userProfile.name==='Usuário'||userProfile.name==='User')?t('default_user'):userProfile.name;
+  el.userNameDisplay.textContent=display;
+  if(userProfile.avatar){
+    el.profileImage.src=userProfile.avatar;el.profileImage.style.display='block';el.profilePlaceholder.style.display='none';
+    el.profilePreview.src=userProfile.avatar;el.profilePreview.style.display='block';el.profilePreviewPlaceholder.style.display='none';
+  }else{
+    el.profileImage.style.display='none';el.profilePlaceholder.style.display='block';
+    el.profilePreview.style.display='none';el.profilePreviewPlaceholder.style.display='block';
+  }
+}
+function openProfileModal(){
+  const cur=userProfile.name||'';
+  el.profileNameInput.value=(cur==='Usuário'||cur==='User')?t('default_user'):cur;
+  delete el.profilePreview.dataset.tempAvatar;
+  if(userProfile.avatar){
+    el.profilePreview.src=userProfile.avatar;
+    el.profilePreview.style.display='block';
+    el.profilePreviewPlaceholder.style.display='none';
+  }else{
+    el.profilePreview.src='';
+    el.profilePreview.style.display='none';
+    el.profilePreviewPlaceholder.style.display='block';
+  }
+  el.profileModal.classList.add('open');
+}
+function closeProfileModal(){delete el.profilePreview.dataset.tempAvatar;el.profileModal.classList.remove('open');}
+function handleAvatarUpload(e){
+  const file=e.target.files[0];if(!file) return;
+  if(!file.type||!file.type.startsWith('image/')){showAlert(t('warning'),t('invalid_image'),'info');e.target.value='';return;}
+  const reader=new FileReader();
+  reader.onload=function(ev){
+    const img=new Image();
+    img.onload=()=>{
+      const c=document.createElement('canvas');let w=img.width,h=img.height;const max=200;
+      if(w>max){h*=max/w;w=max;}
+      if(h>max){w*=max/h;h=max;}
+      c.width=w;c.height=h;
+      c.getContext('2d').drawImage(img,0,0,w,h);
+      const res=c.toDataURL('image/jpeg',0.7);
+      el.profilePreview.src=res;
+      el.profilePreview.style.display='block';
+      el.profilePreviewPlaceholder.style.display='none';
+      el.profilePreview.dataset.tempAvatar=res;
+    };
+    img.onerror=()=>{showAlert(t('warning'),t('invalid_image'),'error');};
+    img.src=ev.target.result;
+  };
+  reader.readAsDataURL(file);
+}
+function saveProfile(){
+  let name=el.profileNameInput.value.trim();
+  if(!name||name==='Usuário'||name==='User') name=t('default_user');
+  let avatar=userProfile.avatar;
+  const prev=el.profilePreview;
+  if(prev.style.display!=='none'&&prev.src){avatar=prev.dataset.tempAvatar||prev.src;delete prev.dataset.tempAvatar;}
+  const prevP=userProfile;
+  userProfile={name,avatar};
+  if(!safeSetItem('finances_profile',JSON.stringify(userProfile))){userProfile=prevP;return;}
+  loadProfile();closeProfileModal();
+  renderAll({chart:false,clear:false,github:false,profile:false});
+  showToast(t('profile_saved'));scheduleAutoBackup();
+}
+function updateCurrencySymbol(){
+  const s=currentLang==='pt'?'R$':'$';
+  el.formAmount.placeholder=s+' '+fmtNum(0);
+  const raw=getAmountRaw();
+  if(raw&&!isNaN(parseFloat(raw))) el.formAmount.value=fmtNum(parseFloat(raw));
+  if(el.numpadModalOverlay.classList.contains('open')) el.numpadDisplay.textContent=s+' '+fmtNum(parseFloat(numpadValue)||0);
+}
+function populateClearOptions(){
+  const c=el.clearOptionsContainer;if(!c) return;
+  const years=new Set();transactions.forEach(x=>years.add(new Date(x.date).getFullYear()));
+  const sorted=Array.from(years).sort((a,b)=>b-a);
+  const currentYear=new Date().getFullYear();
+  const mainYear=sorted.includes(currentYear)?currentYear:(sorted[0]||currentYear);
+  const otherYears=sorted.filter(y=>y!==mainYear);
+
+  let html=`<label><input type="radio" name="clearOption" value="all" checked><span class="radio-label">${t('clear_option_all')}</span></label>`;
+  html+=`<div class="year-row">
+    <label class="year-main-label"><input type="radio" name="clearOption" value="year_${mainYear}"><span class="radio-label">${t('clear_option_year').replace('{year}',mainYear)}</span></label>`;
+  if(otherYears.length){
+    html+=`<button type="button" class="year-toggle-btn${_yearDropdownOpen?' open':''}" id="yearToggleBtn" onclick="toggleYearDropdown(event)" aria-label="${t('show_previous_years')}" aria-expanded="${_yearDropdownOpen?'true':'false'}">
+      <span class="material-icons">expand_more</span>
+    </button>`;
+  }
+  html+=`</div>`;
+  if(otherYears.length){
+    html+=`<div class="year-dropdown${_yearDropdownOpen?' open':''}" id="yearDropdown">`;
+    otherYears.forEach(y=>{html+=`<label><input type="radio" name="clearOption" value="year_${y}"><span class="radio-label">${t('clear_option_year').replace('{year}',y)}</span></label>`;});
+    html+=`</div>`;
+  }
+  html+=`<label><input type="radio" name="clearOption" value="profile"><span class="radio-label">${t('clear_option_profile')}</span></label>
+         <label><input type="radio" name="clearOption" value="all_data"><span class="radio-label">${t('clear_option_all_data')}</span></label>`;
+  c.innerHTML=html;
+}
+function toggleYearDropdown(event){
+  if(event){event.preventDefault();event.stopPropagation();}
+  const dd=document.getElementById('yearDropdown'),btn=document.getElementById('yearToggleBtn');
+  if(!dd||!btn) return;
+  const open=dd.classList.toggle('open');
+  btn.classList.toggle('open',open);
+  btn.setAttribute('aria-expanded',open?'true':'false');
+  _yearDropdownOpen=open;
+}
+function openClearModal(){populateClearOptions();el.clearModal.classList.add('open');}
+function closeClearModal(){el.clearModal.classList.remove('open');}
+async function executeClear(){
+  const sel=document.querySelector('input[name="clearOption"]:checked');
+  if(!sel){showAlert(t('warning'),t('missing_description'),'info');return;}
+  const val=sel.value;
+  if(val==='all'){
+    if(!transactions.length){showAlert(t('warning'),t('no_transactions_to_clear'),'info');return;}
+    const c=await showConfirm(t('clear_btn'),t('clear_transactions_confirm_all'),'receipt_long',t('clear_btn'),t('cancel'),true);
+    if(!c) return;
+    const prev=transactions,prevId=nextId;
+    transactions=[];nextId=1;
+    if(!safeSetItem('finances_transactions','[]')){transactions=prev;nextId=prevId;return;}
+    _bumpTxVersion();
+    renderAll();showToast(t('data_cleared'));closeClearModal();scheduleAutoBackup();
+  }else if(val.startsWith('year_')){
+    const y=parseInt(val.split('_')[1],10);
+    const filtered=transactions.filter(x=>new Date(x.date).getFullYear()===y);
+    if(!filtered.length){showAlert(t('warning'),t('no_transactions_to_clear'),'info');return;}
+    const c=await showConfirm(t('clear_btn'),t('clear_transactions_confirm').replace('{year}',y),'receipt_long',t('clear_btn'),t('cancel'),true);
+    if(!c) return;
+    const prev=transactions;
+    transactions=transactions.filter(x=>new Date(x.date).getFullYear()!==y);
+    if(!safeSetItem('finances_transactions',JSON.stringify(transactions))){transactions=prev;return;}
+    recalcNextId();_bumpTxVersion();
+    renderAll();showToast(t('data_cleared'));closeClearModal();scheduleAutoBackup();
+  }else if(val==='profile'){
+    const hasName=userProfile.name&&userProfile.name!=='Usuário'&&userProfile.name!=='User',hasAvatar=!!userProfile.avatar;
+    if(!hasName&&!hasAvatar){showAlert(t('warning'),t('no_profile_to_clear'),'info');return;}
+    const c=await showConfirm(t('clear_option_profile'),t('clear_profile_confirm'),'person',t('clear_btn'),t('cancel'),false);
+    if(!c) return;
+    const prevP=userProfile;
+    userProfile={name:t('default_user'),avatar:null};
+    if(!safeSetItem('finances_profile',JSON.stringify(userProfile))){userProfile=prevP;return;}
+    renderAll();showToast(t('data_cleared'));closeClearModal();scheduleAutoBackup();
+  }else if(val==='all_data'){
+    const hasT=transactions.length>0,hasName=userProfile.name&&userProfile.name!=='Usuário'&&userProfile.name!=='User',hasAvatar=!!userProfile.avatar;
+    if(!hasT&&!hasName&&!hasAvatar){showAlert(t('warning'),t('no_data_to_clear'),'info');return;}
+    const c=await showConfirm(t('clear_option_all_data'),t('clear_all_confirm'),'delete_forever',t('clear_all_btn'),t('cancel'),true);
+    if(!c) return;
+    const prev=transactions,prevId=nextId,prevP=userProfile;
+    transactions=[];nextId=1;
+    userProfile={name:t('default_user'),avatar:null};
+    if(!safeSetItem('finances_transactions','[]')||!safeSetItem('finances_profile',JSON.stringify(userProfile))){
+      transactions=prev;nextId=prevId;userProfile=prevP;return;
+    }
+    _bumpTxVersion();
+    renderAll();showToast(t('data_cleared'));closeClearModal();scheduleAutoBackup();
+  }
+}
+
+async function downloadReportPDF(){
+  const f=getFiltered();
+  if(!f.length){showAlert(t('warning'),t('no_transactions_for_pdf'),'info');return;}
+  const monthName=(currentLang==='pt'?MONTHS_PT:MONTHS_EN)[nav.report.month]+' '+nav.report.year;
+  const totals=getFilteredTotals(),catTotals={service:0,sale:0,expense:0};
+  for(const tr of f){if(catTotals[tr.category]!==undefined) catTotals[tr.category]+=tr.amount;}
+  const annualYear=nav.report.year;
+  let annual=0;
+  for(const tr of transactions){const d=new Date(tr.date);if(d.getFullYear()===annualYear)annual+=tr.type==='income'?tr.amount:-tr.amount;}
+  let rows='';
+  for(const tr of f){
+    const amountClass=tr.type==='income'?'income':'expense';
+    rows+=`<tr><td>${fmtDateInput(new Date(tr.date))}</td><td>${esc(tr.description)}</td><td>${getCategoryLabel(tr.category)}</td><td>${getStatusLabel(tr.status)}</td><td class="${amountClass}">${fmtCur(tr.amount)}</td></tr>`;
+  }
+  const incArr=f.filter(x=>x.type==='income'),avg=incArr.length?incArr.reduce((s,x)=>s+x.amount,0)/incArr.length:0;
+  const htmlContent=`<div class="pdf-content"><h2>📊 ${t('report_summary_title')}</h2><div class="pdf-date">${monthName} - ${new Intl.DateTimeFormat(currentLang==='pt'?'pt-BR':'en-US',{dateStyle:'full'}).format(new Date())}</div><h3>📈 ${t('report_summary_title')}</h3><table><tr><th>${t('total_income')}</th><td class="income">${fmtCur(totals.income)}</td></tr><tr><th>${t('total_expense')}</th><td class="expense">${fmtCur(totals.expense)}</td></tr><tr><th>${t('balance')}</th><td>${fmtCur(totals.income-totals.expense)}</td></tr><tr><th>${t('average')}</th><td>${fmtCur(avg)}</td></tr></table><h3>📊 ${t('report_category_title')}</h3><table><tr><th>${t('service')}</th><td class="income">${fmtCur(catTotals.service)}</td></tr><tr><th>${t('sale')}</th><td class="income">${fmtCur(catTotals.sale)}</td></tr><tr><th>${t('expense')}</th><td class="expense">${fmtCur(catTotals.expense)}</td></tr><tr><th>${t('total_annual')} (${annualYear})</th><td>${fmtCur(annual)}</td></tr></table><h3>${t('detail_title')}</h3><table><thead><tr><th>${t('date')}</th><th>${t('description')}</th><th>${t('category')}</th><th>${t('status')}</th><th>${t('amount')}</th></tr></thead><tbody>${rows}</tbody></table><p style="margin-top:20px;color:#4B5563;font-size:12px;">${t('app_name')} - ${new Date().toLocaleString(currentLang==='pt'?'pt-BR':'en-US')}</p></div>`;
+  showToast(t('pdf_generating'),3000);
+  let element=null;
+  const filename=`relatorio_${monthName.replace(/\s/g,'_')}.pdf`;
+  try{
+    element=document.createElement('div');
+    element.innerHTML=htmlContent;
+    document.body.appendChild(element);
+    const pdfBlob=await html2pdf().set({margin:[0.5,0.5,0.5,0.5],image:{type:'jpeg',quality:0.98},html2canvas:{scale:2,useCORS:true},jsPDF:{unit:'in',format:'a4',orientation:'portrait'}}).from(element).outputPdf('blob');
+
+    if(navigator.share&&navigator.canShare){
+      try{
+        const file=new File([pdfBlob],filename,{type:'application/pdf'});
+        if(navigator.canShare({files:[file]})){
+          await navigator.share({files:[file],title:t('pdf_share_title')});
+          showToast(t('pdf_success'));
+          return;
+        }
+      }catch(err){
+        if(err&&err.name==='AbortError') return;
+      }
+    }
+
+    try{
+      const dataUri=await new Promise((resolve,reject)=>{
+        const reader=new FileReader();
+        reader.onload=()=>resolve(reader.result);
+        reader.onerror=()=>reject(new Error('FileReader falhou'));
+        reader.readAsDataURL(pdfBlob);
+      });
+      const a=document.createElement('a');
+      a.href=dataUri;a.download=filename;a.style.display='none';
+      document.body.appendChild(a);
+      a.click();
+      setTimeout(()=>a.remove(),2000);
+      showToast(t('pdf_success'));
+      return;
+    }catch(e2){console.warn('Data URI falhou:',e2);}
+
+    try{
+      const url=URL.createObjectURL(pdfBlob);
+      const a=document.createElement('a');
+      a.href=url;a.download=filename;a.style.display='none';
+      document.body.appendChild(a);
+      a.click();
+      setTimeout(()=>{URL.revokeObjectURL(url);a.remove();},2000);
+      showToast(t('pdf_success'));
+      return;
+    }catch(e3){console.warn('Blob URL falhou:',e3);}
+
+    showAlert(t('warning'),
+      'Não foi possível baixar o PDF neste dispositivo. Tente abrir o app no navegador Chrome para baixar.',
+      'info');
+  }catch(err){
+    showAlert(t('warning'),t('pdf_error')+': '+err.message,'error');console.error(err);
+  }finally{
+    if(element&&element.parentNode) element.parentNode.removeChild(element);
+  }
+}
+
+function sanitizeInput(inputId,sanitizeFn){
+  const i=$(inputId);if(!i) return;
+  const before=i.value,clean=sanitizeFn(before);
+  if(before===clean) return;
+  const pos=i.selectionStart||0,removed=before.length-clean.length;
+  i.value=clean;
+  const np=Math.max(0,pos-removed);
+  try{i.setSelectionRange(np,np);}catch(e){}
+}
+function loadGithubSettings(){
+  const s=safeGetItem('finances_github');
+  if(s){
+    try{
+      const parsed=JSON.parse(s);
+      Object.assign(githubSettings,parsed);
+    }catch(e){}
+  }
+  const gs=safeGetItem('finances_github_status');
+  if(gs) githubStatus=gs;
+  ghBranchValidated=false;updateGithubStatus();
+}
+function updateGithubStatus(){
+  const configured=!!(githubSettings.repo&&githubSettings.token);
+  const info=checkTokenExpiry();
+  if(el.ghConnLabel){
+    if(configured){
+      el.ghConnLabel.textContent=t('github_disconnect');
+      const baseDesc=githubSettings.repo+' • '+githubSettings.branch+'/'+githubSettings.path;
+      if(info){
+        el.ghConnDesc.textContent=baseDesc+' • '+t(expiryHintKey(info.level)).replace('{days}',info.days);
+        el.ghConnDesc.className='sub '+info.level;
+      }else{
+        el.ghConnDesc.textContent=baseDesc;
+        el.ghConnDesc.className='sub';
+      }
+      el.ghConnIcon.textContent='link_off';el.ghConnIcon.style.color='var(--danger)';
+      el.ghConnBtnIcon.textContent='logout';el.ghDisconnectBtn.className='settings-btn danger';
+      el.ghDisconnectBtn.setAttribute('aria-label',t('github_disconnect'));
+    }else{
+      el.ghConnLabel.textContent=t('github_connect');
+      el.ghConnDesc.textContent=t('github_connect_desc');
+      el.ghConnDesc.className='sub';
+      el.ghConnIcon.textContent='link';el.ghConnIcon.style.color='var(--primary)';
+      el.ghConnBtnIcon.textContent='login';el.ghDisconnectBtn.className='settings-btn primary';
+      el.ghDisconnectBtn.setAttribute('aria-label',t('github_connect'));
+    }
+  }
+  if(el.connBtn){
+    let cls='off';
+    if(configured){
+      if(info&&info.level==='critical') cls='expired';
+      else if(info&&(info.level==='danger'||info.level==='warning')) cls='error';
+      else if(info&&info.level==='warn') cls='pending';
+      else if(githubStatus==='ok') cls='ok';
+      else if(githubStatus==='error') cls='error';
+      else cls='pending';
+    }
+    el.connBtn.className='conn-btn '+cls;
+    let title=!configured?t('github_not_configured'):(githubStatus==='ok'?t('github_connected_tip'):(githubStatus==='error'?t('github_error_tip'):t('github_pending_tip')));
+    if(configured&&info&&(info.level!=='ok'&&info.level!=='neutral')){
+      title=t(expiryHintKey(info.level)).replace('{days}',info.days);
+    }
+    el.connBtn.title=title;
+    el.connBtn.setAttribute('aria-label',t('github_conn_aria'));
+  }
+}
+function handleConnToggle(){if(!githubSettings.repo||!githubSettings.token) openGithubModal();else githubDisconnect();}
+function ghDisplayBranch(){const b=githubSettings.branch||'';return(!b||b==='main'||b==='principal')?t('github_branch_ph'):b;}
+function ghDisplayPath(){const p=sanitizePath(githubSettings.path||'');return(!p||p==='backup.json'||p==='becape.json')?t('github_path_ph'):p;}
+function openGithubModal(){
+  $('ghRepo').value=sanitizeRepo(githubSettings.repo||'');
+  $('ghToken').value=githubSettings.token||'';
+  $('ghBranch').value=ghDisplayBranch();
+  $('ghPath').value=ghDisplayPath();
+  if(el.ghTokenExpiry){
+    el.ghTokenExpiry.value=isoToLocalDate(githubSettings.tokenExpiry||'');
+    el.ghTokenExpiry.dataset.iso=githubSettings.tokenExpiry||'';
+    el.ghTokenExpiry.placeholder=currentLang==='pt'?'DD/MM/AAAA':'MM/DD/YYYY';
+  }
+  fmtExpiryHint();
+  el.githubModal.classList.add('open');
+}
+function closeGithubModal(){el.githubModal.classList.remove('open');}
+function saveGithubSettings(){
+  const repo=sanitizeRepo($('ghRepo').value).trim();
+  const token=$('ghToken').value.trim();
+  const branch=($('ghBranch').value.trim()||'main');
+  const path=(sanitizePath($('ghPath').value).trim()||'backup.json');
+  const tokenExpiry=(el.ghTokenExpiry&&el.ghTokenExpiry.dataset.iso)||'';
+  if(repo&&!/^[\w.-]+\/[\w.-]+$/.test(repo)){showAlert(t('warning'),t('github_invalid_repo'),'info');return;}
+  githubSettings={repo,token,branch,path,tokenExpiry};githubStatus='idle';ghBranchValidated=false;
+  safeSetItem('finances_github',JSON.stringify({repo,token,branch,path,tokenExpiry}));
+  localStorage.removeItem('finances_github_status');
+  resetExpiryNotifyGuard();
+  updateGithubStatus();closeGithubModal();showToast(t('github_saved'));
+  if(tokenExpiry) setTimeout(()=>notifyTokenExpiry(),500);
+}
+function utf8ToBase64(str){const bytes=new TextEncoder().encode(str);let bin='';for(let i=0;i<bytes.length;i++)bin+=String.fromCharCode(bytes[i]);return btoa(bin);}
+function base64ToUtf8(b64){const bin=atob(b64),bytes=new Uint8Array(bin.length);for(let i=0;i<bin.length;i++)bytes[i]=bin.charCodeAt(i);return new TextDecoder().decode(bytes);}
+function ghHeaders(){return{'Authorization':'Bearer '+githubSettings.token,'Accept':'application/vnd.github+json','X-GitHub-Api-Version':'2022-11-28','Content-Type':'application/json'};}
+async function ghEnsureBranch(){
+  if(ghBranchValidated) return;
+  if(!githubSettings.repo||!githubSettings.token) return;
+  const r=await fetch(`https://api.github.com/repos/${githubSettings.repo}`,{headers:ghHeaders(),cache:'no-store'});
+  if(r.status===401) throw new Error(t('github_invalid_token'));
+  if(r.status===404) throw new Error(t('github_repo_not_found'));
+  if(!r.ok) throw new Error(`GitHub ${r.status}`);
+  const data=await r.json();
+  const def=data.default_branch||'main';
+  const cur=githubSettings.branch||'';
+  if(!cur||cur===def){ghBranchValidated=true;return;}
+  const br=await fetch(`https://api.github.com/repos/${githubSettings.repo}/branches/${encodeURIComponent(cur)}`,{headers:ghHeaders(),cache:'no-store'});
+  if(br.status===404){
+    githubSettings.branch=def;
+    safeSetItem('finances_github',JSON.stringify({repo:githubSettings.repo,token:githubSettings.token,branch:def,path:githubSettings.path,tokenExpiry:githubSettings.tokenExpiry}));
+    updateGithubStatus();
+    showToast(t('github_branch_autofix').replace('{old}',cur).replace('{new}',def),5000);
+  }
+  ghBranchValidated=true;
+}
+async function ghGetFile(){
+  const path=encodePath(githubSettings.path);
+  const url=`https://api.github.com/repos/${githubSettings.repo}/contents/${path}?ref=${encodeURIComponent(githubSettings.branch)}&_=${Date.now()}`;
+  const r=await fetch(url,{headers:ghHeaders(),cache:'no-store'});
+  if(r.status===404) return null;
+  if(!r.ok){const err=await r.json().catch(()=>({}));throw new Error(`GitHub ${r.status}: ${err.message||r.statusText}`);}
+  return await r.json();
+}
+async function ghPutFile(content,sha,message){
+  const path=encodePath(githubSettings.path);
+  const url=`https://api.github.com/repos/${githubSettings.repo}/contents/${path}`;
+  const body={message:message||`${t('backup')} ${new Date().toISOString()}`,content:utf8ToBase64(content),branch:githubSettings.branch};
+  if(sha) body.sha=sha;
+  const r=await fetch(url,{method:'PUT',headers:ghHeaders(),body:JSON.stringify(body)});
+  if(!r.ok){const err=await r.json().catch(()=>({}));throw new Error(`GitHub ${r.status}: ${err.message||err.statusText}`);}
+  return await r.json();
+}
+function checkFileOwnership(file){
+  try{
+    const raw=base64ToUtf8(file.content.replace(/\n/g,''));
+    if(!raw.trim()) return null;
+    const data=JSON.parse(raw);
+    const owner=data.app||data.appLabel||'';
+    if(!owner) return null;
+    if(owner!==APP_ID&&owner!==APP_LABEL) return t('github_conflict_msg').replace('{owner}',owner).replace('{path}',githubSettings.path);
+    return null;
+  }catch(e){return t('github_conflict_invalid').replace('{path}',githubSettings.path);}
+}
+async function githubBackup(silent){
+  silent=silent===true;
+  if(_githubBusy){if(!silent) showToast(t('github_busy'));return;}
+  if(!githubSettings.repo||!githubSettings.token){if(!silent){showAlert(t('warning'),t('github_not_configured'),'info');openGithubModal();}return;}
+  if(!transactions.length){if(!silent) showAlert(t('warning'),t('github_backup_empty_local'),'info');return;}
+  _githubBusy=true;
+  try{
+    await ghEnsureBranch();
+    if(!silent) showToast(t('github_uploading'),3000);
+    const now=new Date();
+    const payload={app:APP_ID,appLabel:APP_LABEL,version:'2.0',exportedAt:now.toISOString(),source:'github',user:userProfile,transactions};
+    const json=JSON.stringify(payload,null,2);
+    const existing=await ghGetFile();
+    let sha=null;
+    if(existing&&existing.sha){
+      sha=existing.sha;
+      const conflict=checkFileOwnership(existing);
+      if(conflict){
+        if(silent){githubStatus='error';localStorage.setItem('finances_github_status','error');updateGithubStatus();return;}
+        const ok=await showConfirm(t('github_conflict_title'),conflict,'warning',t('github_conflict_overwrite'),t('cancel'),true);
+        if(!ok){showToast(t('github_conflict_cancelled'));return;}
+      }
+    }
+    const msg=`${t('backup')} ${now.toLocaleString(currentLang==='pt'?'pt-BR':'en-US')} (${transactions.length})`;
+    const res=await ghPutFile(json,sha,msg);
+    const commit=res.commit&&res.commit.sha?res.commit.sha.slice(0,7):'';
+    githubStatus='ok';localStorage.setItem('finances_github_status','ok');updateGithubStatus();
+    if(!silent) showToast(t('github_backup_ok')+(commit?' • '+commit:''));
+  }catch(e){
+    githubStatus='error';localStorage.setItem('finances_github_status','error');updateGithubStatus();
+    if(!silent) showAlert(t('warning'),t('github_backup_fail')+': '+e.message,'error');
+  }finally{_githubBusy=false;}
+}
+async function githubRestore(){
+  if(_githubBusy){showToast(t('github_busy'));return;}
+  if(!githubSettings.repo||!githubSettings.token){showAlert(t('warning'),t('github_not_configured'),'info');openGithubModal();return;}
+  _githubBusy=true;
+  try{
+    await ghEnsureBranch();
+    showToast(t('github_downloading'),3000);
+    let file=await ghGetFile();
+    if(!file){await new Promise(r=>setTimeout(r,1200));file=await ghGetFile();}
+    if(!file){githubStatus='error';localStorage.setItem('finances_github_status','error');updateGithubStatus();showAlert(t('warning'),t('github_file_not_found'),'info');return;}
+    const content=base64ToUtf8(file.content.replace(/\n/g,''));
+    let data;
+    try{data=JSON.parse(content);}catch(e){githubStatus='error';localStorage.setItem('finances_github_status','error');updateGithubStatus();showAlert(t('warning'),t('invalid_file'),'error');return;}
+    const owner=data.app||data.appLabel||'';
+    if(owner&&owner!==APP_ID&&owner!==APP_LABEL){githubStatus='error';localStorage.setItem('finances_github_status','error');updateGithubStatus();showAlert(t('warning'),t('github_restore_conflict').replace('{owner}',owner),'error');return;}
+    if(!data.transactions||!Array.isArray(data.transactions)){githubStatus='error';localStorage.setItem('finances_github_status','error');updateGithubStatus();showAlert(t('warning'),t('invalid_file'),'error');return;}
+    if(data.transactions.length===0){githubStatus='error';localStorage.setItem('finances_github_status','error');updateGithubStatus();showAlert(t('warning'),t('github_backup_empty_remote'),'info');return;}
+    const validTxs=data.transactions.filter(isValidTransaction);
+    if(!validTxs.length){githubStatus='error';localStorage.setItem('finances_github_status','error');updateGithubStatus();showAlert(t('warning'),t('invalid_file'),'error');return;}
+    const ok=await showConfirm(t('github_restore_confirm_title'),t('github_restore_confirm_msg').replace('{count}',validTxs.length),'cloud_download',t('confirm'),t('cancel'),false);
+    if(!ok) return;
+    const prevT=transactions,prevP=userProfile;
+    transactions=validTxs;
+    if(data.user) userProfile=data.user;
+    try{
+      localStorage.setItem('finances_transactions',JSON.stringify(transactions));
+      localStorage.setItem('finances_profile',JSON.stringify(userProfile));
+    }catch(e){
+      transactions=prevT;userProfile=prevP;
+      githubStatus='error';localStorage.setItem('finances_github_status','error');updateGithubStatus();
+      showAlert(t('warning'),t('storage_full'),'error');return;
+    }
+    _bumpTxVersion();
+    recalcNextId();githubStatus='ok';localStorage.setItem('finances_github_status','ok');updateGithubStatus();
+    renderAll();showToast(t('backup_restored'));
+  }catch(e){
+    githubStatus='error';localStorage.setItem('finances_github_status','error');updateGithubStatus();
+    showAlert(t('warning'),t('github_restore_fail')+': '+e.message,'error');
+  }finally{_githubBusy=false;}
+}
+async function githubDisconnect(){
+  if(!githubSettings.repo&&!githubSettings.token){showAlert(t('warning'),t('github_not_connected'),'info');return;}
+  const ok=await showConfirm(t('github_disconnect'),t('github_disconnect_confirm'),'link_off',t('confirm'),t('cancel'),true);
+  if(!ok) return;
+  resetAutoBackupTimers();
+  resetExpiryNotifyGuard();
+  githubSettings={repo:'',token:'',branch:'',path:'',tokenExpiry:''};githubStatus='idle';ghBranchValidated=false;
+  localStorage.removeItem('finances_github');localStorage.removeItem('finances_github_status');
+  updateGithubStatus();showToast(t('github_disconnected'));
+}
+
+function applyTranslations(){
+  document.querySelectorAll('[data-i18n]').forEach(node=>{const k=node.getAttribute('data-i18n');if(k) node.textContent=t(k);});
+  document.querySelectorAll('[data-i18n-placeholder]').forEach(node=>{const k=node.getAttribute('data-i18n-placeholder');if(k) node.placeholder=t(k);});
+  document.documentElement.lang=currentLang==='pt'?'pt-BR':'en';
+  el.formDate.placeholder=currentLang==='pt'?'DD/MM/AAAA':'MM/DD/YYYY';
+  updateCurrencySymbol();
+  el.langBtn.textContent=currentLang==='pt'?'🇧🇷 PT':'🇺🇸 EN';
+  el.greetingText.textContent=t('welcome');
+  const ghB=$('ghBranch'),ghP=$('ghPath');
+  if(ghB&&(!ghB.value||ghB.value==='main'||ghB.value==='principal')) ghB.value=t('github_branch_ph');
+  if(ghP&&(!ghP.value||ghP.value==='backup.json'||ghP.value==='becape.json')) ghP.value=t('github_path_ph');
+  if(el.modal.classList.contains('open')){
+    const editing=parseInt(el.editId.value,10)>0;
+    el.modalTitle.textContent=editing?t('edit_transaction'):t('new_transaction');
+    if(el.saveBtn) el.saveBtn.textContent=t('save');
+  }
+  if(el.calendarModalOverlay.classList.contains('open')) renderCalendar();
+  if(el.githubModal.classList.contains('open')&&el.ghTokenExpiry){
+    el.ghTokenExpiry.value=isoToLocalDate(el.ghTokenExpiry.dataset.iso||'');
+    el.ghTokenExpiry.placeholder=currentLang==='pt'?'DD/MM/AAAA':'MM/DD/YYYY';
+    fmtExpiryHint();
+  }
+  updateNavLabel('chart');updateNavLabel('report');updateNavLabel('trans');
+  syncAutoBackupUI();renderAll();updateGithubStatus();
+}
+function toggleDarkMode(){
+  document.body.classList.toggle('dark-mode');
+  const isDark=document.body.classList.contains('dark-mode');
+  el.darkModeBtn.textContent=isDark?'🌙':'☀️';
+  localStorage.setItem('finances_darkmode',isDark?'true':'false');
+  document.querySelector('meta[name="theme-color"]').setAttribute('content',isDark?'#0F172A':'#1E3A8A');
+  if(activePage==='home') renderChart();
+}
+function toggleLang(){
+  currentLang=currentLang==='pt'?'en':'pt';
+  localStorage.setItem('finances_lang',currentLang);
+  applyTranslations();
+}
+
+function handleBackButton(){
+  const overlays=['dialogAlert','dialogConfirm','githubModal','profileModal','clearModal','modal','numpadModalOverlay','calendarModalOverlay'];
+  for(const id of overlays){
+    const o=$(id);
+    if(o&&o.classList.contains('open')){
+      if(id==='modal') closeModal();
+      else if(id==='clearModal') closeClearModal();
+      else if(id==='profileModal') closeProfileModal();
+      else if(id==='githubModal') closeGithubModal();
+      else if(id==='numpadModalOverlay') closeNumpadModal();
+      else if(id==='calendarModalOverlay') closeCalendarModal();
+      else o.classList.remove('open');
+      return true;
+    }
+  }
+  if(el.globalMenu.classList.contains('open')){
+    el.globalMenu.classList.remove('open');
+    return true;
+  }
+  return false;
+}
+
+function checkPendingAndNotify(){
+  const p=transactions.filter(x=>x.status==='pending');
+  if(p.length) showToast(t('pending_notification').replace('{count}',p.length),5000);
+}
+function loadData(){
+  const s=safeGetItem('finances_transactions');
+  if(s){try{const p=JSON.parse(s);if(Array.isArray(p)) transactions=p.filter(isValidTransaction);}catch(e){transactions=[];}}
+  const prof=safeGetItem('finances_profile');
+  if(prof){try{userProfile=JSON.parse(prof);}catch(e){}}
+  const lang=safeGetItem('finances_lang');
+  if(lang) currentLang=lang;
+  _bumpTxVersion();
+  loadGithubSettings();
+  loadAutoBackupSetting();
+  _last6hBackup=Date.now();
+  recalcNextId();
+  const n=new Date();
+  nav.chart.month=nav.report.month=nav.trans.month=n.getMonth();
+  nav.chart.year=nav.report.year=nav.trans.year=n.getFullYear();
+  filterMonth={month:nav.report.month,year:nav.report.year};
+  applyTranslations();
+}
+document.addEventListener('DOMContentLoaded',function(){
+  if(localStorage.getItem('finances_darkmode')==='true'){
+    document.body.classList.add('dark-mode');
+    el.darkModeBtn.textContent='🌙';
+    document.querySelector('meta[name="theme-color"]').setAttribute('content','#0F172A');
+  }
+  if(location.protocol==='http:'&&location.hostname!=='localhost'){
+    showAlert('Conexão insegura','Use HTTPS para proteger seu token do GitHub.','lock');
+  }
+  document.addEventListener('click',closeMenuOnClickOutside);
+  history.pushState(null,'',location.href);
+  window.addEventListener('popstate',()=>{
+    if(handleBackButton()){
+      history.pushState(null,'',location.href);
+    }
+  });
+  window.addEventListener('hashchange',()=>{
+    if(handleBackButton()){
+      history.pushState(null,'',location.href);
+    }
+  });
+  loadData();
+  /* B1: token primeiro, pendentes depois — sem sobrescrever o outro toast */
+  setTimeout(()=>{
+    const dur=notifyTokenExpiry();
+    const delay=Math.max(dur,500)+800;
+    setTimeout(checkPendingAndNotify,delay);
+  },800);
+});
+</script>
+</body>
+</html>
