@@ -1879,4 +1879,4 @@ document.addEventListener('DOMContentLoaded', function() {
   if (location.protocol === 'http:' && location.hostname !== 'localhost') {
     setTimeout(() => showAlert('Conexão insegura', 'Use HTTPS para proteger seu token do GitHub.', 'lock'), 7000);
   }
-});</script>
+});</script>if ('serviceWorker' in navigator) { window.addEventListener('load', () => { navigator.serviceWorker.register('./sw.js').catch(() => {}); }); }
